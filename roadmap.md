@@ -4,3 +4,4 @@
 - [x] Correct "FinYoga" → "laughter yoga" wording.
 - [x] Verify build/typecheck clean after changes.
 - [x] Share button (copy link + social networks: X, WhatsApp, Facebook, LinkedIn; Web Share API on mobile) on Home and Closing.
+- [x] Our Story page (/story) linking the project to Running Hackathon Barcelona, with CTA to try the session; linked from Home nav.
