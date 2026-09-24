@@ -169,30 +169,38 @@ function Session({ guide, muted, setMuted, onExit, onFinish }: { guide: Characte
   const mutedRef = useRef(muted);
   mutedRef.current = muted;
   const group = CHARACTERS.filter((c) => c.id !== guide.id);
-  const [laughing, setLaughing] = useState<string | null>(null);
+  const [laughingSet, setLaughingSet] = useState<Set<string>>(new Set());
+  const [turnDone, setTurnDone] = useState(false);
+  useEffect(() => { setTurnDone(false); }, [index, runId, phase]);
 
   useEffect(() => { CHARACTERS.forEach((c) => preloadLaugh(c.id)); }, []);
 
-  // The circle laughs along during your turn (more often as intensity grows).
+  // The circle laughs in parallel with you while your timer runs: overlapping laughs, denser with intensity.
   useEffect(() => {
-    if (phase !== "user_turn") return;
+    if (phase !== "user_turn" || turnDone) return;
     let alive = true;
     let t: ReturnType<typeof setTimeout>;
     const members = CHARACTERS.filter((c) => c.id !== guide.id);
-    const gap = 9000 - ex.intensity * 1300;
-    const loop = async () => {
+    const gap = 3200 - ex.intensity * 400;
+    const fire = (id: string) => {
+      setLaughingSet((s) => new Set(s).add(id));
+      void laugh(id, 0.45 + ex.intensity * 0.08).then(() => {
+        if (alive) setLaughingSet((s) => { const n = new Set(s); n.delete(id); return n; });
+      });
+    };
+    const loop = () => {
       if (!alive) return;
       if (!mutedRef.current) {
-        const m = members[Math.floor(Math.random() * members.length)]!;
-        setLaughing(m.id);
-        await laugh(m.id, 0.55 + ex.intensity * 0.08);
-        if (alive) setLaughing(null);
+        const count = 1 + Math.floor(Math.random() * Math.min(3, 1 + Math.ceil(ex.intensity / 2)));
+        [...members].sort(() => Math.random() - 0.5).slice(0, count).forEach((m, i) => {
+          setTimeout(() => alive && fire(m.id), i * 350);
+        });
       }
       t = setTimeout(loop, gap * (0.6 + Math.random() * 0.8));
     };
-    t = setTimeout(loop, 2500);
-    return () => { alive = false; clearTimeout(t); stopGroup(); setLaughing(null); };
-  }, [phase, index, ex.intensity, guide.id]);
+    t = setTimeout(loop, 1200);
+    return () => { alive = false; clearTimeout(t); stopGroup(); setLaughingSet(new Set()); };
+  }, [phase, index, ex.intensity, guide.id, turnDone]);
 
   const startUserTurn = useCallback(() => {
     stopAll();
