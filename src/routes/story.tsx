@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Play, Footprints, Mic, Heart, ExternalLink } from "lucide-react";
 import { CHARACTERS, auraColor } from "@/lib/characters";
 import { AVATARS } from "@/lib/avatars";
+import storyHero from "@/assets/story-hero.mp4.asset.json";
+import storyPoster from "@/assets/story-poster.jpg.asset.json";
 
 export const Route = createFileRoute("/story")({
   head: () => ({
@@ -29,6 +31,24 @@ function Story() {
             Try the session
           </Link>
         </nav>
+
+        <div className="relative mb-12 flex justify-center">
+          <div className="relative overflow-hidden rounded-3xl border shadow-2xl shadow-primary/20">
+            <video
+              src={storyHero.url}
+              poster={storyPoster.url}
+              className="max-h-[70vh] w-auto max-w-full"
+              autoPlay
+              muted
+              loop
+              playsInline
+              controls
+            />
+            <span className="absolute left-4 top-4 rounded-full bg-background/70 px-3 py-1 text-xs font-bold uppercase tracking-widest backdrop-blur">
+              Running Hackathon Barcelona · 24 Sep 2026
+            </span>
+          </div>
+        </div>
 
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">Our story</p>
         <h1 className="mt-3 font-display text-4xl font-black leading-tight md:text-6xl">
