@@ -172,26 +172,21 @@ function Session({ muted, setMuted, onExit, onFinish }: { muted: boolean; setMut
 
         <div className="flex flex-col items-center">
           {phase === "user_turn" ? (
-            <UserTurn key={`${index}-${runId}-${demoToken ? "r" : ""}`} seconds={ex.userSeconds} syllable={ex.syllable} />
+            <UserTurn key={`${index}-${runId}`} seconds={ex.userSeconds} syllable={ex.syllable} />
           ) : (
-            <CarlosStage phase={phase} pulse={pulse} syllable={ex.syllable} intensity={ex.intensity} />
+            <CarlosStage />
           )}
 
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             {phase === "explaining" && (
-              <button onClick={skipExplanation} className="inline-flex items-center gap-2 rounded-full border px-5 py-3 font-semibold hover:bg-muted">
-                <SkipForward className="size-4" /> Ir a la demo
+              <button onClick={startUserTurn} className="inline-flex items-center gap-2 rounded-full border px-5 py-3 font-semibold hover:bg-muted">
+                <SkipForward className="size-4" /> Ir a mi turno
               </button>
             )}
             {phase === "user_turn" && (
-              <>
-                <button onClick={repeatDemo} className="inline-flex items-center gap-2 rounded-full border px-5 py-3 font-semibold hover:bg-muted">
-                  <RotateCcw className="size-4" /> Repetir demo de Carlos
-                </button>
-                <button onClick={next} className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-bold text-primary-foreground shadow-lg shadow-primary/30 hover:bg-primary/90">
-                  {index < EXERCISES.length - 1 ? "Siguiente ejercicio" : "Ir al cierre"} <SkipForward className="size-4" />
-                </button>
-              </>
+              <button onClick={next} className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-bold text-primary-foreground shadow-lg shadow-primary/30 hover:bg-primary/90">
+                {index < EXERCISES.length - 1 ? "Siguiente ejercicio" : "Ir al cierre"} <SkipForward className="size-4" />
+              </button>
             )}
             {phase === "explaining" && index === 0 && runId === 0 && (
               <button onClick={() => setRunId(runId + 1)} className="text-sm text-muted-foreground underline">¿No oyes a Carlos? Reintentar</button>
