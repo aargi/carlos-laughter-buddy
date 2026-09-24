@@ -356,16 +356,30 @@ function Session({ guide, muted, setMuted, onExit, onFinish }: { guide: Characte
       </div>
 
       <div className="mt-8 rounded-3xl border bg-card/70 p-4">
-        <p className="mb-3 text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-          The laughter circle {phase === "user_turn" ? "· laughing with you" : ""}
-        </p>
+        <div className="mb-3 flex items-center justify-center gap-3">
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            The laughter circle {phase === "user_turn" && groupLaugh ? `· ${buddies.map((b) => getCharacter(b).name).join(" & ")} laugh with you` : ""}
+          </p>
+          <button
+            onClick={() => { if (groupLaugh) stopGroup(); setGroupLaugh(!groupLaugh); }}
+            className={`rounded-full border px-3 py-1 text-[11px] font-bold transition ${groupLaugh ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
+            aria-pressed={groupLaugh}
+          >
+            Group laugh {groupLaugh ? "ON" : "OFF"}
+          </button>
+        </div>
         <div className="flex flex-wrap justify-center gap-4">
-          {group.map((c) => (
-            <div key={c.id} className={`flex flex-col items-center transition-transform ${laughingSet.has(c.id) ? "scale-125" : ""}`}>
-              <Avatar c={c} size={60} active={laughingSet.has(c.id)} />
-              <span className="mt-1 text-[11px] font-medium">{c.name}</span>
-            </div>
-          ))}
+          {group.map((c) => {
+            const isBuddy = buddies.includes(c.id);
+            return (
+              <div key={c.id} className={`flex flex-col items-center transition-all ${laughingSet.has(c.id) ? "scale-125" : ""} ${groupLaugh && isBuddy ? "" : "opacity-80"}`}>
+                <Avatar c={c} size={60} active={laughingSet.has(c.id)} />
+                <span className="mt-1 text-[11px] font-medium">
+                  {c.name}{groupLaugh && isBuddy && <span className="ml-1 text-primary">· buddy</span>}
+                </span>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
