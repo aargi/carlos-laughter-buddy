@@ -525,7 +525,7 @@ function Closing({ guide, muted, onHome }: { guide: Character; muted: boolean; o
             interest="pro-session"
             icon={<UserRound className="size-5" />}
             title="Laugh with a pro"
-            text="Complete a one-to-one session with a certified FinYoga laughter professional."
+            text="Complete a one-to-one session with a certified laughter yoga professional."
             cta="Join the waitlist →"
           />
           <div className="relative">
@@ -540,7 +540,7 @@ function Closing({ guide, muted, onHome }: { guide: Character; muted: boolean; o
           </div>
         </div>
         <div className="mt-6 text-center">
-          <WaitlistLink interest="pro-signup" text="Are you a FinYoga professional? Sign up to offer one-to-one and group sessions." />
+          <WaitlistLink interest="pro-signup" text="Are you a laughter yoga professional? Sign up to offer one-to-one and group sessions." />
         </div>
       </div>
     </div>
