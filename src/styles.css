@@ -37,28 +37,29 @@
 }
 
 :root {
+  /* Fiesta Tropical — deep plum night, fuchsia, coral, sun yellow */
   --radius: 1rem;
-  --background: oklch(0.975 0.02 85);
-  --foreground: oklch(0.25 0.06 20);
-  --card: oklch(0.995 0.01 85);
-  --card-foreground: oklch(0.25 0.06 20);
-  --popover: oklch(0.995 0.01 85);
-  --popover-foreground: oklch(0.25 0.06 20);
-  --primary: oklch(0.68 0.19 45);
-  --primary-foreground: oklch(0.99 0.01 85);
-  --secondary: oklch(0.88 0.12 90);
-  --secondary-foreground: oklch(0.28 0.07 40);
-  --muted: oklch(0.93 0.03 80);
-  --muted-foreground: oklch(0.48 0.05 30);
-  --accent: oklch(0.55 0.18 10);
-  --accent-foreground: oklch(0.99 0.01 85);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.88 0.04 70);
-  --input: oklch(0.88 0.04 70);
-  --ring: oklch(0.68 0.19 45);
-  --calm: oklch(0.8 0.07 200);
-  --calm-foreground: oklch(0.28 0.06 230);
+  --background: oklch(0.22 0.07 340);
+  --foreground: oklch(0.96 0.015 65);
+  --card: oklch(0.27 0.075 340);
+  --card-foreground: oklch(0.96 0.015 65);
+  --popover: oklch(0.27 0.075 340);
+  --popover-foreground: oklch(0.96 0.015 65);
+  --primary: oklch(0.68 0.24 355);
+  --primary-foreground: oklch(0.98 0.01 65);
+  --secondary: oklch(0.75 0.17 45);
+  --secondary-foreground: oklch(0.24 0.07 340);
+  --muted: oklch(0.32 0.06 340);
+  --muted-foreground: oklch(0.78 0.05 350);
+  --accent: oklch(0.87 0.17 92);
+  --accent-foreground: oklch(0.24 0.07 340);
+  --destructive: oklch(0.62 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.38 0.07 340);
+  --input: oklch(0.38 0.07 340);
+  --ring: oklch(0.68 0.24 355);
+  --calm: oklch(0.75 0.1 195);
+  --calm-foreground: oklch(0.22 0.06 250);
 }
 
 @layer base {

@@ -89,7 +89,7 @@ function Story() {
               <div key={c.id} className="flex w-16 flex-col items-center gap-1">
                 <div
                   className="size-14 overflow-hidden rounded-full shadow ring-2 ring-card"
-                  style={{ background: `radial-gradient(circle at 50% 35%, ${auraColor(c, 0.96, 0.05)}, ${auraColor(c, 0.82, 0.12)})` }}
+                  style={{ background: `radial-gradient(circle at 50% 35%, ${auraColor(c, 0.42, 0.1)}, ${auraColor(c, 0.3, 0.09)})` }}
                 >
                   {AVATARS[c.id] && <img src={AVATARS[c.id]} alt={c.name} className="size-full object-cover" />}
                 </div>
