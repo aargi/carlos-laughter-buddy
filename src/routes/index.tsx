@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Play, SkipForward, Volume2, VolumeX, X, Headphones, RefreshCw, UserRound, Sparkles, Handshake } from "lucide-react";
+import { Play, SkipForward, Volume2, VolumeX, X, Headphones, RefreshCw, UserRound, Sparkles, Handshake, Share2, Copy, Check, Facebook, Linkedin, Twitter, MessageCircle } from "lucide-react";
 import { AVATARS } from "@/lib/avatars";
 import { EXERCISES } from "@/lib/exercises";
 import { getAnalyser, getMicAnalyser, laugh, preloadLaugh, speak, startMic, stopAll, stopGroup, stopMic } from "@/lib/carlos-audio";
@@ -93,7 +93,10 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
       <div className="relative mx-auto max-w-6xl px-6 py-10 md:py-14">
         <nav className="mb-10 flex items-center justify-between">
           <span className="font-display text-xl font-black tracking-tight">Laughter<span className="text-primary">Circle</span></span>
-          <span className="rounded-full border bg-card/70 px-3 py-1 text-xs font-semibold text-muted-foreground backdrop-blur">~8 min · 6 exercises</span>
+          <div className="flex items-center gap-3">
+            <span className="hidden rounded-full border bg-card/70 px-3 py-1 text-xs font-semibold text-muted-foreground backdrop-blur sm:inline">~8 min · 6 exercises</span>
+            <ShareButton />
+          </div>
         </nav>
 
         <section className="grid items-center gap-12 md:grid-cols-[1.15fr_1fr]">
