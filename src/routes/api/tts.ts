@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-
-const VOICE_ID = "JBFqnCBsd6RMkjVDRZzb"; // George — warm, friendly male
+import { CHARACTERS } from "@/lib/characters";
 
 export const Route = createFileRoute("/api/tts")({
   server: {
@@ -9,24 +8,34 @@ export const Route = createFileRoute("/api/tts")({
         const key = process.env["ELEVENLABS_API_KEY"];
         if (!key) return new Response("ElevenLabs not connected", { status: 500 });
         let text = "";
+        let characterId = "carlos";
+        let expressive = false;
         try {
-          const body = (await request.json()) as { text?: unknown };
+          const body = (await request.json()) as { text?: unknown; character?: unknown; expressive?: unknown };
           text = typeof body.text === "string" ? body.text.trim() : "";
+          if (typeof body.character === "string") characterId = body.character;
+          expressive = body.expressive === true;
         } catch {
           /* ignore */
         }
+        const character = CHARACTERS.find((c) => c.id === characterId);
+        if (!character) return new Response("Unknown character", { status: 400 });
         if (!text || text.length > 2000) return new Response("Invalid text", { status: 400 });
 
         const res = await fetch(
-          `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}?output_format=mp3_44100_128`,
+          `https://api.elevenlabs.io/v1/text-to-speech/${character.voiceId}?output_format=mp3_44100_128`,
           {
             method: "POST",
             headers: { "xi-api-key": key, "Content-Type": "application/json" },
-            body: JSON.stringify({
-              text,
-              model_id: "eleven_multilingual_v2",
-              voice_settings: { stability: 0.45, similarity_boost: 0.75, style: 0.45, use_speaker_boost: true },
-            }),
+            body: JSON.stringify(
+              expressive
+                ? { text, model_id: "eleven_v3", voice_settings: { stability: 0.0 } }
+                : {
+                    text,
+                    model_id: "eleven_multilingual_v2",
+                    voice_settings: { stability: 0.45, similarity_boost: 0.75, style: 0.45, use_speaker_boost: true },
+                  },
+            ),
           },
         );
         if (!res.ok) {
