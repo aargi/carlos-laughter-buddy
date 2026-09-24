@@ -108,7 +108,7 @@ function Session({ muted, setMuted, onExit, onFinish }: { muted: boolean; setMut
   const [phase, setPhase] = useState<Phase>("explaining");
   const [pulse, setPulse] = useState(0);
   const [runId, setRunId] = useState(0);
-  const ex = EXERCISES[index];
+  const ex = EXERCISES[index]!;
   const mutedRef = useRef(muted);
   mutedRef.current = muted;
 
