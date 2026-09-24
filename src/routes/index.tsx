@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Play, SkipForward, Volume2, VolumeX, X, Headphones, RefreshCw, UserRound, Sparkles, Handshake, Share2, Copy, Check, Facebook, Linkedin, Twitter, MessageCircle } from "lucide-react";
 import { AVATARS } from "@/lib/avatars";
 import { EXERCISES } from "@/lib/exercises";
-import { getAnalyser, getMicAnalyser, laugh, preloadLaugh, speak, startMic, stopAll, stopGroup, stopMic } from "@/lib/carlos-audio";
+import { getAnalyser, getMicAnalyser, laughAlong, preloadLaughAlong, speak, startMic, stopAll, stopGroup, stopMic } from "@/lib/carlos-audio";
 import { WaveRing } from "@/components/WaveRing";
 import { CHARACTERS, auraColor, getCharacter, type Character } from "@/lib/characters";
 
@@ -233,36 +233,42 @@ function Session({ guide, muted, setMuted, onExit, onFinish }: { guide: Characte
   const group = CHARACTERS.filter((c) => c.id !== guide.id);
   const [laughingSet, setLaughingSet] = useState<Set<string>>(new Set());
   const [turnDone, setTurnDone] = useState(false);
+  // Group laugh: ON by default — two buddies laugh the exercise pattern with you on your turn.
+  const [groupLaugh, setGroupLaugh] = useState(true);
+  const groupLaughRef = useRef(groupLaugh);
+  groupLaughRef.current = groupLaugh;
+  const [buddies] = useState<string[]>(() =>
+    [...CHARACTERS].filter((c) => c.id !== guide.id).sort(() => Math.random() - 0.5).slice(0, 2).map((c) => c.id)
+  );
   useEffect(() => { setTurnDone(false); }, [index, runId, phase]);
 
-  useEffect(() => { CHARACTERS.forEach((c) => preloadLaugh(c.id)); }, []);
+  useEffect(() => {
+    buddies.forEach((id) => preloadLaughAlong(id, EXERCISES[0]!.syllable));
+  }, [buddies]);
+  useEffect(() => { buddies.forEach((id) => preloadLaughAlong(id, ex.syllable)); }, [buddies, ex.syllable]);
 
-  // The circle laughs in parallel with you while your timer runs: overlapping laughs, denser with intensity.
+  // On your turn, your two buddies laugh along with you, following the exercise's sound and intensity.
   useEffect(() => {
     if (phase !== "user_turn" || turnDone) return;
     let alive = true;
     let t: ReturnType<typeof setTimeout>;
-    const members = CHARACTERS.filter((c) => c.id !== guide.id);
-    const gap = 3200 - ex.intensity * 400;
+    const gap = Math.max(900, 3000 - ex.intensity * 350);
     const fire = (id: string) => {
       setLaughingSet((s) => new Set(s).add(id));
-      void laugh(id, 0.45 + ex.intensity * 0.08).then(() => {
+      void laughAlong(id, ex.syllable, 0.4 + ex.intensity * 0.08).then(() => {
         if (alive) setLaughingSet((s) => { const n = new Set(s); n.delete(id); return n; });
       });
     };
     const loop = () => {
       if (!alive) return;
-      if (!mutedRef.current) {
-        const count = 1 + Math.floor(Math.random() * Math.min(3, 1 + Math.ceil(ex.intensity / 2)));
-        [...members].sort(() => Math.random() - 0.5).slice(0, count).forEach((m, i) => {
-          setTimeout(() => alive && fire(m.id), i * 350);
-        });
+      if (!mutedRef.current && groupLaughRef.current) {
+        buddies.forEach((id, i) => setTimeout(() => alive && fire(id), i * 400));
       }
-      t = setTimeout(loop, gap * (0.6 + Math.random() * 0.8));
+      t = setTimeout(loop, gap * (0.75 + Math.random() * 0.5));
     };
-    t = setTimeout(loop, 1200);
+    t = setTimeout(loop, 900);
     return () => { alive = false; clearTimeout(t); stopGroup(); setLaughingSet(new Set()); };
-  }, [phase, index, ex.intensity, guide.id, turnDone]);
+  }, [phase, index, ex.intensity, ex.syllable, buddies, turnDone]);
 
   const startUserTurn = useCallback(() => {
     stopAll();
@@ -350,16 +356,30 @@ function Session({ guide, muted, setMuted, onExit, onFinish }: { guide: Characte
       </div>
 
       <div className="mt-8 rounded-3xl border bg-card/70 p-4">
-        <p className="mb-3 text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-          The laughter circle {phase === "user_turn" ? "· laughing with you" : ""}
-        </p>
+        <div className="mb-3 flex items-center justify-center gap-3">
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            The laughter circle {phase === "user_turn" && groupLaugh ? `· ${buddies.map((b) => getCharacter(b).name).join(" & ")} laugh with you` : ""}
+          </p>
+          <button
+            onClick={() => { if (groupLaugh) stopGroup(); setGroupLaugh(!groupLaugh); }}
+            className={`rounded-full border px-3 py-1 text-[11px] font-bold transition ${groupLaugh ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
+            aria-pressed={groupLaugh}
+          >
+            Group laugh {groupLaugh ? "ON" : "OFF"}
+          </button>
+        </div>
         <div className="flex flex-wrap justify-center gap-4">
-          {group.map((c) => (
-            <div key={c.id} className={`flex flex-col items-center transition-transform ${laughingSet.has(c.id) ? "scale-125" : ""}`}>
-              <Avatar c={c} size={60} active={laughingSet.has(c.id)} />
-              <span className="mt-1 text-[11px] font-medium">{c.name}</span>
-            </div>
-          ))}
+          {group.map((c) => {
+            const isBuddy = buddies.includes(c.id);
+            return (
+              <div key={c.id} className={`flex flex-col items-center transition-all ${laughingSet.has(c.id) ? "scale-125" : ""} ${groupLaugh && isBuddy ? "" : "opacity-80"}`}>
+                <Avatar c={c} size={60} active={laughingSet.has(c.id)} />
+                <span className="mt-1 text-[11px] font-medium">
+                  {c.name}{groupLaugh && isBuddy && <span className="ml-1 text-primary">· buddy</span>}
+                </span>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
