@@ -1,17 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Play, SkipForward, Volume2, VolumeX, X } from "lucide-react";
+import { Play, SkipForward, Volume2, VolumeX, X, Headphones } from "lucide-react";
 import carlos from "@/assets/carlos.png";
 import { EXERCISES } from "@/lib/exercises";
-import { speak, stopAll } from "@/lib/carlos-audio";
+import { laugh, preloadLaugh, speak, stopAll, stopGroup } from "@/lib/carlos-audio";
+import { CHARACTERS, auraColor, getCharacter, type Character } from "@/lib/characters";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Laughter Therapy with Carlos — guided laughter session" },
-      { name: "description", content: "Carlos guides you step by step: vocal warm-up, dynamic exercises, and a calm return to breathing." },
-      { property: "og:title", content: "Laughter Therapy with Carlos" },
-      { property: "og:description", content: "A guided laughter therapy session with your virtual facilitator Carlos." },
+      { title: "Laughter Circle — guided laughter therapy with 10 characters" },
+      { name: "description", content: "Pick your guide from 10 characters, each with their own voice, aura and laugh, and laugh together through a guided session." },
+      { property: "og:title", content: "Laughter Circle — guided laughter therapy" },
+      { property: "og:description", content: "Ten characters, ten voices, ten laughs. Choose your guide and laugh with the group." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -25,68 +26,125 @@ type Phase = "explaining" | "user_turn";
 function App() {
   const [screen, setScreen] = useState<Screen>("home");
   const [muted, setMuted] = useState(false);
-  useEffect(() => () => stopAll(), []);
+  const [guideId, setGuideId] = useState("carlos");
+  const guide = getCharacter(guideId);
+  useEffect(() => () => { stopAll(); stopGroup(); }, []);
 
   return (
     <main className="min-h-screen">
-      {screen === "home" && <Home onStart={() => setScreen("session")} />}
+      {screen === "home" && <Home guide={guide} setGuideId={setGuideId} onStart={() => setScreen("session")} />}
       {screen === "session" && (
-        <Session muted={muted} setMuted={setMuted} onExit={() => { stopAll(); setScreen("home"); }} onFinish={() => setScreen("closing")} />
+        <Session guide={guide} muted={muted} setMuted={setMuted} onExit={() => { stopAll(); stopGroup(); setScreen("home"); }} onFinish={() => { stopGroup(); setScreen("closing"); }} />
       )}
-      {screen === "closing" && <Closing muted={muted} onHome={() => setScreen("home")} />}
+      {screen === "closing" && <Closing guide={guide} muted={muted} onHome={() => setScreen("home")} />}
     </main>
   );
 }
 
-/* ---------------- Home ---------------- */
-function Home({ onStart }: { onStart: () => void }) {
+/* ---------------- Avatar with aura ---------------- */
+function Avatar({ c, size = 96, active = false }: { c: Character; size?: number; active?: boolean }) {
   return (
-    <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-12 md:grid-cols-[1.1fr_1fr] md:py-20">
-      <div>
-        <p className="mb-4 inline-block rounded-full bg-secondary px-4 py-1 text-sm font-semibold text-secondary-foreground">
-          Guided session · ~8 minutes
-        </p>
-        <h1 className="text-5xl font-black leading-[0.95] md:text-7xl">
-          Hi, I'm <span className="text-primary">Carlos</span>.<br />Let's laugh.
-        </h1>
-        <p className="mt-6 max-w-lg text-lg text-muted-foreground">
-          I explain each exercise and then it's your turn. Six exercises, from a gentle “ha” to free, full laughter.
-        </p>
-        <ul className="mt-8 space-y-3">
-          {[
-            ["Don't judge yourself", "Nobody's watching here. Let go."],
-            ["Fake it until it's real", "Pretend laughter awakens natural laughter."],
-            ["Listen to your body", "If anything feels uncomfortable, lower the intensity."],
-          ].map(([t, d]) => (
-            <li key={t} className="flex gap-3">
-              <span className="mt-1.5 size-2.5 shrink-0 rounded-full bg-accent" />
-              <span><strong className="font-semibold">{t}.</strong> <span className="text-muted-foreground">{d}</span></span>
-            </li>
-          ))}
-        </ul>
-        <button
-          onClick={onStart}
-          className="mt-10 inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-lg font-bold text-primary-foreground shadow-lg shadow-primary/30 transition hover:scale-[1.03] hover:bg-primary/90"
-        >
-          <Play className="size-5 fill-current" /> Start session with Carlos
-        </button>
-        <p className="mt-3 text-sm text-muted-foreground">Turn up the volume: Carlos talks you through it.</p>
+    <div className="relative shrink-0" style={{ width: size, height: size }}>
+      <div
+        className={`absolute -inset-[18%] rounded-full blur-xl transition-opacity ${active ? "animate-pulse opacity-100" : "opacity-60"}`}
+        style={{ background: `radial-gradient(circle, ${auraColor(c, 0.78, 0.2)} 0%, transparent 70%)` }}
+      />
+      <div
+        className="relative flex size-full items-center justify-center overflow-hidden rounded-full border-2 border-card shadow-md"
+        style={{ background: `radial-gradient(circle at 35% 30%, ${auraColor(c, 0.93, 0.07)}, ${auraColor(c, 0.75, 0.15)})` }}
+      >
+        {c.id === "carlos" ? (
+          <img src={carlos} alt={c.name} className="size-full object-cover" />
+        ) : (
+          <span style={{ fontSize: size * 0.45 }} aria-hidden>{c.emoji}</span>
+        )}
       </div>
-      <div className="relative mx-auto w-full max-w-md">
-        <div className="absolute inset-6 rounded-full bg-secondary" />
-        <img src={carlos} alt="Carlos, your laughter therapy facilitator" width={816} height={816} className="relative" />
-      </div>
-      <div className="md:col-span-2">
-        <h2 className="mb-4 text-2xl font-bold">Your journey</h2>
-        <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          {EXERCISES.map((e, i) => (
-            <div key={e.id} className="rounded-2xl border bg-card p-4">
-              <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{i + 1} · {e.intensityLabel}</div>
-              <div className="mt-1 font-semibold leading-tight">{e.name}</div>
-              <IntensityBar level={e.intensity} />
-            </div>
-          ))}
+    </div>
+  );
+}
+
+/* ---------------- Home ---------------- */
+function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (id: string) => void; onStart: () => void }) {
+  const [playing, setPlaying] = useState<string | null>(null);
+  const preview = async (c: Character) => {
+    setGuideId(c.id);
+    setPlaying(c.id);
+    await speak(c.greeting, { character: c.id });
+    await speak(c.laugh, { character: c.id, expressive: true });
+    setPlaying((p) => (p === c.id ? null : p));
+  };
+  return (
+    <div className="mx-auto max-w-6xl px-6 py-12 md:py-16">
+      <div className="grid items-center gap-10 md:grid-cols-[1.2fr_1fr]">
+        <div>
+          <p className="mb-4 inline-block rounded-full bg-secondary px-4 py-1 text-sm font-semibold text-secondary-foreground">
+            Guided session · ~8 minutes · 10 characters
+          </p>
+          <h1 className="text-5xl font-black leading-[0.95] md:text-7xl">
+            Laugh with <span style={{ color: auraColor(guide, 0.6, 0.18) }}>{guide.name}</span><br />and the circle.
+          </h1>
+          <p className="mt-6 max-w-lg text-lg text-muted-foreground">
+            Pick your guide. They explain each exercise, and when it's your turn, the rest of the circle laughs along with you — each in their own way.
+          </p>
+          <button
+            onClick={() => { stopAll(); onStart(); }}
+            className="mt-8 inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-lg font-bold text-primary-foreground shadow-lg shadow-primary/30 transition hover:scale-[1.03] hover:bg-primary/90"
+          >
+            <Play className="size-5 fill-current" /> Start session with {guide.name}
+          </button>
+          <p className="mt-3 text-sm text-muted-foreground">Turn up the volume — everyone has their own voice.</p>
         </div>
+        <div className="flex flex-col items-center text-center">
+          <Avatar c={guide} size={220} active={playing === guide.id} />
+          <p className="mt-6 text-sm font-semibold uppercase tracking-widest text-muted-foreground">{guide.archetype}</p>
+          <p className="mt-1 max-w-xs text-muted-foreground">{guide.bio}</p>
+          <p className="mt-2 text-sm"><strong>Aura:</strong> {guide.auraName} · <strong>Laugh:</strong> {guide.laughStyle}</p>
+        </div>
+      </div>
+
+      <h2 className="mb-4 mt-14 text-2xl font-bold">Choose your guide</h2>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        {CHARACTERS.map((c) => {
+          const sel = c.id === guide.id;
+          return (
+            <div
+              key={c.id}
+              role="button"
+              tabIndex={0}
+              onClick={() => setGuideId(c.id)}
+              onKeyDown={(e) => e.key === "Enter" && setGuideId(c.id)}
+              className={`flex cursor-pointer flex-col items-center rounded-3xl border-2 bg-card p-4 text-center transition hover:-translate-y-0.5 ${sel ? "shadow-lg" : "border-transparent"}`}
+              style={sel ? { borderColor: auraColor(c, 0.7, 0.17) } : undefined}
+            >
+              <Avatar c={c} size={72} active={playing === c.id} />
+              <div className="mt-3 font-bold leading-tight">{c.name}</div>
+              <div className="text-xs text-muted-foreground">{c.origin}</div>
+              <div className="mt-1 text-xs font-semibold" style={{ color: auraColor(c, 0.5, 0.15) }}>{c.archetype}</div>
+              <div className="mt-2 flex flex-wrap justify-center gap-1">
+                {c.traits.map((t) => (
+                  <span key={t} className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium">{t}</span>
+                ))}
+              </div>
+              <button
+                onClick={(e) => { e.stopPropagation(); void preview(c); }}
+                className="mt-3 inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold hover:bg-muted"
+              >
+                <Headphones className="size-3.5" /> {playing === c.id ? "Playing…" : "Hear voice & laugh"}
+              </button>
+            </div>
+          );
+        })}
+      </div>
+
+      <h2 className="mb-4 mt-14 text-2xl font-bold">Your journey</h2>
+      <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        {EXERCISES.map((e, i) => (
+          <div key={e.id} className="rounded-2xl border bg-card p-4">
+            <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{i + 1} · {e.intensityLabel}</div>
+            <div className="mt-1 font-semibold leading-tight">{e.name}</div>
+            <IntensityBar level={e.intensity} />
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -103,19 +161,44 @@ function IntensityBar({ level }: { level: number }) {
 }
 
 /* ---------------- Session ---------------- */
-function Session({ muted, setMuted, onExit, onFinish }: { muted: boolean; setMuted: (m: boolean) => void; onExit: () => void; onFinish: () => void }) {
+function Session({ guide, muted, setMuted, onExit, onFinish }: { guide: Character; muted: boolean; setMuted: (m: boolean) => void; onExit: () => void; onFinish: () => void }) {
   const [index, setIndex] = useState(0);
   const [phase, setPhase] = useState<Phase>("explaining");
   const [runId, setRunId] = useState(0);
   const ex = EXERCISES[index]!;
   const mutedRef = useRef(muted);
   mutedRef.current = muted;
+  const group = CHARACTERS.filter((c) => c.id !== guide.id);
+  const [laughing, setLaughing] = useState<string | null>(null);
+
+  useEffect(() => { CHARACTERS.forEach((c) => preloadLaugh(c.id)); }, []);
+
+  // The circle laughs along during your turn (more often as intensity grows).
+  useEffect(() => {
+    if (phase !== "user_turn") return;
+    let alive = true;
+    let t: ReturnType<typeof setTimeout>;
+    const members = CHARACTERS.filter((c) => c.id !== guide.id);
+    const gap = 9000 - ex.intensity * 1300;
+    const loop = async () => {
+      if (!alive) return;
+      if (!mutedRef.current) {
+        const m = members[Math.floor(Math.random() * members.length)]!;
+        setLaughing(m.id);
+        await laugh(m.id, 0.55 + ex.intensity * 0.08);
+        if (alive) setLaughing(null);
+      }
+      t = setTimeout(loop, gap * (0.6 + Math.random() * 0.8));
+    };
+    t = setTimeout(loop, 2500);
+    return () => { alive = false; clearTimeout(t); stopGroup(); setLaughing(null); };
+  }, [phase, index, ex.intensity, guide.id]);
 
   const startUserTurn = useCallback(() => {
     stopAll();
     setPhase("user_turn");
-    if (!mutedRef.current) void speak("Your turn!", { rate: 1.05 });
-  }, []);
+    if (!mutedRef.current) void speak("Your turn!", { character: guide.id });
+  }, [guide.id]);
 
   // Main state machine per exercise: Carlos explains with words, then it's your turn.
   useEffect(() => {
@@ -124,13 +207,13 @@ function Session({ muted, setMuted, onExit, onFinish }: { muted: boolean; setMut
     setPhase("explaining");
     (async () => {
       const intro = index === 0 ? "Let's begin. " : "";
-      if (!mutedRef.current) await speak(`${intro}${ex.name.replace(/[“”«»]/g, "")}. ${ex.explanation}`);
+      if (!mutedRef.current) await speak(`${intro}${ex.name.replace(/[“”«»]/g, "")}. ${ex.explanation}`, { character: guide.id });
       else await new Promise((r) => setTimeout(r, 6000));
       if (token.cancelled) return;
       startUserTurn();
     })();
     return () => { token.cancelled = true; stopAll(); };
-  }, [index, runId, ex, startUserTurn]);
+  }, [index, runId, ex, startUserTurn, guide.id]);
 
   const next = () => {
     stopAll();
@@ -174,7 +257,7 @@ function Session({ muted, setMuted, onExit, onFinish }: { muted: boolean; setMut
           {phase === "user_turn" ? (
             <UserTurn key={`${index}-${runId}`} seconds={ex.userSeconds} syllable={ex.syllable} />
           ) : (
-            <CarlosStage />
+            <GuideStage guide={guide} />
           )}
 
           <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -189,9 +272,23 @@ function Session({ muted, setMuted, onExit, onFinish }: { muted: boolean; setMut
               </button>
             )}
             {phase === "explaining" && index === 0 && runId === 0 && (
-              <button onClick={() => setRunId(runId + 1)} className="text-sm text-muted-foreground underline">Can't hear Carlos? Try again</button>
+              <button onClick={() => setRunId(runId + 1)} className="text-sm text-muted-foreground underline">Can't hear {guide.name}? Try again</button>
             )}
           </div>
+        </div>
+      </div>
+
+      <div className="mt-8 rounded-3xl border bg-card/70 p-4">
+        <p className="mb-3 text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          The laughter circle {phase === "user_turn" ? "· laughing with you" : ""}
+        </p>
+        <div className="flex flex-wrap justify-center gap-4">
+          {group.map((c) => (
+            <div key={c.id} className={`flex flex-col items-center transition-transform ${laughing === c.id ? "scale-125" : ""}`}>
+              <Avatar c={c} size={48} active={laughing === c.id} />
+              <span className="mt-1 text-[11px] font-medium">{c.name}</span>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -207,13 +304,12 @@ function Row({ label, value }: { label: string; value: string }) {
   );
 }
 
-function CarlosStage() {
+function GuideStage({ guide }: { guide: Character }) {
   return (
-    <div className="relative flex size-72 items-center justify-center md:size-80">
-      <div className="absolute inset-4 rounded-full bg-muted" />
-      <img src={carlos} alt="Carlos" width={816} height={816} className="relative w-full" />
-      <div className="absolute -bottom-4 rounded-full bg-card px-4 py-1.5 text-sm font-semibold shadow">
-        Carlos is explaining…
+    <div className="relative flex flex-col items-center">
+      <Avatar c={guide} size={260} active />
+      <div className="mt-6 rounded-full bg-card px-4 py-1.5 text-sm font-semibold shadow">
+        {guide.name} is explaining…
       </div>
     </div>
   );
@@ -268,7 +364,7 @@ const MOODS = [
   { e: "🤣", l: "Amazing!" },
 ];
 
-function Closing({ muted, onHome }: { muted: boolean; onHome: () => void }) {
+function Closing({ guide, muted, onHome }: { guide: Character; muted: boolean; onHome: () => void }) {
   const [breath, setBreath] = useState<"in" | "out">("in");
   const [cycles, setCycles] = useState(0);
   const [mood, setMood] = useState<number | null>(null);
@@ -276,7 +372,7 @@ function Closing({ muted, onHome }: { muted: boolean; onHome: () => void }) {
 
   useEffect(() => {
     try { setHistory(JSON.parse(localStorage.getItem("riso-moods") || "[]")); } catch { /* ignore */ }
-    if (!muted) void speak("Well done. Now let's return to calm. Breathe in deeply through your nose… and out softly through your mouth. Follow the circle.");
+    if (!muted) void speak("Well done. Now let's return to calm. Breathe in deeply through your nose… and out softly through your mouth. Follow the circle.", { character: guide.id });
     const iv = setInterval(() => {
       setBreath((b) => {
         if (b === "out") setCycles((c) => c + 1);
@@ -284,20 +380,20 @@ function Closing({ muted, onHome }: { muted: boolean; onHome: () => void }) {
       });
     }, 5000);
     return () => { clearInterval(iv); stopAll(); };
-  }, [muted]);
+  }, [muted, guide.id]);
 
   const save = (m: number) => {
     setMood(m);
     const h = [{ mood: m, date: new Date().toISOString() }, ...history].slice(0, 20);
     setHistory(h);
     localStorage.setItem("riso-moods", JSON.stringify(h));
-    if (!muted) void speak("Thanks for laughing with me. See you next time!");
+    if (!muted) void speak("Thanks for laughing with me. See you next time!", { character: guide.id });
   };
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-12 text-center">
       <p className="text-sm font-semibold uppercase tracking-widest text-calm-foreground">Back to calm</p>
-      <h2 className="mt-2 text-4xl font-black md:text-5xl">Breathe with Carlos</h2>
+      <h2 className="mt-2 text-4xl font-black md:text-5xl">Breathe with {guide.name}</h2>
       <div className="relative mx-auto mt-10 flex size-64 items-center justify-center">
         <div className="absolute inset-0 animate-breathe rounded-full bg-calm/60" />
         <div className="relative font-display text-3xl font-bold text-calm-foreground">{breath === "in" ? "Breathe in…" : "Breathe out…"}</div>
