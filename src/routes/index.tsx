@@ -352,7 +352,7 @@ function Session({ guide, muted, setMuted, onExit, onFinish }: { guide: Characte
         <div className="flex flex-wrap justify-center gap-4">
           {group.map((c) => (
             <div key={c.id} className={`flex flex-col items-center transition-transform ${laughingSet.has(c.id) ? "scale-125" : ""}`}>
-              <Avatar c={c} size={48} active={laughingSet.has(c.id)} />
+              <Avatar c={c} size={60} active={laughingSet.has(c.id)} />
               <span className="mt-1 text-[11px] font-medium">{c.name}</span>
             </div>
           ))}
