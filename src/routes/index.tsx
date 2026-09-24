@@ -507,6 +507,109 @@ function Closing({ guide, muted, onHome }: { guide: Character; muted: boolean; o
           Back to start
         </button>
       </div>
+
+      {/* ---------- What's next ---------- */}
+      <div className="mt-14 text-left">
+        <p className="text-center text-sm font-semibold uppercase tracking-widest text-muted-foreground">What's next?</p>
+        <div className="mt-5 grid gap-4 md:grid-cols-3">
+          <button
+            onClick={onHome}
+            className="group flex flex-col items-start rounded-3xl border bg-card p-6 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+          >
+            <span className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary"><RefreshCw className="size-5" /></span>
+            <span className="mt-4 text-lg font-bold">Keep laughing</span>
+            <span className="mt-1 text-sm text-muted-foreground">Start a new session with a different AI guide — 9 more voices and laughs are waiting.</span>
+            <span className="mt-4 text-sm font-semibold text-primary group-hover:underline">Choose another guide →</span>
+          </button>
+          <WaitlistCard
+            interest="pro-session"
+            icon={<UserRound className="size-5" />}
+            title="Laugh with a pro"
+            text="Complete a one-to-one session with a certified FinYoga laughter professional."
+            cta="Join the waitlist →"
+          />
+          <div className="relative">
+            <span className="absolute -top-2 right-4 z-10 rounded-full bg-primary px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-primary-foreground">Pro</span>
+            <WaitlistCard
+              interest="custom-avatar"
+              icon={<Sparkles className="size-5" />}
+              title="Create your own avatar"
+              text="Design a custom guide with its own aura, voice and signature laugh — a Pro feature."
+              cta="Get early access →"
+            />
+          </div>
+        </div>
+        <div className="mt-6 text-center">
+          <WaitlistLink interest="pro-signup" text="Are you a FinYoga professional? Sign up to offer one-to-one and group sessions." />
+        </div>
+      </div>
     </div>
+  );
+}
+
+/* ---------- Waitlist helpers (persist interest locally) ---------- */
+function saveWaitlist(interest: string, email: string) {
+  try {
+    const list = JSON.parse(localStorage.getItem("riso-waitlist") || "[]");
+    list.push({ interest, email, date: new Date().toISOString() });
+    localStorage.setItem("riso-waitlist", JSON.stringify(list));
+  } catch { /* ignore */ }
+}
+
+function WaitlistCard({ interest, icon, title, text, cta }: { interest: string; icon: React.ReactNode; title: string; text: string; cta: string }) {
+  const [open, setOpen] = useState(false);
+  const [done, setDone] = useState(false);
+  return (
+    <div className="flex h-full flex-col items-start rounded-3xl border bg-card p-6 shadow-sm">
+      <span className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">{icon}</span>
+      <span className="mt-4 text-lg font-bold">{title}</span>
+      <span className="mt-1 text-sm text-muted-foreground">{text}</span>
+      {done ? (
+        <span className="mt-4 text-sm font-semibold text-primary">You're on the list! 🎉</span>
+      ) : open ? (
+        <WaitlistForm interest={interest} onDone={() => setDone(true)} />
+      ) : (
+        <button onClick={() => setOpen(true)} className="mt-4 text-sm font-semibold text-primary hover:underline">{cta}</button>
+      )}
+    </div>
+  );
+}
+
+function WaitlistLink({ interest, text }: { interest: string; text: string }) {
+  const [open, setOpen] = useState(false);
+  const [done, setDone] = useState(false);
+  if (done) return <p className="text-sm font-semibold text-primary">Thanks! We'll be in touch soon. 💛</p>;
+  if (open) return <div className="mx-auto max-w-md"><WaitlistForm interest={interest} onDone={() => setDone(true)} /></div>;
+  return (
+    <button onClick={() => setOpen(true)} className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground underline-offset-4 hover:text-primary hover:underline">
+      <Handshake className="size-4" /> {text}
+    </button>
+  );
+}
+
+function WaitlistForm({ interest, onDone }: { interest: string; onDone: () => void }) {
+  const [email, setEmail] = useState("");
+  const submit = () => {
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return;
+    saveWaitlist(interest, email);
+    onDone();
+  };
+  return (
+    <form
+      className="mt-4 flex w-full gap-2"
+      onSubmit={(e) => { e.preventDefault(); submit(); }}
+    >
+      <input
+        type="email"
+        required
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="your@email.com"
+        className="min-w-0 flex-1 rounded-full border bg-background px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/50"
+      />
+      <button type="submit" className="rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground hover:bg-primary/90">
+        Notify me
+      </button>
+    </form>
   );
 }
