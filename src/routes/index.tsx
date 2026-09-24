@@ -263,7 +263,7 @@ function Session({ guide, muted, setMuted, onExit, onFinish }: { guide: Characte
 
         <div className="flex flex-col items-center">
           {phase === "user_turn" ? (
-            <UserTurn key={`${index}-${runId}`} seconds={ex.userSeconds} syllable={ex.syllable} />
+            <UserTurn key={`${index}-${runId}`} seconds={ex.userSeconds} syllable={ex.syllable} onDoneChange={setTurnDone} />
           ) : (
             <GuideStage guide={guide} />
           )}
@@ -292,8 +292,8 @@ function Session({ guide, muted, setMuted, onExit, onFinish }: { guide: Characte
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           {group.map((c) => (
-            <div key={c.id} className={`flex flex-col items-center transition-transform ${laughing === c.id ? "scale-125" : ""}`}>
-              <Avatar c={c} size={48} active={laughing === c.id} />
+            <div key={c.id} className={`flex flex-col items-center transition-transform ${laughingSet.has(c.id) ? "scale-125" : ""}`}>
+              <Avatar c={c} size={48} active={laughingSet.has(c.id)} />
               <span className="mt-1 text-[11px] font-medium">{c.name}</span>
             </div>
           ))}
@@ -323,20 +323,28 @@ function GuideStage({ guide }: { guide: Character }) {
   );
 }
 
-function UserTurn({ seconds, syllable }: { seconds: number; syllable: string }) {
+function UserTurn({ seconds, syllable, onDoneChange }: { seconds: number; syllable: string; onDoneChange: (d: boolean) => void }) {
+  const [total, setTotal] = useState(seconds);
   const [left, setLeft] = useState(seconds);
+  const [endAt, setEndAt] = useState(() => Date.now() + seconds * 1000);
   useEffect(() => {
-    const start = Date.now();
+    onDoneChange(false);
     const iv = setInterval(() => {
-      const l = Math.max(0, seconds - (Date.now() - start) / 1000);
+      const l = Math.max(0, (endAt - Date.now()) / 1000);
       setLeft(l);
-      if (l <= 0) clearInterval(iv);
+      if (l <= 0) { clearInterval(iv); onDoneChange(true); }
     }, 100);
     return () => clearInterval(iv);
-  }, [seconds]);
+  }, [endAt, onDoneChange]);
+  const addTwoMinutes = () => {
+    const base = Math.max(Date.now(), endAt);
+    setEndAt(base + 120_000);
+    setTotal(Math.max(0, (base - Date.now()) / 1000) + 120);
+  };
+  const seconds_ = total;
   const r = 120;
   const c = 2 * Math.PI * r;
-  const frac = left / seconds;
+  const frac = seconds_ > 0 ? Math.min(1, left / seconds_) : 0;
   const hue = 45 - (1 - frac) * 35; // orange -> red-pink as time goes
   const done = left <= 0;
   return (
@@ -354,11 +362,14 @@ function UserTurn({ seconds, syllable }: { seconds: number; syllable: string }) 
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="font-display text-6xl font-black tabular-nums">{Math.ceil(left)}</span>
-          <span className="text-sm text-muted-foreground">seconds</span>
+          <span className="font-display text-6xl font-black tabular-nums">{left >= 60 ? `${Math.floor(Math.ceil(left) / 60)}:${String(Math.ceil(left) % 60).padStart(2, "0")}` : Math.ceil(left)}</span>
+          <span className="text-sm text-muted-foreground">{left >= 60 ? "minutes" : "seconds"}</span>
           <span className="mt-2 font-display text-2xl font-bold text-primary">{syllable.length <= 2 ? `${syllable} ${syllable} ${syllable}` : syllable}</span>
         </div>
       </div>
+      <button onClick={addTwoMinutes} className="mt-4 rounded-full border px-4 py-2 text-sm font-semibold hover:bg-muted">
+        + 2 minutes
+      </button>
     </div>
   );
 }
