@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Play, SkipForward, Volume2, VolumeX, X, Headphones, RefreshCw, UserRound, Sparkles, Handshake } from "lucide-react";
+import { Play, SkipForward, Volume2, VolumeX, X, Headphones, RefreshCw, UserRound, Sparkles, Handshake, Share2, Copy, Check, Facebook, Linkedin, Twitter, MessageCircle } from "lucide-react";
 import { AVATARS } from "@/lib/avatars";
 import { EXERCISES } from "@/lib/exercises";
 import { getAnalyser, getMicAnalyser, laugh, preloadLaugh, speak, startMic, stopAll, stopGroup, stopMic } from "@/lib/carlos-audio";
@@ -93,7 +93,10 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
       <div className="relative mx-auto max-w-6xl px-6 py-10 md:py-14">
         <nav className="mb-10 flex items-center justify-between">
           <span className="font-display text-xl font-black tracking-tight">Laughter<span className="text-primary">Circle</span></span>
-          <span className="rounded-full border bg-card/70 px-3 py-1 text-xs font-semibold text-muted-foreground backdrop-blur">~8 min · 6 exercises</span>
+          <div className="flex items-center gap-3">
+            <span className="hidden rounded-full border bg-card/70 px-3 py-1 text-xs font-semibold text-muted-foreground backdrop-blur sm:inline">~8 min · 6 exercises</span>
+            <ShareButton />
+          </div>
         </nav>
 
         <section className="grid items-center gap-12 md:grid-cols-[1.15fr_1fr]">
@@ -503,9 +506,12 @@ function Closing({ guide, muted, onHome }: { guide: Character; muted: boolean; o
             )}
           </div>
         )}
-        <button onClick={onHome} className="mt-8 rounded-full bg-primary px-8 py-3 font-bold text-primary-foreground hover:bg-primary/90">
-          Back to start
-        </button>
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <button onClick={onHome} className="rounded-full bg-primary px-8 py-3 font-bold text-primary-foreground hover:bg-primary/90">
+            Back to start
+          </button>
+          <ShareButton />
+        </div>
       </div>
 
       {/* ---------- What's next ---------- */}
@@ -611,5 +617,75 @@ function WaitlistForm({ interest, onDone }: { interest: string; onDone: () => vo
         Notify me
       </button>
     </form>
+  );
+}
+
+/* ---------------- Share ---------------- */
+const SHARE_URL = "https://carlos-laughter-buddy.lovable.app";
+const SHARE_TEXT = "I just laughed my way through a guided laughter yoga session with 10 hilarious AI guides. Try it — it's contagious! 😂";
+
+function ShareButton({ className = "" }: { className?: string }) {
+  const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const close = (e: MouseEvent) => { if (!ref.current?.contains(e.target as Node)) setOpen(false); };
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
+  }, [open]);
+
+  const url = (medium: string) => `${SHARE_URL}?utm_source=share&utm_medium=${medium}&utm_campaign=laughter_circle`;
+
+  const copy = async () => {
+    try { await navigator.clipboard.writeText(url("copy_link")); } catch { /* ignore */ }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const nativeShare = async () => {
+    try {
+      await navigator.share({ title: "Laughter Circle", text: SHARE_TEXT, url: url("native") });
+      setOpen(false);
+    } catch { /* user cancelled */ }
+  };
+
+  const socials = [
+    { label: "WhatsApp", icon: <MessageCircle className="size-4" />, href: `https://wa.me/?text=${encodeURIComponent(`${SHARE_TEXT} ${url("whatsapp")}`)}` },
+    { label: "X", icon: <Twitter className="size-4" />, href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(SHARE_TEXT)}&url=${encodeURIComponent(url("x"))}` },
+    { label: "Facebook", icon: <Facebook className="size-4" />, href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url("facebook"))}` },
+    { label: "LinkedIn", icon: <Linkedin className="size-4" />, href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url("linkedin"))}` },
+  ];
+
+  return (
+    <div ref={ref} className={`relative ${className}`}>
+      <button
+        onClick={() => setOpen((o) => !o)}
+        aria-label="Share Laughter Circle"
+        className="inline-flex items-center gap-2 rounded-full border bg-card/70 px-4 py-2 text-sm font-semibold backdrop-blur transition hover:bg-muted"
+      >
+        <Share2 className="size-4" /> Share
+      </button>
+      {open && (
+        <div className="absolute right-0 z-30 mt-2 w-60 rounded-2xl border bg-card p-3 shadow-xl">
+          <button onClick={copy} className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium hover:bg-muted">
+            {copied ? <Check className="size-4 text-primary" /> : <Copy className="size-4" />}
+            {copied ? "Link copied!" : "Copy link"}
+          </button>
+          {typeof navigator !== "undefined" && "share" in navigator && (
+            <button onClick={nativeShare} className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium hover:bg-muted">
+              <Share2 className="size-4" /> Share via…
+            </button>
+          )}
+          <div className="my-1.5 border-t" />
+          {socials.map((s) => (
+            <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium hover:bg-muted">
+              {s.icon} {s.label}
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
