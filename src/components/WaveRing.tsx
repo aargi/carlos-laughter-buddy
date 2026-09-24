@@ -57,10 +57,13 @@ export function WaveRing({ sources, size }: { sources: WaveSource[]; size: numbe
           else g.lineTo(x, y);
         }
         g.closePath();
-        g.strokeStyle = s.color;
+        const color = s.color.startsWith("--")
+          ? getComputedStyle(document.documentElement).getPropertyValue(s.color).trim() || "#888"
+          : s.color;
+        g.strokeStyle = color;
         g.globalAlpha = 0.45 + Math.min(0.55, energy * 6);
         g.lineWidth = 2 + Math.min(3, energy * 20);
-        g.shadowColor = s.color;
+        g.shadowColor = color;
         g.shadowBlur = 8 + energy * 60;
         g.stroke();
       });

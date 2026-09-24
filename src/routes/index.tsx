@@ -3,7 +3,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Play, SkipForward, Volume2, VolumeX, X, Headphones } from "lucide-react";
 import carlos from "@/assets/carlos.png";
 import { EXERCISES } from "@/lib/exercises";
-import { laugh, preloadLaugh, speak, stopAll, stopGroup } from "@/lib/carlos-audio";
+import { getAnalyser, getMicAnalyser, laugh, preloadLaugh, speak, startMic, stopAll, stopGroup, stopMic } from "@/lib/carlos-audio";
+import { WaveRing } from "@/components/WaveRing";
 import { CHARACTERS, auraColor, getCharacter, type Character } from "@/lib/characters";
 
 export const Route = createFileRoute("/")({
@@ -34,7 +35,7 @@ function App() {
     <main className="min-h-screen">
       {screen === "home" && <Home guide={guide} setGuideId={setGuideId} onStart={() => setScreen("session")} />}
       {screen === "session" && (
-        <Session guide={guide} muted={muted} setMuted={setMuted} onExit={() => { stopAll(); stopGroup(); setScreen("home"); }} onFinish={() => { stopGroup(); setScreen("closing"); }} />
+        <Session guide={guide} muted={muted} setMuted={setMuted} onExit={() => { stopAll(); stopGroup(); stopMic(); setScreen("home"); }} onFinish={() => { stopGroup(); stopMic(); setScreen("closing"); }} />
       )}
       {screen === "closing" && <Closing guide={guide} muted={muted} onHome={() => setScreen("home")} />}
     </main>
@@ -42,9 +43,12 @@ function App() {
 }
 
 /* ---------------- Avatar with aura ---------------- */
-function Avatar({ c, size = 96, active = false }: { c: Character; size?: number; active?: boolean }) {
+function Avatar({ c, size = 96, active = false, withMic = false }: { c: Character; size?: number; active?: boolean; withMic?: boolean }) {
+  const sources = [{ get: () => getAnalyser(c.id), color: auraColor(c, 0.62, 0.2) }];
+  if (withMic) sources.push({ get: getMicAnalyser, color: "--primary" });
   return (
     <div className="relative shrink-0" style={{ width: size, height: size }}>
+      <WaveRing sources={sources} size={size} />
       <div
         className={`absolute -inset-[18%] rounded-full blur-xl transition-opacity ${active ? "animate-pulse opacity-100" : "opacity-60"}`}
         style={{ background: `radial-gradient(circle, ${auraColor(c, 0.78, 0.2)} 0%, transparent 70%)` }}
@@ -205,6 +209,7 @@ function Session({ guide, muted, setMuted, onExit, onFinish }: { guide: Characte
   const startUserTurn = useCallback(() => {
     stopAll();
     setPhase("user_turn");
+    void startMic();
     if (!mutedRef.current) void speak("Your turn!", { character: guide.id });
   }, [guide.id]);
 
@@ -315,7 +320,7 @@ function Row({ label, value }: { label: string; value: string }) {
 function GuideStage({ guide }: { guide: Character }) {
   return (
     <div className="relative flex flex-col items-center">
-      <Avatar c={guide} size={260} active />
+      <Avatar c={guide} size={260} active withMic />
       <div className="mt-6 rounded-full bg-card px-4 py-1.5 text-sm font-semibold shadow">
         {guide.name} is explaining…
       </div>
