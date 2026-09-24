@@ -506,9 +506,12 @@ function Closing({ guide, muted, onHome }: { guide: Character; muted: boolean; o
             )}
           </div>
         )}
-        <button onClick={onHome} className="mt-8 rounded-full bg-primary px-8 py-3 font-bold text-primary-foreground hover:bg-primary/90">
-          Back to start
-        </button>
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <button onClick={onHome} className="rounded-full bg-primary px-8 py-3 font-bold text-primary-foreground hover:bg-primary/90">
+            Back to start
+          </button>
+          <ShareButton />
+        </div>
       </div>
 
       {/* ---------- What's next ---------- */}
