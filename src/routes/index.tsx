@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Play, RotateCcw, SkipForward, Volume2, VolumeX, X } from "lucide-react";
+import { Play, SkipForward, Volume2, VolumeX, X } from "lucide-react";
 import carlos from "@/assets/carlos.png";
-import { EXERCISES, type Exercise } from "@/lib/exercises";
-import { playLaugh, speak, stopAll } from "@/lib/carlos-audio";
+import { EXERCISES } from "@/lib/exercises";
+import { speak, stopAll } from "@/lib/carlos-audio";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/")({
 });
 
 type Screen = "home" | "session" | "closing";
-type Phase = "explaining" | "demo" | "user_turn";
+type Phase = "explaining" | "user_turn";
 
 function App() {
   const [screen, setScreen] = useState<Screen>("home");
@@ -106,29 +106,18 @@ function IntensityBar({ level }: { level: number }) {
 function Session({ muted, setMuted, onExit, onFinish }: { muted: boolean; setMuted: (m: boolean) => void; onExit: () => void; onFinish: () => void }) {
   const [index, setIndex] = useState(0);
   const [phase, setPhase] = useState<Phase>("explaining");
-  const [pulse, setPulse] = useState(0);
   const [runId, setRunId] = useState(0);
   const ex = EXERCISES[index]!;
   const mutedRef = useRef(muted);
   mutedRef.current = muted;
 
-  const runDemo = useCallback(async (e: Exercise, token: { cancelled: boolean }) => {
-    setPhase("demo");
-    if (!mutedRef.current) {
-      playLaugh({ pitch: e.pitch, rate: e.rate, seconds: e.demoSeconds, crescendo: e.intensity >= 3, onPulse: (s) => setPulse((p) => p + s) });
-      void speak(e.demoText, { rate: 0.9 + e.intensity * 0.08, pitch: 1 });
-    } else {
-      const iv = setInterval(() => setPulse((p) => p + 0.8), 1000 / e.rate);
-      setTimeout(() => clearInterval(iv), e.demoSeconds * 1000);
-    }
-    await new Promise((r) => setTimeout(r, e.demoSeconds * 1000));
-    if (token.cancelled) return;
+  const startUserTurn = useCallback(() => {
     stopAll();
     setPhase("user_turn");
     if (!mutedRef.current) void speak("¡Tu turno!", { rate: 1.05 });
   }, []);
 
-  // Main state machine per exercise
+  // Main state machine per exercise: Carlos explains with words, then it's your turn.
   useEffect(() => {
     const token = { cancelled: false };
     stopAll();
@@ -138,26 +127,13 @@ function Session({ muted, setMuted, onExit, onFinish }: { muted: boolean; setMut
       if (!mutedRef.current) await speak(`${intro}${ex.name.replace(/[«»]/g, "")}. ${ex.explanation}`);
       else await new Promise((r) => setTimeout(r, 6000));
       if (token.cancelled) return;
-      await runDemo(ex, token);
+      startUserTurn();
     })();
     return () => { token.cancelled = true; stopAll(); };
-  }, [index, runId, ex, runDemo]);
+  }, [index, runId, ex, startUserTurn]);
 
-  const [demoToken, setDemoToken] = useState<{ cancelled: boolean } | null>(null);
-  const repeatDemo = () => {
-    demoToken && (demoToken.cancelled = true);
-    const t = { cancelled: false };
-    setDemoToken(t);
-    stopAll();
-    void runDemo(ex, t);
-  };
-  const skipExplanation = () => {
-    stopAll();
-    repeatDemo();
-  };
   const next = () => {
     stopAll();
-    demoToken && (demoToken.cancelled = true);
     if (index < EXERCISES.length - 1) setIndex(index + 1);
     else onFinish();
   };
