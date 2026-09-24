@@ -1,11 +1,11 @@
-// Carlos' voice (browser speech synthesis in Spanish).
+// Carlos' voice (browser speech synthesis in English).
 function pickVoice(): SpeechSynthesisVoice | undefined {
   const voices = window.speechSynthesis?.getVoices() ?? [];
-  const es = voices.filter((v) => v.lang.toLowerCase().startsWith("es"));
+  const en = voices.filter((v) => v.lang.toLowerCase().startsWith("en"));
   return (
-    es.find((v) => /jorge|pablo|diego|carlos|male|hombre|alvaro|enrique/i.test(v.name)) ??
-    es.find((v) => v.lang === "es-ES") ??
-    es[0]
+    en.find((v) => /david|daniel|alex|fred|male|guy|james|george|aaron/i.test(v.name)) ??
+    en.find((v) => v.lang === "en-US") ??
+    en[0]
   );
 }
 
@@ -14,7 +14,7 @@ export function speak(text: string, opts: { rate?: number; pitch?: number } = {}
     if (typeof window === "undefined" || !window.speechSynthesis) return resolve();
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = "es-ES";
+    u.lang = "en-US";
     const v = pickVoice();
     if (v) u.voice = v;
     u.rate = opts.rate ?? 1;
