@@ -6,7 +6,7 @@ export const Route = createFileRoute("/api/tts")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const key = process.env.ELEVENLABS_API_KEY;
+        const key = process.env["ELEVENLABS_API_KEY"];
         if (!key) return new Response("ElevenLabs not connected", { status: 500 });
         let text = "";
         try {
