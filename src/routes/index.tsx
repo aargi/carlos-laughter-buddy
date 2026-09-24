@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Play, RotateCcw, SkipForward, Volume2, VolumeX, X } from "lucide-react";
+import { Play, SkipForward, Volume2, VolumeX, X } from "lucide-react";
 import carlos from "@/assets/carlos.png";
-import { EXERCISES, type Exercise } from "@/lib/exercises";
-import { playLaugh, speak, stopAll } from "@/lib/carlos-audio";
+import { EXERCISES } from "@/lib/exercises";
+import { speak, stopAll } from "@/lib/carlos-audio";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/")({
 });
 
 type Screen = "home" | "session" | "closing";
-type Phase = "explaining" | "demo" | "user_turn";
+type Phase = "explaining" | "user_turn";
 
 function App() {
   const [screen, setScreen] = useState<Screen>("home");
@@ -50,7 +50,7 @@ function Home({ onStart }: { onStart: () => void }) {
           Hola, soy <span className="text-primary">Carlos</span>.<br />Vamos a reírnos.
         </h1>
         <p className="mt-6 max-w-lg text-lg text-muted-foreground">
-          Yo explico, yo lo hago primero, y luego te toca a ti. Seis ejercicios, de un «ja» tranquilo a una carcajada libre.
+          Yo te explico cada ejercicio con palabras y luego te toca a ti. Seis ejercicios, de un «ja» tranquilo a una carcajada libre.
         </p>
         <ul className="mt-8 space-y-3">
           {[
@@ -106,29 +106,18 @@ function IntensityBar({ level }: { level: number }) {
 function Session({ muted, setMuted, onExit, onFinish }: { muted: boolean; setMuted: (m: boolean) => void; onExit: () => void; onFinish: () => void }) {
   const [index, setIndex] = useState(0);
   const [phase, setPhase] = useState<Phase>("explaining");
-  const [pulse, setPulse] = useState(0);
   const [runId, setRunId] = useState(0);
   const ex = EXERCISES[index]!;
   const mutedRef = useRef(muted);
   mutedRef.current = muted;
 
-  const runDemo = useCallback(async (e: Exercise, token: { cancelled: boolean }) => {
-    setPhase("demo");
-    if (!mutedRef.current) {
-      playLaugh({ pitch: e.pitch, rate: e.rate, seconds: e.demoSeconds, crescendo: e.intensity >= 3, onPulse: (s) => setPulse((p) => p + s) });
-      void speak(e.demoText, { rate: 0.9 + e.intensity * 0.08, pitch: 1 });
-    } else {
-      const iv = setInterval(() => setPulse((p) => p + 0.8), 1000 / e.rate);
-      setTimeout(() => clearInterval(iv), e.demoSeconds * 1000);
-    }
-    await new Promise((r) => setTimeout(r, e.demoSeconds * 1000));
-    if (token.cancelled) return;
+  const startUserTurn = useCallback(() => {
     stopAll();
     setPhase("user_turn");
     if (!mutedRef.current) void speak("¡Tu turno!", { rate: 1.05 });
   }, []);
 
-  // Main state machine per exercise
+  // Main state machine per exercise: Carlos explains with words, then it's your turn.
   useEffect(() => {
     const token = { cancelled: false };
     stopAll();
@@ -138,26 +127,13 @@ function Session({ muted, setMuted, onExit, onFinish }: { muted: boolean; setMut
       if (!mutedRef.current) await speak(`${intro}${ex.name.replace(/[«»]/g, "")}. ${ex.explanation}`);
       else await new Promise((r) => setTimeout(r, 6000));
       if (token.cancelled) return;
-      await runDemo(ex, token);
+      startUserTurn();
     })();
     return () => { token.cancelled = true; stopAll(); };
-  }, [index, runId, ex, runDemo]);
+  }, [index, runId, ex, startUserTurn]);
 
-  const [demoToken, setDemoToken] = useState<{ cancelled: boolean } | null>(null);
-  const repeatDemo = () => {
-    demoToken && (demoToken.cancelled = true);
-    const t = { cancelled: false };
-    setDemoToken(t);
-    stopAll();
-    void runDemo(ex, t);
-  };
-  const skipExplanation = () => {
-    stopAll();
-    repeatDemo();
-  };
   const next = () => {
     stopAll();
-    demoToken && (demoToken.cancelled = true);
     if (index < EXERCISES.length - 1) setIndex(index + 1);
     else onFinish();
   };
@@ -196,26 +172,21 @@ function Session({ muted, setMuted, onExit, onFinish }: { muted: boolean; setMut
 
         <div className="flex flex-col items-center">
           {phase === "user_turn" ? (
-            <UserTurn key={`${index}-${runId}-${demoToken ? "r" : ""}`} seconds={ex.userSeconds} syllable={ex.syllable} />
+            <UserTurn key={`${index}-${runId}`} seconds={ex.userSeconds} syllable={ex.syllable} />
           ) : (
-            <CarlosStage phase={phase} pulse={pulse} syllable={ex.syllable} intensity={ex.intensity} />
+            <CarlosStage />
           )}
 
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             {phase === "explaining" && (
-              <button onClick={skipExplanation} className="inline-flex items-center gap-2 rounded-full border px-5 py-3 font-semibold hover:bg-muted">
-                <SkipForward className="size-4" /> Ir a la demo
+              <button onClick={startUserTurn} className="inline-flex items-center gap-2 rounded-full border px-5 py-3 font-semibold hover:bg-muted">
+                <SkipForward className="size-4" /> Ir a mi turno
               </button>
             )}
             {phase === "user_turn" && (
-              <>
-                <button onClick={repeatDemo} className="inline-flex items-center gap-2 rounded-full border px-5 py-3 font-semibold hover:bg-muted">
-                  <RotateCcw className="size-4" /> Repetir demo de Carlos
-                </button>
-                <button onClick={next} className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-bold text-primary-foreground shadow-lg shadow-primary/30 hover:bg-primary/90">
-                  {index < EXERCISES.length - 1 ? "Siguiente ejercicio" : "Ir al cierre"} <SkipForward className="size-4" />
-                </button>
-              </>
+              <button onClick={next} className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-bold text-primary-foreground shadow-lg shadow-primary/30 hover:bg-primary/90">
+                {index < EXERCISES.length - 1 ? "Siguiente ejercicio" : "Ir al cierre"} <SkipForward className="size-4" />
+              </button>
             )}
             {phase === "explaining" && index === 0 && runId === 0 && (
               <button onClick={() => setRunId(runId + 1)} className="text-sm text-muted-foreground underline">¿No oyes a Carlos? Reintentar</button>
@@ -236,39 +207,13 @@ function Row({ label, value }: { label: string; value: string }) {
   );
 }
 
-function CarlosStage({ phase, pulse, syllable, intensity }: { phase: Phase; pulse: number; syllable: string; intensity: number }) {
-  const [bump, setBump] = useState(0);
-  useEffect(() => {
-    if (phase !== "demo") return;
-    setBump(1);
-    const t = setTimeout(() => setBump(0), 120);
-    return () => clearTimeout(t);
-  }, [pulse, phase]);
-  const scale = phase === "demo" ? 1 + bump * (0.03 + intensity * 0.012) : 1;
-  const rot = phase === "demo" ? (bump ? (Math.round(pulse * 10) % 2 ? 2 : -2) : 0) : 0;
-
+function CarlosStage() {
   return (
     <div className="relative flex size-72 items-center justify-center md:size-80">
-      {phase === "demo" &&
-        [0, 1, 2].map((i) => (
-          <span key={i} className="absolute inset-0 animate-ping rounded-full bg-primary/20" style={{ animationDelay: `${i * 0.35}s`, animationDuration: `${1.6 - intensity * 0.15}s` }} />
-        ))}
-      <div className={`absolute inset-4 rounded-full transition-colors ${phase === "demo" ? "bg-secondary" : "bg-muted"}`} />
-      <img
-        src={carlos}
-        alt="Carlos"
-        width={816}
-        height={816}
-        className="relative w-full transition-transform duration-100"
-        style={{ transform: `scale(${scale}) rotate(${rot}deg)` }}
-      />
-      {phase === "demo" && bump > 0 && (
-        <span key={pulse} className="absolute -right-2 top-4 animate-in fade-in zoom-in rounded-full bg-accent px-3 py-1 font-display text-xl font-black text-accent-foreground">
-          {syllable.length <= 2 ? `${syllable.charAt(0)}${syllable.charAt(1).toLowerCase()}!` : "¡Ja!"}
-        </span>
-      )}
+      <div className="absolute inset-4 rounded-full bg-muted" />
+      <img src={carlos} alt="Carlos" width={816} height={816} className="relative w-full" />
       <div className="absolute -bottom-4 rounded-full bg-card px-4 py-1.5 text-sm font-semibold shadow">
-        {phase === "explaining" ? "Carlos explica…" : "Carlos demuestra"}
+        Carlos explica…
       </div>
     </div>
   );
