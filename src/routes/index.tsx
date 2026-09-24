@@ -207,39 +207,13 @@ function Row({ label, value }: { label: string; value: string }) {
   );
 }
 
-function CarlosStage({ phase, pulse, syllable, intensity }: { phase: Phase; pulse: number; syllable: string; intensity: number }) {
-  const [bump, setBump] = useState(0);
-  useEffect(() => {
-    if (phase !== "demo") return;
-    setBump(1);
-    const t = setTimeout(() => setBump(0), 120);
-    return () => clearTimeout(t);
-  }, [pulse, phase]);
-  const scale = phase === "demo" ? 1 + bump * (0.03 + intensity * 0.012) : 1;
-  const rot = phase === "demo" ? (bump ? (Math.round(pulse * 10) % 2 ? 2 : -2) : 0) : 0;
-
+function CarlosStage() {
   return (
     <div className="relative flex size-72 items-center justify-center md:size-80">
-      {phase === "demo" &&
-        [0, 1, 2].map((i) => (
-          <span key={i} className="absolute inset-0 animate-ping rounded-full bg-primary/20" style={{ animationDelay: `${i * 0.35}s`, animationDuration: `${1.6 - intensity * 0.15}s` }} />
-        ))}
-      <div className={`absolute inset-4 rounded-full transition-colors ${phase === "demo" ? "bg-secondary" : "bg-muted"}`} />
-      <img
-        src={carlos}
-        alt="Carlos"
-        width={816}
-        height={816}
-        className="relative w-full transition-transform duration-100"
-        style={{ transform: `scale(${scale}) rotate(${rot}deg)` }}
-      />
-      {phase === "demo" && bump > 0 && (
-        <span key={pulse} className="absolute -right-2 top-4 animate-in fade-in zoom-in rounded-full bg-accent px-3 py-1 font-display text-xl font-black text-accent-foreground">
-          {syllable.length <= 2 ? `${syllable.charAt(0)}${syllable.charAt(1).toLowerCase()}!` : "¡Ja!"}
-        </span>
-      )}
+      <div className="absolute inset-4 rounded-full bg-muted" />
+      <img src={carlos} alt="Carlos" width={816} height={816} className="relative w-full" />
       <div className="absolute -bottom-4 rounded-full bg-card px-4 py-1.5 text-sm font-semibold shadow">
-        {phase === "explaining" ? "Carlos explica…" : "Carlos demuestra"}
+        Carlos explica…
       </div>
     </div>
   );
