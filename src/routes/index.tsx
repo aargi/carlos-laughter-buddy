@@ -356,6 +356,7 @@ function UserTurn({ seconds, syllable, onDoneChange }: { seconds: number; syllab
     <div className="flex flex-col items-center">
       <p className="mb-4 font-display text-4xl font-black text-accent">{done ? "Well done!" : "Your turn!"}</p>
       <div className="relative size-64">
+        <WaveRing sources={[{ get: getMicAnalyser, color: "--primary" }]} size={256} />
         <svg viewBox="0 0 260 260" className="size-full -rotate-90">
           <circle cx="130" cy="130" r={r} fill="none" stroke="var(--muted)" strokeWidth="14" />
           <circle
