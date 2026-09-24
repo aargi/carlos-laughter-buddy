@@ -148,6 +148,33 @@ export async function laugh(character: string, volume = 1): Promise<void> {
   }
 }
 
+/** Group laugh following the exercise pattern (e.g. "ha, ha, ha") on the group channel. */
+export async function laughAlong(character: string, syllable: string, volume = 1): Promise<void> {
+  if (typeof window === "undefined") return;
+  const s = syllable.toLowerCase();
+  const text = /^[a-z]{2}$/.test(s)
+    ? `[laughing] ${Array(5).fill(s).join(", ")}! [laughing harder] ${Array(6).fill(s).join(", ")}!`
+    : getCharacter(character).laugh;
+  try {
+    const url = await fetchAudio(text, character, true);
+    await playUrl(url, (a) => {
+      a.volume = volume;
+      groupAudios.add(a);
+      a.addEventListener("ended", () => groupAudios.delete(a));
+    }, character);
+  } catch (e) {
+    console.warn("Laugh-along unavailable", e);
+  }
+}
+
+/** Preload the exercise-pattern laugh for a character. */
+export function preloadLaughAlong(character: string, syllable: string) {
+  if (typeof window === "undefined") return;
+  const s = syllable.toLowerCase();
+  if (!/^[a-z]{2}$/.test(s)) return;
+  void fetchAudio(`[laughing] ${Array(5).fill(s).join(", ")}! [laughing harder] ${Array(6).fill(s).join(", ")}!`, character, true).catch(() => {});
+}
+
 export function stopGroup() {
   groupAudios.forEach((a) => a.pause());
   groupAudios.clear();
