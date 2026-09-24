@@ -169,30 +169,38 @@ function Session({ guide, muted, setMuted, onExit, onFinish }: { guide: Characte
   const mutedRef = useRef(muted);
   mutedRef.current = muted;
   const group = CHARACTERS.filter((c) => c.id !== guide.id);
-  const [laughing, setLaughing] = useState<string | null>(null);
+  const [laughingSet, setLaughingSet] = useState<Set<string>>(new Set());
+  const [turnDone, setTurnDone] = useState(false);
+  useEffect(() => { setTurnDone(false); }, [index, runId, phase]);
 
   useEffect(() => { CHARACTERS.forEach((c) => preloadLaugh(c.id)); }, []);
 
-  // The circle laughs along during your turn (more often as intensity grows).
+  // The circle laughs in parallel with you while your timer runs: overlapping laughs, denser with intensity.
   useEffect(() => {
-    if (phase !== "user_turn") return;
+    if (phase !== "user_turn" || turnDone) return;
     let alive = true;
     let t: ReturnType<typeof setTimeout>;
     const members = CHARACTERS.filter((c) => c.id !== guide.id);
-    const gap = 9000 - ex.intensity * 1300;
-    const loop = async () => {
+    const gap = 3200 - ex.intensity * 400;
+    const fire = (id: string) => {
+      setLaughingSet((s) => new Set(s).add(id));
+      void laugh(id, 0.45 + ex.intensity * 0.08).then(() => {
+        if (alive) setLaughingSet((s) => { const n = new Set(s); n.delete(id); return n; });
+      });
+    };
+    const loop = () => {
       if (!alive) return;
       if (!mutedRef.current) {
-        const m = members[Math.floor(Math.random() * members.length)]!;
-        setLaughing(m.id);
-        await laugh(m.id, 0.55 + ex.intensity * 0.08);
-        if (alive) setLaughing(null);
+        const count = 1 + Math.floor(Math.random() * Math.min(3, 1 + Math.ceil(ex.intensity / 2)));
+        [...members].sort(() => Math.random() - 0.5).slice(0, count).forEach((m, i) => {
+          setTimeout(() => alive && fire(m.id), i * 350);
+        });
       }
       t = setTimeout(loop, gap * (0.6 + Math.random() * 0.8));
     };
-    t = setTimeout(loop, 2500);
-    return () => { alive = false; clearTimeout(t); stopGroup(); setLaughing(null); };
-  }, [phase, index, ex.intensity, guide.id]);
+    t = setTimeout(loop, 1200);
+    return () => { alive = false; clearTimeout(t); stopGroup(); setLaughingSet(new Set()); };
+  }, [phase, index, ex.intensity, guide.id, turnDone]);
 
   const startUserTurn = useCallback(() => {
     stopAll();
@@ -255,7 +263,7 @@ function Session({ guide, muted, setMuted, onExit, onFinish }: { guide: Characte
 
         <div className="flex flex-col items-center">
           {phase === "user_turn" ? (
-            <UserTurn key={`${index}-${runId}`} seconds={ex.userSeconds} syllable={ex.syllable} />
+            <UserTurn key={`${index}-${runId}`} seconds={ex.userSeconds} syllable={ex.syllable} onDoneChange={setTurnDone} />
           ) : (
             <GuideStage guide={guide} />
           )}
@@ -284,8 +292,8 @@ function Session({ guide, muted, setMuted, onExit, onFinish }: { guide: Characte
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           {group.map((c) => (
-            <div key={c.id} className={`flex flex-col items-center transition-transform ${laughing === c.id ? "scale-125" : ""}`}>
-              <Avatar c={c} size={48} active={laughing === c.id} />
+            <div key={c.id} className={`flex flex-col items-center transition-transform ${laughingSet.has(c.id) ? "scale-125" : ""}`}>
+              <Avatar c={c} size={48} active={laughingSet.has(c.id)} />
               <span className="mt-1 text-[11px] font-medium">{c.name}</span>
             </div>
           ))}
@@ -315,20 +323,28 @@ function GuideStage({ guide }: { guide: Character }) {
   );
 }
 
-function UserTurn({ seconds, syllable }: { seconds: number; syllable: string }) {
+function UserTurn({ seconds, syllable, onDoneChange }: { seconds: number; syllable: string; onDoneChange: (d: boolean) => void }) {
+  const [total, setTotal] = useState(seconds);
   const [left, setLeft] = useState(seconds);
+  const [endAt, setEndAt] = useState(() => Date.now() + seconds * 1000);
   useEffect(() => {
-    const start = Date.now();
+    onDoneChange(false);
     const iv = setInterval(() => {
-      const l = Math.max(0, seconds - (Date.now() - start) / 1000);
+      const l = Math.max(0, (endAt - Date.now()) / 1000);
       setLeft(l);
-      if (l <= 0) clearInterval(iv);
+      if (l <= 0) { clearInterval(iv); onDoneChange(true); }
     }, 100);
     return () => clearInterval(iv);
-  }, [seconds]);
+  }, [endAt, onDoneChange]);
+  const addTwoMinutes = () => {
+    const base = Math.max(Date.now(), endAt);
+    setEndAt(base + 120_000);
+    setTotal(Math.max(0, (base - Date.now()) / 1000) + 120);
+  };
+  const seconds_ = total;
   const r = 120;
   const c = 2 * Math.PI * r;
-  const frac = left / seconds;
+  const frac = seconds_ > 0 ? Math.min(1, left / seconds_) : 0;
   const hue = 45 - (1 - frac) * 35; // orange -> red-pink as time goes
   const done = left <= 0;
   return (
@@ -346,11 +362,14 @@ function UserTurn({ seconds, syllable }: { seconds: number; syllable: string }) 
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="font-display text-6xl font-black tabular-nums">{Math.ceil(left)}</span>
-          <span className="text-sm text-muted-foreground">seconds</span>
+          <span className="font-display text-6xl font-black tabular-nums">{left >= 60 ? `${Math.floor(Math.ceil(left) / 60)}:${String(Math.ceil(left) % 60).padStart(2, "0")}` : Math.ceil(left)}</span>
+          <span className="text-sm text-muted-foreground">{left >= 60 ? "minutes" : "seconds"}</span>
           <span className="mt-2 font-display text-2xl font-bold text-primary">{syllable.length <= 2 ? `${syllable} ${syllable} ${syllable}` : syllable}</span>
         </div>
       </div>
+      <button onClick={addTwoMinutes} className="mt-4 rounded-full border px-4 py-2 text-sm font-semibold hover:bg-muted">
+        + 2 minutes
+      </button>
     </div>
   );
 }
