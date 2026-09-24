@@ -50,7 +50,7 @@ function Home({ onStart }: { onStart: () => void }) {
           Hola, soy <span className="text-primary">Carlos</span>.<br />Vamos a reírnos.
         </h1>
         <p className="mt-6 max-w-lg text-lg text-muted-foreground">
-          Yo explico, yo lo hago primero, y luego te toca a ti. Seis ejercicios, de un «ja» tranquilo a una carcajada libre.
+          Yo te explico cada ejercicio con palabras y luego te toca a ti. Seis ejercicios, de un «ja» tranquilo a una carcajada libre.
         </p>
         <ul className="mt-8 space-y-3">
           {[
