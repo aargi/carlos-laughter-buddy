@@ -56,7 +56,7 @@ function Avatar({ c, size = 96, active = false, withMic = false, badge = true }:
       <WaveRing sources={sources} size={size} />
       <div
         className="relative size-full overflow-hidden rounded-full shadow-lg ring-4 ring-card"
-        style={{ background: `radial-gradient(circle at 50% 35%, ${auraColor(c, 0.96, 0.05)}, ${auraColor(c, 0.82, 0.12)})` }}
+        style={{ background: `radial-gradient(circle at 50% 35%, ${auraColor(c, 0.42, 0.1)}, ${auraColor(c, 0.3, 0.09)})` }}
       >
         <img src={AVATARS[c.id]} alt={c.name} width={816} height={816} loading="lazy" className="size-full translate-y-[6%] scale-110 object-cover" />
       </div>
@@ -64,7 +64,7 @@ function Avatar({ c, size = 96, active = false, withMic = false, badge = true }:
         <span
           aria-hidden
           className="absolute -bottom-[2%] -right-[2%] flex items-center justify-center rounded-full shadow-md ring-2 ring-card"
-          style={{ width: b, height: b, fontSize: b * 0.55, background: auraColor(c, 0.92, 0.08) }}
+          style={{ width: b, height: b, fontSize: b * 0.55, background: auraColor(c, 0.34, 0.1) }}
         >
           {c.emoji}
         </span>
@@ -88,7 +88,7 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
       <div
         aria-hidden
         className="pointer-events-none absolute -top-40 right-[-10%] size-[46rem] rounded-full opacity-40 blur-3xl transition-colors duration-700"
-        style={{ background: `radial-gradient(circle, ${auraColor(guide, 0.85, 0.16)}, transparent 65%)` }}
+        style={{ background: `radial-gradient(circle, ${auraColor(guide, 0.7, 0.18)}, transparent 65%)` }}
       />
       <div className="relative mx-auto max-w-6xl px-6 py-10 md:py-14">
         <nav className="mb-10 flex items-center justify-between">
@@ -105,7 +105,7 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
             <p className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">Guided laughter therapy</p>
             <h1 className="text-5xl font-black leading-[0.92] md:text-7xl">
               Laugh with{" "}
-              <span className="transition-colors duration-500" style={{ color: auraColor(guide, 0.58, 0.19) }}>{guide.name}</span>
+              <span className="transition-colors duration-500" style={{ color: auraColor(guide, 0.78, 0.17) }}>{guide.name}</span>
               <br />and the circle.
             </h1>
             <p className="mt-6 max-w-lg text-lg text-muted-foreground">
@@ -130,13 +130,13 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
           <div className="flex flex-col items-center text-center">
             <Avatar key={guide.id} c={guide} size={260} active={playing === guide.id} />
             <div className="mt-8 w-full max-w-sm rounded-3xl border bg-card/80 p-5 shadow-sm backdrop-blur">
-              <p className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: auraColor(guide, 0.5, 0.16) }}>{guide.archetype}</p>
+              <p className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: auraColor(guide, 0.72, 0.14) }}>{guide.archetype}</p>
               <p className="mt-2 text-muted-foreground">{guide.bio}</p>
               <div className="mt-4 grid grid-cols-2 gap-3 text-left text-sm">
                 <div className="rounded-2xl bg-muted/60 p-3">
                   <div className="text-xs text-muted-foreground">Aura</div>
                   <div className="mt-0.5 flex items-center gap-2 font-semibold">
-                    <span className="size-3 rounded-full" style={{ background: auraColor(guide, 0.7, 0.18) }} />{guide.auraName}
+                    <span className="size-3 rounded-full" style={{ background: auraColor(guide, 0.78, 0.16) }} />{guide.auraName}
                   </div>
                 </div>
                 <div className="rounded-2xl bg-muted/60 p-3">
@@ -164,17 +164,17 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
                   onClick={() => setGuideId(c.id)}
                   onKeyDown={(e) => e.key === "Enter" && setGuideId(c.id)}
                   className={`group relative flex cursor-pointer flex-col items-center overflow-hidden rounded-3xl border-2 bg-card p-5 pt-6 text-center transition duration-300 hover:-translate-y-1 hover:shadow-xl ${sel ? "shadow-xl" : "border-transparent shadow-sm"}`}
-                  style={sel ? { borderColor: auraColor(c, 0.7, 0.17) } : undefined}
+                  style={sel ? { borderColor: auraColor(c, 0.75, 0.15) } : undefined}
                 >
                   <div
                     aria-hidden
                     className="absolute inset-x-0 top-0 h-24 opacity-70"
-                    style={{ background: `linear-gradient(to bottom, ${auraColor(c, 0.9, 0.09)}, transparent)` }}
+                    style={{ background: `linear-gradient(to bottom, ${auraColor(c, 0.34, 0.08)}, transparent)` }}
                   />
                   <div className="relative"><Avatar c={c} size={84} active={playing === c.id} /></div>
                   <div className="relative mt-4 text-lg font-bold leading-tight">{c.name}</div>
                   <div className="relative text-xs text-muted-foreground">{c.origin}</div>
-                  <div className="relative mt-2 text-xs font-bold" style={{ color: auraColor(c, 0.5, 0.15) }}>{c.archetype}</div>
+                  <div className="relative mt-2 text-xs font-bold" style={{ color: auraColor(c, 0.72, 0.13) }}>{c.archetype}</div>
                   <div className="relative mt-3 flex flex-wrap justify-center gap-1">
                     {c.traits.map((t) => (
                       <span key={t} className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium">{t}</span>
