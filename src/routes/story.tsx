@@ -1,0 +1,128 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Play, Footprints, Mic, Heart, ExternalLink } from "lucide-react";
+import { CHARACTERS, auraColor } from "@/lib/characters";
+import { AVATARS } from "@/lib/avatars";
+
+export const Route = createFileRoute("/story")({
+  head: () => ({
+    meta: [
+      { title: "Our Story — Laughter Circle, born at the Running Hackathon Barcelona" },
+      { name: "description", content: "Laughter Circle was built during the first Running Hackathon in Barcelona — an app of guided laughter yoga with 10 AI voices, created while running through the city." },
+      { property: "og:title", content: "Our Story — Laughter Circle" },
+      { property: "og:description", content: "Built while running through Barcelona: the story of a laughter yoga app with 10 AI guides, born at the Running Hackathon." },
+      { property: "og:type", content: "article" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  component: Story,
+});
+
+function Story() {
+  return (
+    <main className="min-h-screen">
+      <div className="mx-auto max-w-3xl px-6 py-12 md:py-16">
+        <nav className="mb-12 flex items-center justify-between">
+          <Link to="/" className="font-display text-xl font-black tracking-tight">
+            Laughter<span className="text-primary">Circle</span>
+          </Link>
+          <Link to="/" className="rounded-full border bg-card/70 px-4 py-2 text-sm font-semibold backdrop-blur hover:bg-muted">
+            Try the session
+          </Link>
+        </nav>
+
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">Our story</p>
+        <h1 className="mt-3 font-display text-4xl font-black leading-tight md:text-6xl">
+          Built at a run. <span className="text-primary">Made to make you laugh.</span>
+        </h1>
+
+        <div className="mt-10 space-y-6 text-lg leading-relaxed text-muted-foreground">
+          <p>
+            Laughter Circle was born on <strong className="text-foreground">September 24, 2026</strong>, during the{" "}
+            <a href="https://runninghackathon.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary underline-offset-4 hover:underline">
+              first Running Hackathon in Barcelona
+            </a>{" "}
+            — probably the first hackathon in Europe where you run and build at the same time. Instead of sitting in front of a screen,
+            participants ran through the streets of Barcelona building with voice AI, starting and finishing at the Claude Community House,
+            with demos (and a rooftop party) at the finish line.
+          </p>
+          <p>
+            Somewhere along the route, between strides and voice prompts, an idea took shape:{" "}
+            <strong className="text-foreground">laughter is the most contagious sound in the world — so why not build an app that spreads it?</strong>
+          </p>
+        </div>
+
+        <div className="mt-12 grid gap-4 sm:grid-cols-3">
+          <div className="rounded-3xl border bg-card p-6">
+            <Footprints className="size-6 text-primary" />
+            <h2 className="mt-3 font-bold">Running while building</h2>
+            <p className="mt-1 text-sm text-muted-foreground">The whole first version was created in motion, talking to AI instead of typing — km after km through Barcelona.</p>
+          </div>
+          <div className="rounded-3xl border bg-card p-6">
+            <Mic className="size-6 text-primary" />
+            <h2 className="mt-3 font-bold">Ten voices, ten laughs</h2>
+            <p className="mt-1 text-sm text-muted-foreground">Each guide has a custom-designed voice, aura and signature laugh — from Carlos's warm chuckle to Big Walt's Texas guffaw.</p>
+          </div>
+          <div className="rounded-3xl border bg-card p-6">
+            <Heart className="size-6 text-primary" />
+            <h2 className="mt-3 font-bold">Laughter yoga for everyone</h2>
+            <p className="mt-1 text-sm text-muted-foreground">A structured 8-minute session: warm-up laughs, dynamic exercises, a free-laughter finale and a calm breathing cool-down.</p>
+          </div>
+        </div>
+
+        <div className="mt-12 space-y-6 text-lg leading-relaxed text-muted-foreground">
+          <p>
+            The project was built with <strong className="text-foreground">Lovable</strong> — one of the hackathon's sponsors — and the guides'
+            voices were designed with <strong className="text-foreground">ElevenLabs</strong>, another sponsor of the event. Fittingly,
+            an app about voice and joy was created almost entirely by voice, on the move.
+          </p>
+          <p>
+            What started as a hackathon experiment is now a little corner of the internet with one simple mission:{" "}
+            <strong className="text-foreground">help you laugh out loud for eight minutes, wherever you are.</strong>
+          </p>
+        </div>
+
+        {/* The circle */}
+        <div className="mt-14 rounded-3xl border bg-card p-8">
+          <h2 className="text-center font-display text-2xl font-black">Meet the circle</h2>
+          <div className="mt-6 flex flex-wrap justify-center gap-5">
+            {CHARACTERS.map((c) => (
+              <div key={c.id} className="flex w-16 flex-col items-center gap-1">
+                <div
+                  className="size-14 overflow-hidden rounded-full shadow ring-2 ring-card"
+                  style={{ background: `radial-gradient(circle at 50% 35%, ${auraColor(c, 0.96, 0.05)}, ${auraColor(c, 0.82, 0.12)})` }}
+                >
+                  {AVATARS[c.id] && <img src={AVATARS[c.id]} alt={c.name} className="size-full object-cover" />}
+                </div>
+                <span className="text-center text-[11px] font-medium leading-tight">{c.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div className="mt-12 rounded-3xl bg-primary p-10 text-center text-primary-foreground">
+          <h2 className="font-display text-3xl font-black">Ready to laugh with us?</h2>
+          <p className="mx-auto mt-3 max-w-md opacity-90">
+            Pick a guide, follow their voice and laugh out loud with the circle. Eight minutes. Zero equipment. Guaranteed smiles.
+          </p>
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-4">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-3 rounded-full bg-background px-8 py-4 text-lg font-bold text-foreground shadow-lg transition hover:scale-[1.03]"
+            >
+              <Play className="size-5 fill-current" /> Start your session
+            </Link>
+            <a
+              href="https://runninghackathon.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-primary-foreground/40 px-6 py-4 font-semibold hover:bg-primary-foreground/10"
+            >
+              Running Hackathon <ExternalLink className="size-4" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}

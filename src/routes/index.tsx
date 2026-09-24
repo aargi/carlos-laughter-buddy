@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Play, SkipForward, Volume2, VolumeX, X, Headphones, RefreshCw, UserRound, Sparkles, Handshake, Share2, Copy, Check, Facebook, Linkedin, Twitter, MessageCircle } from "lucide-react";
 import { AVATARS } from "@/lib/avatars";
@@ -95,6 +95,7 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
           <span className="font-display text-xl font-black tracking-tight">Laughter<span className="text-primary">Circle</span></span>
           <div className="flex items-center gap-3">
             <span className="hidden rounded-full border bg-card/70 px-3 py-1 text-xs font-semibold text-muted-foreground backdrop-blur sm:inline">~8 min · 6 exercises</span>
+            <Link to="/story" className="rounded-full border bg-card/70 px-4 py-2 text-sm font-semibold backdrop-blur transition hover:bg-muted">Our story</Link>
             <ShareButton />
           </div>
         </nav>
