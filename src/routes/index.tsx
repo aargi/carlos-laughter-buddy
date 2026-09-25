@@ -660,13 +660,13 @@ function AccountButton() {
   );
 }
 
-/* ---------- Waitlist helpers (persist interest locally) ---------- */
-function saveWaitlist(interest: string, email: string) {
-  try {
-    const list = JSON.parse(localStorage.getItem("riso-waitlist") || "[]");
-    list.push({ interest, email, date: new Date().toISOString() });
-    localStorage.setItem("riso-waitlist", JSON.stringify(list));
-  } catch { /* ignore */ }
+/* ---------- Waitlist helpers (saved to the backend) ---------- */
+function saveWaitlist(interest: string, email: string, teamSize?: string) {
+  fetch("/api/public/waitlist", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ interest, email, teamSize }),
+  }).catch(() => { /* network hiccup — keep the UI flow anyway */ });
 }
 
 function WaitlistCard({ interest, icon, title, text, cta }: { interest: string; icon: React.ReactNode; title: string; text: string; cta: string }) {

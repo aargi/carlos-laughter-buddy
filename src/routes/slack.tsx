@@ -231,11 +231,11 @@ function SlackWaitlistForm() {
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return;
-    try {
-      const list = JSON.parse(localStorage.getItem("riso-waitlist") || "[]");
-      list.push({ interest: "slack-workspace", email, teamSize: size, date: new Date().toISOString() });
-      localStorage.setItem("riso-waitlist", JSON.stringify(list));
-    } catch { /* ignore */ }
+    fetch("/api/public/waitlist", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ interest: "slack-workspace", email, teamSize: size }),
+    }).catch(() => { /* ignore */ });
     setDone(true);
   };
 
