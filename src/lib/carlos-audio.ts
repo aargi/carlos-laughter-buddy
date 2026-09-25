@@ -142,6 +142,12 @@ export function preloadLaugh(character: string) {
   void fetchAudio(getCharacter(character).laugh, character, true).catch(() => {});
 }
 
+/** Preload any spoken line (e.g. "Your turn!") so it plays instantly. */
+export function preloadSpeak(text: string, character: string, expressive = false) {
+  if (typeof window === "undefined") return;
+  void fetchAudio(text, character, expressive).catch(() => {});
+}
+
 /** Separate channel for group laughter (can overlap narration). */
 const groupAudios = new Set<HTMLAudioElement>();
 export async function laugh(character: string, volume = 1): Promise<void> {
