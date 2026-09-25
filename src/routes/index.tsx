@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Play, SkipForward, Volume2, VolumeX, X, Headphones, RefreshCw, UserRound, Sparkles, Handshake, Share2, Copy, Check, Facebook, Linkedin, Twitter, MessageCircle } from "lucide-react";
+import { Play, SkipForward, Volume2, VolumeX, X, Headphones, RefreshCw, UserRound, Sparkles, Handshake, Share2, Copy, Check, Facebook, Linkedin, Twitter, MessageCircle, Lock, LogOut, Wand2, Mic } from "lucide-react";
+import { useAuth, signOut } from "@/hooks/use-auth";
 import { AVATARS } from "@/lib/avatars";
 import { EXERCISES } from "@/lib/exercises";
 import { exerciseText } from "@/lib/audio-phrases";
@@ -99,6 +100,7 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
             <span className="hidden rounded-full border bg-card/70 px-3 py-1 text-xs font-semibold text-muted-foreground backdrop-blur sm:inline">~8 min · 6 exercises</span>
             <Link to="/story" className="rounded-full border bg-card/70 px-4 py-2 text-sm font-semibold backdrop-blur transition hover:bg-muted">Our story</Link>
             <ShareButton />
+            <AccountButton />
           </div>
         </nav>
 
@@ -191,6 +193,26 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
                 </div>
               );
             })}
+          </div>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            <ProGate>
+              <WaitlistCard
+                interest="custom-character"
+                icon={<Wand2 className="size-5" />}
+                title="Create your own character"
+                text="Design a brand-new guide: pick their personality, aura, voice and signature laugh."
+                cta="Get early access →"
+              />
+            </ProGate>
+            <ProGate>
+              <WaitlistCard
+                interest="clone-yourself"
+                icon={<Mic className="size-5" />}
+                title="Clone yourself"
+                text="Record a few seconds of your voice and laugh, and become a guide in your own circle."
+                cta="Get early access →"
+              />
+            </ProGate>
           </div>
         </section>
 
@@ -553,15 +575,16 @@ function Closing({ guide, muted, onHome }: { guide: Character; muted: boolean; o
             <span className="mt-1 text-sm text-muted-foreground">Start a new session with a different AI guide — 9 more voices and laughs are waiting.</span>
             <span className="mt-4 text-sm font-semibold text-primary group-hover:underline">Choose another guide →</span>
           </button>
-          <WaitlistCard
-            interest="pro-session"
-            icon={<UserRound className="size-5" />}
-            title="Laugh with a pro"
-            text="Complete a one-to-one session with a certified laughter yoga professional."
-            cta="Join the waitlist →"
-          />
-          <div className="relative">
-            <span className="absolute -top-2 right-4 z-10 rounded-full bg-primary px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-primary-foreground">Pro</span>
+          <ProGate>
+            <WaitlistCard
+              interest="pro-session"
+              icon={<UserRound className="size-5" />}
+              title="Laugh with a pro"
+              text="Complete a one-to-one session with a certified laughter yoga professional."
+              cta="Join the waitlist →"
+            />
+          </ProGate>
+          <ProGate>
             <WaitlistCard
               interest="custom-avatar"
               icon={<Sparkles className="size-5" />}
@@ -569,12 +592,52 @@ function Closing({ guide, muted, onHome }: { guide: Character; muted: boolean; o
               text="Design a custom guide with its own aura, voice and signature laugh — a Pro feature."
               cta="Get early access →"
             />
-          </div>
+          </ProGate>
         </div>
         <div className="mt-6 text-center">
           <WaitlistLink interest="pro-signup" text="Are you a laughter yoga professional? Sign up to offer one-to-one and group sessions." />
         </div>
       </div>
+    </div>
+  );
+}
+
+/* ---------- Pro / account ---------- */
+function ProGate({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuth();
+  return (
+    <div className="relative h-full">
+      <span className="absolute -top-2 right-4 z-10 inline-flex items-center gap-1 rounded-full bg-accent px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-accent-foreground">
+        {!user && <Lock className="size-3" />} Pro
+      </span>
+      {user || loading ? children : (
+        <div className="relative h-full">
+          <div className="pointer-events-none h-full opacity-50 blur-[1px]">{children}</div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Link to="/auth" search={{ redirect: "/" }} className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground shadow-lg transition hover:bg-primary/90">
+              <Lock className="size-4" /> Sign in to unlock
+            </Link>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function AccountButton() {
+  const { user, profile } = useAuth();
+  if (!user) {
+    return <Link to="/auth" className="rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground transition hover:bg-primary/90">Sign in</Link>;
+  }
+  const name = profile?.display_name || user.email?.split("@")[0] || "You";
+  const pic = profile?.avatar_url || (user.user_metadata?.avatar_url as string | undefined);
+  return (
+    <div className="flex items-center gap-2 rounded-full border bg-card/70 py-1 pl-1 pr-3 backdrop-blur">
+      {pic ? <img src={pic} alt="" className="size-7 rounded-full object-cover" referrerPolicy="no-referrer" /> : (
+        <span className="flex size-7 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">{name[0]?.toUpperCase()}</span>
+      )}
+      <span className="hidden text-sm font-semibold sm:inline">{name}</span>
+      <button onClick={() => void signOut()} title="Sign out" className="text-muted-foreground hover:text-primary"><LogOut className="size-4" /></button>
     </div>
   );
 }
