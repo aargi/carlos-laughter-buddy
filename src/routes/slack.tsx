@@ -49,7 +49,8 @@ function SlackPage() {
     <main className="min-h-screen overflow-x-hidden">
       <div className="mx-auto max-w-5xl px-5 py-8 md:px-6 md:py-12">
         <nav className="mb-10 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 sm:mb-12 sm:gap-3">
-          <Link to="/" className="shrink-0 font-display text-base font-black tracking-tight md:text-xl">
+          <Link to="/" className="flex shrink-0 items-center gap-2 font-display text-base font-black tracking-tight md:text-xl">
+            <LogoMark size={28} />
             Laughter<span className="text-primary">Circle</span>
           </Link>
           <div className="flex min-w-0 items-center gap-1.5 text-xs font-semibold sm:gap-2 sm:text-sm">
