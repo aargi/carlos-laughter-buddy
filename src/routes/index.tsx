@@ -738,7 +738,7 @@ function WaitlistLink({ interest, text }: { interest: string; text: string }) {
   );
 }
 
-function WaitlistForm({ interest, onDone }: { interest: string; onDone: () => void }) {
+function WaitlistForm({ interest, onDone, stacked = false }: { interest: string; onDone: () => void; stacked?: boolean }) {
   const [email, setEmail] = useState("");
   const submit = () => {
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return;
@@ -747,7 +747,7 @@ function WaitlistForm({ interest, onDone }: { interest: string; onDone: () => vo
   };
   return (
     <form
-      className="mt-4 flex w-full gap-2"
+      className={`mt-4 flex w-full gap-2 ${stacked ? "flex-col" : ""}`}
       onSubmit={(e) => { e.preventDefault(); submit(); }}
     >
       <input
@@ -758,7 +758,7 @@ function WaitlistForm({ interest, onDone }: { interest: string; onDone: () => vo
         placeholder="your@email.com"
         className="min-w-0 flex-1 rounded-full border bg-background px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/50"
       />
-      <button type="submit" className="rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground hover:bg-primary/90">
+      <button type="submit" className="shrink-0 rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground hover:bg-primary/90">
         Notify me
       </button>
     </form>
