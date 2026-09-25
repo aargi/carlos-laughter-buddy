@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Play, SkipForward, Volume2, VolumeX, X, Headphones, RefreshCw, UserRound, Sparkles, Handshake, Share2, Copy, Check, Facebook, Linkedin, Twitter, MessageCircle } from "lucide-react";
 import { AVATARS } from "@/lib/avatars";
 import { EXERCISES } from "@/lib/exercises";
+import { exerciseText } from "@/lib/audio-phrases";
 import { getAnalyser, getMicAnalyser, laughAlong, preloadLaughAlong, speak, startMic, stopAll, stopGroup, stopMic } from "@/lib/carlos-audio";
 import { WaveRing } from "@/components/WaveRing";
 import { CHARACTERS, auraColor, getCharacter, type Character } from "@/lib/characters";
@@ -283,8 +284,7 @@ function Session({ guide, muted, setMuted, onExit, onFinish }: { guide: Characte
     stopAll();
     setPhase("explaining");
     (async () => {
-      const intro = index === 0 ? "Let's begin. " : "";
-      if (!mutedRef.current) await speak(`${intro}${ex.name.replace(/[“”«»]/g, "")}. ${ex.explanation}`, { character: guide.id });
+      if (!mutedRef.current) await speak(exerciseText(index), { character: guide.id });
       else await new Promise((r) => setTimeout(r, 6000));
       if (token.cancelled) return;
       startUserTurn();
