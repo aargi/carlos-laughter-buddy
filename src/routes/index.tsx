@@ -121,38 +121,38 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
         className="pointer-events-none absolute -top-40 right-[-10%] size-[46rem] rounded-full opacity-40 blur-3xl transition-colors duration-700"
         style={{ background: `radial-gradient(circle, ${auraColor(guide, 0.7, 0.18)}, transparent 65%)` }}
       />
-      <div className="relative mx-auto max-w-6xl px-6 py-10 md:py-14">
-        <nav className="mb-10 flex items-center justify-between">
-          <span className="font-display text-xl font-black tracking-tight">Laughter<span className="text-primary">Circle</span></span>
-          <div className="flex items-center gap-3">
+      <div className="relative mx-auto max-w-6xl px-4 py-6 sm:px-6 md:py-14">
+        <nav className="mb-8 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:mb-10 sm:flex sm:justify-between">
+          <span className="min-w-0 font-display text-base font-black tracking-tight sm:text-xl">Laughter<span className="text-primary">Circle</span></span>
+          <div className="flex items-center justify-end gap-2 sm:gap-3">
             <span className="hidden rounded-full border bg-card/70 px-3 py-1 text-xs font-semibold text-muted-foreground backdrop-blur sm:inline">~8 min · 6 exercises</span>
-            <Link to="/story" className="rounded-full border bg-card/70 px-4 py-2 text-sm font-semibold backdrop-blur transition hover:bg-muted">Our story</Link>
+            <Link to="/story" className="rounded-full border bg-card/70 px-3 py-2 text-xs font-semibold backdrop-blur transition hover:bg-muted sm:px-4 sm:text-sm">Our story</Link>
             <ShareButton />
             <AccountButton />
           </div>
         </nav>
 
-        <section className="grid items-center gap-12 md:grid-cols-[1.15fr_1fr]">
-          <div>
-            <p className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">AI laughter therapy</p>
-            <h1 className="text-5xl font-black leading-[0.92] md:text-7xl">
+        <section className="grid items-center gap-10 md:grid-cols-[1.15fr_1fr] md:gap-12">
+          <div className="min-w-0">
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground sm:mb-5 sm:text-sm">AI laughter therapy</p>
+            <h1 className="text-4xl font-black leading-[0.95] sm:text-5xl md:text-7xl">
               Laugh with{" "}
               <span className="transition-colors duration-500" style={{ color: auraColor(guide, 0.78, 0.17) }}>{guide.name}</span>
               <br />and the circle.
             </h1>
-            <p className="mt-6 max-w-lg text-lg text-muted-foreground">
+            <p className="mt-5 max-w-lg text-base text-muted-foreground sm:mt-6 sm:text-lg">
               Join a guided laughter therapy session. Laugh along with your guide and the circle, each with their own unmistakable laugh.
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
+            <div className="mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
               <button
                 onClick={() => { stopAll(); onStart(); }}
-                className="inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-lg font-bold text-primary-foreground shadow-xl shadow-primary/30 transition hover:scale-[1.03] hover:bg-primary/90"
+                className="inline-flex items-center justify-center gap-3 rounded-full bg-primary px-8 py-4 text-lg font-bold text-primary-foreground shadow-xl shadow-primary/30 transition hover:scale-[1.03] hover:bg-primary/90"
               >
                 <Play className="size-5 fill-current" /> Start with {guide.name}
               </button>
               <button
                 onClick={() => void preview(guide)}
-                className="inline-flex items-center gap-2 rounded-full border bg-card/80 px-5 py-4 font-semibold backdrop-blur hover:bg-muted"
+                className="inline-flex items-center justify-center gap-2 rounded-full border bg-card/80 px-5 py-4 font-semibold backdrop-blur hover:bg-muted"
               >
                 <Headphones className="size-4" /> {playing === guide.id ? "Playing…" : "Hear me"}
               </button>
@@ -818,9 +818,9 @@ function ShareButton({ className = "" }: { className?: string }) {
       <button
         onClick={() => setOpen((o) => !o)}
         aria-label="Share Laughter Circle"
-        className="inline-flex items-center gap-2 rounded-full border bg-card/70 px-4 py-2 text-sm font-semibold backdrop-blur transition hover:bg-muted"
+        className="inline-flex items-center gap-2 rounded-full border bg-card/70 px-3 py-2 text-sm font-semibold backdrop-blur transition hover:bg-muted sm:px-4"
       >
-        <Share2 className="size-4" /> Share
+        <Share2 className="size-4" /> <span className="hidden sm:inline">Share</span>
       </button>
       {open && (
         <div className="absolute right-0 z-30 mt-2 w-60 rounded-2xl border bg-card p-3 shadow-xl">
