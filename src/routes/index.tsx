@@ -14,7 +14,7 @@ const PRO_GUIDES: { c: Character; interest: string }[] = [
   {
     interest: "custom-character",
     c: {
-      id: "custom", name: "The Unnamed", origin: "Not born yet", emoji: "✨",
+      id: "custom", name: "Create your own", origin: "Not born yet", emoji: "✨",
       archetype: "The Unborn Guide",
       traits: ["Your design", "Any aura", "Any voice"],
       bio: "A guide waiting to be born — you choose everything.",
@@ -26,7 +26,7 @@ const PRO_GUIDES: { c: Character; interest: string }[] = [
   {
     interest: "clone-yourself",
     c: {
-      id: "mirror", name: "The Mirror", origin: "Inside you", emoji: "🪞",
+      id: "mirror", name: "Clone yourself", origin: "Inside you", emoji: "🪞",
       archetype: "The Future You",
       traits: ["Your voice", "Your laugh", "100% you"],
       bio: "A few seconds of your voice, and you join the circle.",
@@ -222,9 +222,7 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
               );
             })}
           {PRO_GUIDES.map(({ c, interest }) => (
-            <ProGate key={c.id}>
-              <ProGuideCard c={c} interest={interest} />
-            </ProGate>
+            <ProGuideCard key={c.id} c={c} interest={interest} />
           ))}
         </div>
         </section>
