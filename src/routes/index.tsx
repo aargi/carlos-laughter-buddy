@@ -831,7 +831,7 @@ function ShareButton({ className = "" }: { className?: string }) {
       <button
         onClick={() => setOpen((o) => !o)}
         aria-label="Share Laughter Circle"
-        className="inline-flex items-center gap-2 rounded-full border bg-card/70 px-3 py-2 text-sm font-semibold backdrop-blur transition hover:bg-muted sm:px-4"
+        className="inline-flex items-center gap-2 rounded-full border bg-card/70 px-2.5 py-1.5 text-sm font-semibold backdrop-blur transition hover:bg-muted sm:px-4 sm:py-2"
       >
         <Share2 className="size-4" /> <span className="hidden sm:inline">Share</span>
       </button>
