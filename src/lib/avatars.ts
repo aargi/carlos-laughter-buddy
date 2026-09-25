@@ -8,5 +8,7 @@ import priya from "@/assets/avatars/priya.png";
 import walt from "@/assets/avatars/walt.png";
 import zoe from "@/assets/avatars/zoe.png";
 import malik from "@/assets/avatars/malik.png";
+import custom from "@/assets/avatars/custom.png";
+import mirror from "@/assets/avatars/mirror.png";
 
-export const AVATARS: Record<string, string> = { carlos, amara, kenji, rosa, tiago, ingrid, priya, walt, zoe, malik };
+export const AVATARS: Record<string, string> = { carlos, amara, kenji, rosa, tiago, ingrid, priya, walt, zoe, malik, custom, mirror };
