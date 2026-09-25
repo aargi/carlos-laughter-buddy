@@ -221,27 +221,12 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
                 </div>
               );
             })}
-          </div>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            <ProGate>
-              <WaitlistCard
-                interest="custom-character"
-                icon={<Wand2 className="size-5" />}
-                title="Create your own character"
-                text="Design a brand-new guide: pick their personality, aura, voice and signature laugh."
-                cta="Get early access →"
-              />
+          {PRO_GUIDES.map(({ c, interest }) => (
+            <ProGate key={c.id}>
+              <ProGuideCard c={c} interest={interest} />
             </ProGate>
-            <ProGate>
-              <WaitlistCard
-                interest="clone-yourself"
-                icon={<Mic className="size-5" />}
-                title="Clone yourself"
-                text="Record a few seconds of your voice and laugh, and become a guide in your own circle."
-                cta="Get early access →"
-              />
-            </ProGate>
-          </div>
+          ))}
+        </div>
         </section>
 
         <section className="mt-20">
