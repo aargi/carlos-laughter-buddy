@@ -81,6 +81,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "Sesión guiada de risoterapia con Carlos, tu facilitador virtual." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "theme-color", content: "#2A0A2E" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -93,10 +94,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", href: "/favicon.png", type: "image/png" },
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
       { rel: "manifest", href: "/manifest.webmanifest" },
-    ],
-    meta: [
-      { name: "theme-color", content: "#2A0A2E" },
-    ],
     ],
   }),
   shellComponent: RootShell,
