@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Play, SkipForward, Volume2, VolumeX, X, Headphones, RefreshCw, UserRound, Sparkles, Handshake, Share2, Copy, Check, Facebook, Linkedin, Twitter, MessageCircle, Lock, LogOut, Wand2, Mic } from "lucide-react";
+import { Play, SkipForward, Volume2, VolumeX, X, Headphones, RefreshCw, UserRound, Sparkles, Handshake, Share2, Copy, Check, Facebook, Linkedin, Twitter, MessageCircle, Lock, LogOut } from "lucide-react";
 import { useAuth, signOut } from "@/hooks/use-auth";
 import { AVATARS } from "@/lib/avatars";
 import { EXERCISES } from "@/lib/exercises";
@@ -8,6 +8,34 @@ import { exerciseText } from "@/lib/audio-phrases";
 import { getAnalyser, getMicAnalyser, laughAlong, preloadLaugh, preloadLaughAlong, preloadSpeak, speak, startMic, stopAll, stopGroup, stopMic } from "@/lib/carlos-audio";
 import { WaveRing } from "@/components/WaveRing";
 import { CHARACTERS, auraColor, getCharacter, type Character } from "@/lib/characters";
+
+/* Pro guides — rendered exactly like the character cards, but Pro-only. */
+const PRO_GUIDES: { c: Character; interest: string }[] = [
+  {
+    interest: "custom-character",
+    c: {
+      id: "custom", name: "The Unnamed", origin: "Not born yet", emoji: "✨",
+      archetype: "The Unborn Guide",
+      traits: ["Your design", "Any aura", "Any voice"],
+      bio: "A guide waiting to be born — you choose everything.",
+      auraName: "Idea indigo", aura: "265", voiceId: "PRO-PENDING",
+      laughStyle: "Yours to invent",
+      laugh: "", greeting: "",
+    },
+  },
+  {
+    interest: "clone-yourself",
+    c: {
+      id: "mirror", name: "The Mirror", origin: "Inside you", emoji: "🪞",
+      archetype: "The Future You",
+      traits: ["Your voice", "Your laugh", "100% you"],
+      bio: "A few seconds of your voice, and you join the circle.",
+      auraName: "Mirror silver", aura: "200", voiceId: "PRO-PENDING",
+      laughStyle: "Exactly yours",
+      laugh: "", greeting: "",
+    },
+  },
+];
 
 export const Route = createFileRoute("/")({
   head: () => ({
