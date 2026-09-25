@@ -160,7 +160,13 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
           </div>
 
           <div className="flex flex-col items-center text-center">
-            <Avatar key={guide.id} c={guide} size={260} active={playing === guide.id} />
+            <button
+              onClick={() => { stopAll(); onStart(); }}
+              aria-label={`Start session with ${guide.name}`}
+              className="cursor-pointer rounded-full transition duration-300 hover:scale-[1.04] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+            >
+              <Avatar key={guide.id} c={guide} size={260} active={playing === guide.id} />
+            </button>
             <div className="mt-8 w-full max-w-sm rounded-3xl border bg-card/80 p-5 shadow-sm backdrop-blur">
               <p className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: auraColor(guide, 0.72, 0.14) }}>{guide.archetype}</p>
               <p className="mt-2 text-muted-foreground">{guide.bio}</p>
