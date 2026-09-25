@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Play, Footprints, Mic, Heart, ExternalLink } from "lucide-react";
+import { LogoMark } from "@/components/LogoMark";
+import { SiteFooter } from "@/components/SiteFooter";
 import { CHARACTERS, auraColor } from "@/lib/characters";
 import { AVATARS } from "@/lib/avatars";
 import storyHero from "@/assets/story-hero.mp4.asset.json";

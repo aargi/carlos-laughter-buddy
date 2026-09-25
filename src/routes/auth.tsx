@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { z } from "zod";
+import { LogoMark } from "@/components/LogoMark";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 
@@ -81,7 +82,7 @@ function AuthPage() {
   return (
     <div className="flex min-h-screen items-center justify-center px-6 py-12">
       <div className="w-full max-w-md rounded-3xl border bg-card p-8 shadow-xl">
-        <Link to="/" className="font-display text-xl font-black tracking-tight">Laughter<span className="text-primary">Circle</span></Link>
+        <Link to="/" className="inline-flex items-center gap-2 font-display text-xl font-black tracking-tight"><LogoMark size={30} />Laughter<span className="text-primary">Circle</span></Link>
         <h1 className="mt-6 text-3xl font-black">
           {mode === "signin" ? "Welcome back" : mode === "signup" ? "Create your account" : "Reset password"}
         </h1>

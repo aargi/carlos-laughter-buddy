@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Slack, Check, Hash, Sparkles, Users, Coffee, RefreshCw } from "lucide-react";
+import { LogoMark } from "@/components/LogoMark";
+import { SiteFooter } from "@/components/SiteFooter";
 import designer from "@/assets/office/designer.png";
 import developer from "@/assets/office/developer.png";
 import pm from "@/assets/office/pm.png";
