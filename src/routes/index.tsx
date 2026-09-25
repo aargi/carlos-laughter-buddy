@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Play, SkipForward, Volume2, VolumeX, X, Headphones, RefreshCw, UserRound, Sparkles, Handshake, Share2, Copy, Check, Facebook, Linkedin, Twitter, MessageCircle, Lock, LogOut, Wand2, Mic } from "lucide-react";
+import { Play, SkipForward, Volume2, VolumeX, X, Headphones, RefreshCw, UserRound, Sparkles, Handshake, Share2, Copy, Check, Facebook, Linkedin, Twitter, MessageCircle, Lock, LogOut } from "lucide-react";
 import { useAuth, signOut } from "@/hooks/use-auth";
 import { AVATARS } from "@/lib/avatars";
 import { EXERCISES } from "@/lib/exercises";
@@ -8,6 +8,34 @@ import { exerciseText } from "@/lib/audio-phrases";
 import { getAnalyser, getMicAnalyser, laughAlong, preloadLaugh, preloadLaughAlong, preloadSpeak, speak, startMic, stopAll, stopGroup, stopMic } from "@/lib/carlos-audio";
 import { WaveRing } from "@/components/WaveRing";
 import { CHARACTERS, auraColor, getCharacter, type Character } from "@/lib/characters";
+
+/* Pro guides — rendered exactly like the character cards, but Pro-only. */
+const PRO_GUIDES: { c: Character; interest: string }[] = [
+  {
+    interest: "custom-character",
+    c: {
+      id: "custom", name: "The Unnamed", origin: "Not born yet", emoji: "✨",
+      archetype: "The Unborn Guide",
+      traits: ["Your design", "Any aura", "Any voice"],
+      bio: "A guide waiting to be born — you choose everything.",
+      auraName: "Idea indigo", aura: "265", voiceId: "PRO-PENDING",
+      laughStyle: "Yours to invent",
+      laugh: "", greeting: "",
+    },
+  },
+  {
+    interest: "clone-yourself",
+    c: {
+      id: "mirror", name: "The Mirror", origin: "Inside you", emoji: "🪞",
+      archetype: "The Future You",
+      traits: ["Your voice", "Your laugh", "100% you"],
+      bio: "A few seconds of your voice, and you join the circle.",
+      auraName: "Mirror silver", aura: "200", voiceId: "PRO-PENDING",
+      laughStyle: "Exactly yours",
+      laugh: "", greeting: "",
+    },
+  },
+];
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -193,27 +221,12 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
                 </div>
               );
             })}
-          </div>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            <ProGate>
-              <WaitlistCard
-                interest="custom-character"
-                icon={<Wand2 className="size-5" />}
-                title="Create your own character"
-                text="Design a brand-new guide: pick their personality, aura, voice and signature laugh."
-                cta="Get early access →"
-              />
+          {PRO_GUIDES.map(({ c, interest }) => (
+            <ProGate key={c.id}>
+              <ProGuideCard c={c} interest={interest} />
             </ProGate>
-            <ProGate>
-              <WaitlistCard
-                interest="clone-yourself"
-                icon={<Mic className="size-5" />}
-                title="Clone yourself"
-                text="Record a few seconds of your voice and laugh, and become a guide in your own circle."
-                cta="Get early access →"
-              />
-            </ProGate>
-          </div>
+          ))}
+        </div>
         </section>
 
         <section className="mt-20">
@@ -670,6 +683,49 @@ function WaitlistCard({ interest, icon, title, text, cta }: { interest: string; 
   );
 }
 
+/* Pro guide cards — same structure as the character cards, with a waitlist CTA instead of audio preview. */
+
+/* Pro guide cards — same structure as the character cards, with a waitlist CTA instead of audio preview. */
+function ProGuideCard({ c, interest }: { c: Character; interest: string }) {
+  const [open, setOpen] = useState(false);
+  const [done, setDone] = useState(false);
+  return (
+    <div
+      onClick={() => { if (!open && !done) setOpen(true); }}
+      className="relative flex h-full cursor-pointer flex-col items-center overflow-hidden rounded-3xl border-2 border-transparent bg-card p-5 pt-6 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+    >
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-24 opacity-70"
+        style={{ background: `linear-gradient(to bottom, ${auraColor(c, 0.34, 0.08)}, transparent)` }}
+      />
+      <div className="relative"><Avatar c={c} size={84} /></div>
+      <div className="relative mt-4 text-lg font-bold leading-tight">{c.name}</div>
+      <div className="relative text-xs text-muted-foreground">{c.origin}</div>
+      <div className="relative mt-2 text-xs font-bold" style={{ color: auraColor(c, 0.72, 0.13) }}>{c.archetype}</div>
+      <div className="relative mt-3 flex flex-wrap justify-center gap-1">
+        {c.traits.map((t) => (
+          <span key={t} className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium">{t}</span>
+        ))}
+      </div>
+      <div className="relative mt-auto w-full pt-4">
+        {done ? (
+          <span className="text-xs font-semibold text-primary">You're on the list! 🎉</span>
+        ) : open ? (
+          <WaitlistForm interest={interest} onDone={() => setDone(true)} stacked />
+        ) : (
+          <button
+            onClick={(e) => { e.stopPropagation(); setOpen(true); }}
+            className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition hover:bg-muted"
+          >
+            <Sparkles className="size-3.5" /> Get early access
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function WaitlistLink({ interest, text }: { interest: string; text: string }) {
   const [open, setOpen] = useState(false);
   const [done, setDone] = useState(false);
@@ -682,7 +738,7 @@ function WaitlistLink({ interest, text }: { interest: string; text: string }) {
   );
 }
 
-function WaitlistForm({ interest, onDone }: { interest: string; onDone: () => void }) {
+function WaitlistForm({ interest, onDone, stacked = false }: { interest: string; onDone: () => void; stacked?: boolean }) {
   const [email, setEmail] = useState("");
   const submit = () => {
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return;
@@ -691,7 +747,7 @@ function WaitlistForm({ interest, onDone }: { interest: string; onDone: () => vo
   };
   return (
     <form
-      className="mt-4 flex w-full gap-2"
+      className={`mt-4 flex w-full gap-2 ${stacked ? "flex-col" : ""}`}
       onSubmit={(e) => { e.preventDefault(); submit(); }}
     >
       <input
@@ -702,7 +758,7 @@ function WaitlistForm({ interest, onDone }: { interest: string; onDone: () => vo
         placeholder="your@email.com"
         className="min-w-0 flex-1 rounded-full border bg-background px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/50"
       />
-      <button type="submit" className="rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground hover:bg-primary/90">
+      <button type="submit" className="shrink-0 rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground hover:bg-primary/90">
         Notify me
       </button>
     </form>
