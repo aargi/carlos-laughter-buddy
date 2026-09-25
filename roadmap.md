@@ -8,3 +8,4 @@
 - [x] Group laugh ON by default: two "buddy" avatars laugh the exercise's own pattern (ha/he/hi…) alongside the user on "Your turn", with ON/OFF toggle in the circle.
 - [x] New brand kit "Fiesta Tropical" (dark plum + fuchsia + coral + yellow) applied app-wide, aura glows re-lit for dark background.
 - [x] Vídeo subido por el usuario en la parte superior de /story (CDN asset, vertical, poster, autoplay+controles)
+- Logo Laughter Circle: rejected generic flat icons; must match the site's illustrated/gouache avatar style with aura circles. IN PROGRESS
