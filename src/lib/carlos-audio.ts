@@ -2,8 +2,6 @@
 import { getCharacter } from "./characters";
 import { laughAlongText, phraseFile } from "./audio-phrases";
 import manifest from "./audio-manifest.json";
-import { laughAlongText, phraseFile } from "./audio-phrases";
-import manifest from "./audio-manifest.json";
 
 const pregenerated = new Set<string>(manifest as string[]);
 let current: HTMLAudioElement | null = null;
