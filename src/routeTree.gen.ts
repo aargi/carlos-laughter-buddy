@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SlackRouteImport } from './routes/slack'
 import { Route as StoryRouteImport } from './routes/story'
 import { Route as ApiTtsRouteImport } from './routes/api/tts'
 
@@ -30,6 +31,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SlackRoute = SlackRouteImport.update({
+  id: '/slack',
+  path: '/slack',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StoryRoute = StoryRouteImport.update({
   id: '/story',
   path: '/story',
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/slack': typeof SlackRoute
   '/story': typeof StoryRoute
   '/api/tts': typeof ApiTtsRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/slack': typeof SlackRoute
   '/story': typeof StoryRoute
   '/api/tts': typeof ApiTtsRoute
 }
@@ -60,21 +68,31 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/slack': typeof SlackRoute
   '/story': typeof StoryRoute
   '/api/tts': typeof ApiTtsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/reset-password' | '/story' | '/api/tts'
+  fullPaths:
+    '/' | '/auth' | '/reset-password' | '/slack' | '/story' | '/api/tts'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/reset-password' | '/story' | '/api/tts'
-  id: '__root__' | '/' | '/auth' | '/reset-password' | '/story' | '/api/tts'
+  to: '/' | '/auth' | '/reset-password' | '/slack' | '/story' | '/api/tts'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/reset-password'
+    | '/slack'
+    | '/story'
+    | '/api/tts'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  SlackRoute: typeof SlackRoute
   StoryRoute: typeof StoryRoute
   ApiTtsRoute: typeof ApiTtsRoute
 }
@@ -102,6 +120,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/slack': {
+      id: '/slack'
+      path: '/slack'
+      fullPath: '/slack'
+      preLoaderRoute: typeof SlackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/story': {
       id: '/story'
       path: '/story'
@@ -123,6 +148,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  SlackRoute: SlackRoute,
   StoryRoute: StoryRoute,
   ApiTtsRoute: ApiTtsRoute,
 }
