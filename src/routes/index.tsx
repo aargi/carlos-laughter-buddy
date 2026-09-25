@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Play, SkipForward, Volume2, VolumeX, X, Headphones, RefreshCw, UserRound, Sparkles, Handshake, Share2, Copy, Check, Facebook, Linkedin, Twitter, MessageCircle, Lock, LogOut, Slack } from "lucide-react";
 import { useAuth, signOut } from "@/hooks/use-auth";
+import { LogoMark } from "@/components/LogoMark";
+import { SiteFooter } from "@/components/SiteFooter";
 import { AVATARS } from "@/lib/avatars";
 import { EXERCISES } from "@/lib/exercises";
 import { exerciseText } from "@/lib/audio-phrases";
@@ -616,6 +618,8 @@ function Closing({ guide, muted, onHome }: { guide: Character; muted: boolean; o
           <WaitlistLink interest="pro-signup" text="Are you a laughter yoga professional? Sign up to offer one-to-one and group sessions." />
         </div>
       </div>
+
+      <SiteFooter />
     </div>
   );
 }

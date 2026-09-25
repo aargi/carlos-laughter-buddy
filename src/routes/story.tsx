@@ -145,6 +145,8 @@ function Story() {
             </a>
           </div>
         </div>
+
+        <SiteFooter />
       </div>
     </main>
   );

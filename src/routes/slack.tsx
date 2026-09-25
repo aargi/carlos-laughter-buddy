@@ -153,6 +153,8 @@ function SlackPage() {
           <div className="mx-auto mt-7 max-w-md"><SlackWaitlistForm /></div>
           <p className="mt-4 text-sm opacity-90">Be one of the first teams to try Laughter Circle for Slack.</p>
         </section>
+
+        <SiteFooter />
       </div>
     </main>
   );
