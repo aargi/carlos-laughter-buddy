@@ -48,14 +48,14 @@ function SlackPage() {
   return (
     <main className="min-h-screen overflow-x-hidden">
       <div className="mx-auto max-w-5xl px-5 py-8 md:px-6 md:py-12">
-        <nav className="mb-12 flex items-center justify-between gap-3">
-          <Link to="/" className="font-display text-lg font-black tracking-tight md:text-xl">
+        <nav className="mb-10 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 sm:mb-12 sm:gap-3">
+          <Link to="/" className="shrink-0 font-display text-base font-black tracking-tight md:text-xl">
             Laughter<span className="text-primary">Circle</span>
           </Link>
-          <div className="flex items-center gap-2 text-sm font-semibold">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/15 px-3 py-2 text-primary"><Slack className="size-4" /> For Slack</span>
-            <Link to="/story" className="rounded-full px-3 py-2 hover:bg-muted">Our story</Link>
-            <Link to="/auth" className="hidden rounded-full border bg-card/70 px-4 py-2 hover:bg-muted sm:inline-block">Sign in</Link>
+          <div className="flex min-w-0 items-center gap-1.5 text-xs font-semibold sm:gap-2 sm:text-sm">
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary/15 px-2.5 py-1.5 text-primary sm:px-3 sm:py-2"><Slack className="size-3.5 sm:size-4" /> For Slack</span>
+            <Link to="/story" className="shrink-0 rounded-full px-2.5 py-1.5 hover:bg-muted sm:px-3 sm:py-2">Our story</Link>
+            <Link to="/auth" className="hidden shrink-0 rounded-full border bg-card/70 px-4 py-2 hover:bg-muted sm:inline-block">Sign in</Link>
           </div>
         </nav>
 
