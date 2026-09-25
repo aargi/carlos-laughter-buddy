@@ -121,12 +121,12 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
         className="pointer-events-none absolute -top-40 right-[-10%] size-[46rem] rounded-full opacity-40 blur-3xl transition-colors duration-700"
         style={{ background: `radial-gradient(circle, ${auraColor(guide, 0.7, 0.18)}, transparent 65%)` }}
       />
-      <div className="relative mx-auto max-w-6xl px-6 py-10 md:py-14">
-        <nav className="mb-10 flex items-center justify-between">
-          <span className="font-display text-xl font-black tracking-tight">Laughter<span className="text-primary">Circle</span></span>
-          <div className="flex items-center gap-3">
+      <div className="relative mx-auto max-w-6xl px-4 py-6 sm:px-6 md:py-14">
+        <nav className="mb-8 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:mb-10 sm:flex sm:justify-between">
+          <span className="truncate font-display text-lg font-black tracking-tight sm:text-xl">Laughter<span className="text-primary">Circle</span></span>
+          <div className="flex items-center justify-end gap-2 sm:gap-3">
             <span className="hidden rounded-full border bg-card/70 px-3 py-1 text-xs font-semibold text-muted-foreground backdrop-blur sm:inline">~8 min · 6 exercises</span>
-            <Link to="/story" className="rounded-full border bg-card/70 px-4 py-2 text-sm font-semibold backdrop-blur transition hover:bg-muted">Our story</Link>
+            <Link to="/story" className="rounded-full border bg-card/70 px-3 py-2 text-xs font-semibold backdrop-blur transition hover:bg-muted sm:px-4 sm:text-sm">Our story</Link>
             <ShareButton />
             <AccountButton />
           </div>
