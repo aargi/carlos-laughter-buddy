@@ -102,14 +102,14 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
 
         <section className="grid items-center gap-12 md:grid-cols-[1.15fr_1fr]">
           <div>
-            <p className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">Guided laughter therapy</p>
+            <p className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">AI laughter therapy</p>
             <h1 className="text-5xl font-black leading-[0.92] md:text-7xl">
               Laugh with{" "}
               <span className="transition-colors duration-500" style={{ color: auraColor(guide, 0.78, 0.17) }}>{guide.name}</span>
               <br />and the circle.
             </h1>
             <p className="mt-6 max-w-lg text-lg text-muted-foreground">
-              Your guide explains every exercise. On your turn, the other nine laugh right alongside you — each in their own unmistakable way.
+              Join a guided laughter therapy session. Laugh along with your guide and the circle, each with their own unmistakable laugh.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <button
