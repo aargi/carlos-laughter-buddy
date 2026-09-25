@@ -4,7 +4,7 @@ import { Play, SkipForward, Volume2, VolumeX, X, Headphones, RefreshCw, UserRoun
 import { AVATARS } from "@/lib/avatars";
 import { EXERCISES } from "@/lib/exercises";
 import { exerciseText } from "@/lib/audio-phrases";
-import { getAnalyser, getMicAnalyser, laughAlong, preloadLaughAlong, speak, startMic, stopAll, stopGroup, stopMic } from "@/lib/carlos-audio";
+import { getAnalyser, getMicAnalyser, laughAlong, preloadLaugh, preloadLaughAlong, preloadSpeak, speak, startMic, stopAll, stopGroup, stopMic } from "@/lib/carlos-audio";
 import { WaveRing } from "@/components/WaveRing";
 import { CHARACTERS, auraColor, getCharacter, type Character } from "@/lib/characters";
 
@@ -80,6 +80,7 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
   const preview = async (c: Character) => {
     setGuideId(c.id);
     setPlaying(c.id);
+    preloadLaugh(c.id);
     await speak(c.greeting, { character: c.id });
     await speak(c.laugh, { character: c.id, expressive: true });
     setPlaying((p) => (p === c.id ? null : p));
@@ -283,6 +284,10 @@ function Session({ guide, muted, setMuted, onExit, onFinish }: { guide: Characte
     const token = { cancelled: false };
     stopAll();
     setPhase("explaining");
+    // Warm the cache while the guide explains, so the laugh and "Your turn!" play instantly.
+    preloadSpeak("Your turn!", guide.id);
+    preloadLaugh(guide.id);
+    preloadSpeak(exerciseText(Math.min(index + 1, EXERCISES.length - 1)), guide.id);
     (async () => {
       if (!mutedRef.current) await speak(exerciseText(index), { character: guide.id });
       else await new Promise((r) => setTimeout(r, 6000));
