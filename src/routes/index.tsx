@@ -694,9 +694,6 @@ function ProGuideCard({ c, interest }: { c: Character; interest: string }) {
       onClick={() => { if (!locked && !open && !done) setOpen(true); }}
       className="relative flex h-full cursor-pointer flex-col items-center overflow-hidden rounded-3xl border-2 border-transparent bg-card p-5 pt-6 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
     >
-      <span className="absolute -top-2 right-4 z-10 inline-flex items-center gap-1 rounded-full bg-accent px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-accent-foreground">
-        {locked && <Lock className="size-3" />} Pro
-      </span>
       <div
         aria-hidden
         className="absolute inset-x-0 top-0 h-24 opacity-70"
