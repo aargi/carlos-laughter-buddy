@@ -683,7 +683,7 @@ function WaitlistCard({ interest, icon, title, text, cta }: { interest: string; 
   );
 }
 
-}
+/* Pro guide cards — same structure as the character cards, with a waitlist CTA instead of audio preview. */
 
 /* Pro guide cards — same structure as the character cards, with a waitlist CTA instead of audio preview. */
 function ProGuideCard({ c, interest }: { c: Character; interest: string }) {
