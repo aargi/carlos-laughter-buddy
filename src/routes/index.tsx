@@ -123,7 +123,7 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
       />
       <div className="relative mx-auto max-w-6xl px-4 py-6 sm:px-6 md:py-14">
         <nav className="mb-8 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:mb-10 sm:flex sm:justify-between">
-          <span className="truncate font-display text-lg font-black tracking-tight sm:text-xl">Laughter<span className="text-primary">Circle</span></span>
+          <span className="min-w-0 font-display text-base font-black tracking-tight sm:text-xl">Laughter<span className="text-primary">Circle</span></span>
           <div className="flex items-center justify-end gap-2 sm:gap-3">
             <span className="hidden rounded-full border bg-card/70 px-3 py-1 text-xs font-semibold text-muted-foreground backdrop-blur sm:inline">~8 min · 6 exercises</span>
             <Link to="/story" className="rounded-full border bg-card/70 px-3 py-2 text-xs font-semibold backdrop-blur transition hover:bg-muted sm:px-4 sm:text-sm">Our story</Link>
