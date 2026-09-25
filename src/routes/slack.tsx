@@ -78,23 +78,19 @@ function SlackPage() {
 
         {/* TOGETHER */}
         <section className="mt-24">
-          <div className="max-w-3xl">
-            <h2 className="font-display text-3xl font-black md:text-5xl">Laughter feels different together.</h2>
-            <div className="mt-5 space-y-4 text-lg leading-relaxed text-muted-foreground">
-              <p>Laughing can help people loosen up. But shared laughter does something else: <span className="font-semibold text-foreground">it creates connection.</span></p>
-              <p>People let their guard down, become more playful and share a moment outside the usual rhythm of meetings, deadlines and work.</p>
-            </div>
+          <h2 className="font-display text-3xl font-black md:text-5xl">Laughter feels different together.</h2>
+          <div className="mt-5 space-y-4 text-lg leading-relaxed text-muted-foreground">
+            <p>Laughing can help people loosen up. But shared laughter does something else: <span className="font-semibold text-foreground">it creates connection.</span></p>
+            <p>People let their guard down, become more playful and share a moment outside the usual rhythm of meetings, deadlines and work.</p>
           </div>
         </section>
 
         {/* GAME */}
         <section className="mt-24">
-          <div className="max-w-3xl">
-            <h2 className="font-display text-3xl font-black md:text-5xl">Your team becomes <span className="text-accent">the game.</span></h2>
-            <div className="mt-5 space-y-4 text-lg leading-relaxed text-muted-foreground">
-              <p>Each teammate can create their own Laughter Circle characters — based on themselves, their voice and their look, or something entirely invented.</p>
-              <p>Create one or create many. They become part of your team's Laughter Circle inside Slack, joining the group and taking turns guiding the laugh.</p>
-            </div>
+          <h2 className="font-display text-3xl font-black md:text-5xl">Your team becomes <span className="text-accent">the game.</span></h2>
+          <div className="mt-5 space-y-4 text-lg leading-relaxed text-muted-foreground">
+            <p>Each teammate can create their own Laughter Circle characters — based on themselves, their voice and their look, or something entirely invented.</p>
+            <p>Create one or create many. They become part of your team's Laughter Circle inside Slack, joining the group and taking turns guiding the laugh.</p>
           </div>
           <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
             {TEAM.map((m) => (
