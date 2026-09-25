@@ -683,31 +683,46 @@ function WaitlistCard({ interest, icon, title, text, cta }: { interest: string; 
 
 /* Pro guide cards — same structure as the character cards, with a waitlist CTA instead of audio preview. */
 
-/* Pro guide cards — same structure as the character cards, with a waitlist CTA instead of audio preview. */
+/* Pro guide cards — same structure as the character cards. Signed-out users see it blurred with a Sign in CTA in the button slot. */
 function ProGuideCard({ c, interest }: { c: Character; interest: string }) {
+  const { user, loading } = useAuth();
   const [open, setOpen] = useState(false);
   const [done, setDone] = useState(false);
+  const locked = !user && !loading;
   return (
     <div
-      onClick={() => { if (!open && !done) setOpen(true); }}
+      onClick={() => { if (!locked && !open && !done) setOpen(true); }}
       className="relative flex h-full cursor-pointer flex-col items-center overflow-hidden rounded-3xl border-2 border-transparent bg-card p-5 pt-6 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
     >
+      <span className="absolute -top-2 right-4 z-10 inline-flex items-center gap-1 rounded-full bg-accent px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-accent-foreground">
+        {locked && <Lock className="size-3" />} Pro
+      </span>
       <div
         aria-hidden
         className="absolute inset-x-0 top-0 h-24 opacity-70"
         style={{ background: `linear-gradient(to bottom, ${auraColor(c, 0.34, 0.08)}, transparent)` }}
       />
-      <div className="relative"><Avatar c={c} size={84} /></div>
-      <div className="relative mt-4 text-lg font-bold leading-tight">{c.name}</div>
-      <div className="relative text-xs text-muted-foreground">{c.origin}</div>
-      <div className="relative mt-2 text-xs font-bold" style={{ color: auraColor(c, 0.72, 0.13) }}>{c.archetype}</div>
-      <div className="relative mt-3 flex flex-wrap justify-center gap-1">
-        {c.traits.map((t) => (
-          <span key={t} className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium">{t}</span>
-        ))}
+      <div className={`relative ${locked ? "pointer-events-none opacity-60 blur-[1px]" : ""}`}>
+        <Avatar c={c} size={84} />
+        <div className="mt-4 text-lg font-bold leading-tight">{c.name}</div>
+        <div className="text-xs text-muted-foreground">{c.origin}</div>
+        <div className="mt-2 text-xs font-bold" style={{ color: auraColor(c, 0.72, 0.13) }}>{c.archetype}</div>
+        <div className="mt-3 flex flex-wrap justify-center gap-1">
+          {c.traits.map((t) => (
+            <span key={t} className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium">{t}</span>
+          ))}
+        </div>
       </div>
       <div className="relative mt-auto w-full pt-4">
-        {done ? (
+        {locked ? (
+          <Link
+            to="/auth"
+            search={{ redirect: "/" }}
+            className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-xs font-bold text-primary-foreground transition hover:bg-primary/90"
+          >
+            <Lock className="size-3.5" /> Sign in to unlock
+          </Link>
+        ) : done ? (
           <span className="text-xs font-semibold text-primary">You're on the list! 🎉</span>
         ) : open ? (
           <WaitlistForm interest={interest} onDone={() => setDone(true)} stacked />
