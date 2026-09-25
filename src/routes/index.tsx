@@ -683,6 +683,49 @@ function WaitlistCard({ interest, icon, title, text, cta }: { interest: string; 
   );
 }
 
+}
+
+/* Pro guide cards — same structure as the character cards, with a waitlist CTA instead of audio preview. */
+function ProGuideCard({ c, interest }: { c: Character; interest: string }) {
+  const [open, setOpen] = useState(false);
+  const [done, setDone] = useState(false);
+  return (
+    <div
+      onClick={() => { if (!open && !done) setOpen(true); }}
+      className="relative flex h-full cursor-pointer flex-col items-center overflow-hidden rounded-3xl border-2 border-transparent bg-card p-5 pt-6 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+    >
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-24 opacity-70"
+        style={{ background: `linear-gradient(to bottom, ${auraColor(c, 0.34, 0.08)}, transparent)` }}
+      />
+      <div className="relative"><Avatar c={c} size={84} /></div>
+      <div className="relative mt-4 text-lg font-bold leading-tight">{c.name}</div>
+      <div className="relative text-xs text-muted-foreground">{c.origin}</div>
+      <div className="relative mt-2 text-xs font-bold" style={{ color: auraColor(c, 0.72, 0.13) }}>{c.archetype}</div>
+      <div className="relative mt-3 flex flex-wrap justify-center gap-1">
+        {c.traits.map((t) => (
+          <span key={t} className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium">{t}</span>
+        ))}
+      </div>
+      <div className="relative mt-auto w-full pt-4">
+        {done ? (
+          <span className="text-xs font-semibold text-primary">You're on the list! 🎉</span>
+        ) : open ? (
+          <WaitlistForm interest={interest} onDone={() => setDone(true)} stacked />
+        ) : (
+          <button
+            onClick={(e) => { e.stopPropagation(); setOpen(true); }}
+            className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition hover:bg-muted"
+          >
+            <Sparkles className="size-3.5" /> Get early access
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function WaitlistLink({ interest, text }: { interest: string; text: string }) {
   const [open, setOpen] = useState(false);
   const [done, setDone] = useState(false);
