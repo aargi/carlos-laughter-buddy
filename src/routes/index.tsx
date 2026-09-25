@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Play, SkipForward, Volume2, VolumeX, X, Headphones, RefreshCw, UserRound, Sparkles, Handshake, Share2, Copy, Check, Facebook, Linkedin, Twitter, MessageCircle, Lock, LogOut, Slack } from "lucide-react";
 import { useAuth, signOut } from "@/hooks/use-auth";
+import { LogoMark } from "@/components/LogoMark";
+import { SiteFooter } from "@/components/SiteFooter";
 import { AVATARS } from "@/lib/avatars";
 import { EXERCISES } from "@/lib/exercises";
 import { exerciseText } from "@/lib/audio-phrases";
@@ -123,7 +125,7 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
       />
       <div className="relative mx-auto max-w-6xl px-4 py-6 sm:px-6 md:py-14">
         <nav className="mb-8 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:mb-10 sm:flex sm:justify-between">
-          <span className="min-w-0 font-display text-base font-black tracking-tight sm:text-xl">Laughter<span className="text-primary">Circle</span></span>
+          <span className="flex min-w-0 items-center gap-2 font-display text-base font-black tracking-tight sm:text-xl"><LogoMark size={26} className="sm:hidden" /><LogoMark size={32} className="hidden sm:block" />Laughter<span className="text-primary">Circle</span></span>
           <div className="flex items-center justify-end gap-2 sm:gap-3">
             <span className="hidden rounded-full border bg-card/70 px-3 py-1 text-xs font-semibold text-muted-foreground backdrop-blur sm:inline">~8 min · 6 exercises</span>
             <Link to="/slack" className="inline-flex items-center gap-1.5 rounded-full border bg-card/70 px-3 py-2 text-xs font-semibold backdrop-blur transition hover:bg-muted sm:px-4 sm:text-sm"><Slack className="size-3.5 sm:size-4" /> For Slack</Link>
@@ -249,6 +251,8 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
             ))}
           </ol>
         </section>
+
+        <SiteFooter />
       </div>
     </div>
   );
@@ -616,6 +620,8 @@ function Closing({ guide, muted, onHome }: { guide: Character; muted: boolean; o
           <WaitlistLink interest="pro-signup" text="Are you a laughter yoga professional? Sign up to offer one-to-one and group sessions." />
         </div>
       </div>
+
+      <SiteFooter />
     </div>
   );
 }
