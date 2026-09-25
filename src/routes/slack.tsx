@@ -60,7 +60,7 @@ function SlackPage() {
         </nav>
 
         {/* HERO */}
-        <section className="grid items-center gap-10 md:grid-cols-2">
+        <section className="grid items-center gap-16 md:grid-cols-2 md:gap-10">
           <div>
             <p className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground"><Slack className="size-4" /> Laughter Circle for Slack</p>
             <h1 className="mt-3 font-display text-4xl font-black leading-tight md:text-6xl">
