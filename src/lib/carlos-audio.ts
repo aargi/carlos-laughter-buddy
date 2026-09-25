@@ -10,15 +10,20 @@ const cache = new Map<string, Promise<string>>();
 
 function fetchAudio(text: string, character: string, expressive: boolean): Promise<string> {
   const file = phraseFile(character, expressive, text);
-  if (pregenerated.has(file)) return Promise.resolve(`/audio/${file}`);
   const k = `${character}|${expressive ? 1 : 0}|${text}`;
   let p = cache.get(k);
   if (!p) {
-    p = fetch("/api/tts", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text, character, expressive }),
-    }).then(async (res) => {
+    // Pre-generated MP3s are also downloaded into a blob URL so playback starts
+    // instantly (no network wait when the laugh is triggered).
+    const url = pregenerated.has(file) ? `/audio/${file}` : "/api/tts";
+    const init = pregenerated.has(file)
+      ? undefined
+      : {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text, character, expressive }),
+        };
+    p = fetch(url, init).then(async (res) => {
       if (!res.ok) throw new Error(`TTS ${res.status}`);
       return URL.createObjectURL(await res.blob());
     });
