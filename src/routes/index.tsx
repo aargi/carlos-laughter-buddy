@@ -699,7 +699,7 @@ function ProGuideCard({ c, interest }: { c: Character; interest: string }) {
         className="absolute inset-x-0 top-0 h-24 opacity-70"
         style={{ background: `linear-gradient(to bottom, ${auraColor(c, 0.34, 0.08)}, transparent)` }}
       />
-      <div className={`relative ${locked ? "pointer-events-none opacity-60 blur-[1px]" : ""}`}>
+      <div className={`relative flex w-full flex-col items-center ${locked ? "pointer-events-none opacity-60 blur-[1px]" : ""}`}>
         <Avatar c={c} size={84} />
         <div className="mt-4 text-lg font-bold leading-tight">{c.name}</div>
         <div className="text-xs text-muted-foreground">{c.origin}</div>
