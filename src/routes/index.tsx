@@ -251,6 +251,8 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
             ))}
           </ol>
         </section>
+
+        <SiteFooter />
       </div>
     </div>
   );
