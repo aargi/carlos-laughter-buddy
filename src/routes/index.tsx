@@ -651,7 +651,7 @@ function ProGate({ children }: { children: React.ReactNode }) {
 function AccountButton() {
   const { user, profile } = useAuth();
   if (!user) {
-    return <Link to="/auth" className="rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground transition hover:bg-primary/90">Sign in</Link>;
+    return <Link to="/auth" className="rounded-full bg-primary px-3 py-1.5 text-xs font-bold text-primary-foreground transition hover:bg-primary/90 sm:px-4 sm:py-2 sm:text-sm">Sign in</Link>;
   }
   const name = profile?.display_name || user.email?.split("@")[0] || "You";
   const pic = profile?.avatar_url || (user.user_metadata?.['avatar_url'] as string | undefined);
