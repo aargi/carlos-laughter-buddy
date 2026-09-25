@@ -1,11 +1,16 @@
-// Character voices: ElevenLabs (via /api/tts), falling back to browser speech.
+// Character voices: pre-generated MP3s first, then ElevenLabs (via /api/tts), then browser speech.
 import { getCharacter } from "./characters";
+import { laughAlongText, phraseFile } from "./audio-phrases";
+import manifest from "./audio-manifest.json";
 
+const pregenerated = new Set<string>(manifest as string[]);
 let current: HTMLAudioElement | null = null;
 let token = 0;
 const cache = new Map<string, Promise<string>>();
 
 function fetchAudio(text: string, character: string, expressive: boolean): Promise<string> {
+  const file = phraseFile(character, expressive, text);
+  if (pregenerated.has(file)) return Promise.resolve(`/audio/${file}`);
   const k = `${character}|${expressive ? 1 : 0}|${text}`;
   let p = cache.get(k);
   if (!p) {
