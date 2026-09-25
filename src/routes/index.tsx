@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Play, SkipForward, Volume2, VolumeX, X, Headphones, RefreshCw, UserRound, Sparkles, Handshake, Share2, Copy, Check, Facebook, Linkedin, Twitter, MessageCircle, Lock, LogOut } from "lucide-react";
+import { Play, SkipForward, Volume2, VolumeX, X, Headphones, RefreshCw, UserRound, Sparkles, Handshake, Share2, Copy, Check, Facebook, Linkedin, Twitter, MessageCircle, Lock, LogOut, Slack } from "lucide-react";
 import { useAuth, signOut } from "@/hooks/use-auth";
 import { AVATARS } from "@/lib/avatars";
 import { EXERCISES } from "@/lib/exercises";
@@ -126,6 +126,7 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
           <span className="min-w-0 font-display text-base font-black tracking-tight sm:text-xl">Laughter<span className="text-primary">Circle</span></span>
           <div className="flex items-center justify-end gap-2 sm:gap-3">
             <span className="hidden rounded-full border bg-card/70 px-3 py-1 text-xs font-semibold text-muted-foreground backdrop-blur sm:inline">~8 min · 6 exercises</span>
+            <Link to="/slack" className="inline-flex items-center gap-1.5 rounded-full border bg-card/70 px-3 py-2 text-xs font-semibold backdrop-blur transition hover:bg-muted sm:px-4 sm:text-sm"><Slack className="size-3.5 sm:size-4" /> For Slack</Link>
             <Link to="/story" className="rounded-full border bg-card/70 px-3 py-2 text-xs font-semibold backdrop-blur transition hover:bg-muted sm:px-4 sm:text-sm">Our story</Link>
             <ShareButton />
             <AccountButton />
