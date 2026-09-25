@@ -630,7 +630,7 @@ function AccountButton() {
     return <Link to="/auth" className="rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground transition hover:bg-primary/90">Sign in</Link>;
   }
   const name = profile?.display_name || user.email?.split("@")[0] || "You";
-  const pic = profile?.avatar_url || (user.user_metadata?.avatar_url as string | undefined);
+  const pic = profile?.avatar_url || (user.user_metadata?.['avatar_url'] as string | undefined);
   return (
     <div className="flex items-center gap-2 rounded-full border bg-card/70 py-1 pl-1 pr-3 backdrop-blur">
       {pic ? <img src={pic} alt="" className="size-7 rounded-full object-cover" referrerPolicy="no-referrer" /> : (
