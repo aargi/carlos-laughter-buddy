@@ -128,9 +128,9 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
           <span className="flex min-w-0 items-center gap-2 font-display text-base font-black tracking-tight sm:text-xl"><LogoMark size={32} className="hidden sm:block" /><span className="whitespace-nowrap">Laughter<span className="text-primary">Circle</span></span></span>
           <div className="flex items-center justify-end gap-2 sm:gap-3">
             <span className="hidden rounded-full border bg-card/70 px-3 py-1 text-xs font-semibold text-muted-foreground backdrop-blur sm:inline">~8 min · 6 exercises</span>
-            <Link to="/slack" className="inline-flex items-center gap-1.5 rounded-full border bg-card/70 px-2.5 py-1.5 text-xs font-semibold backdrop-blur transition hover:bg-muted sm:px-4 sm:py-2 sm:text-sm"><Slack className="size-3.5 sm:size-4" /> For Slack</Link>
             <Link to="/story" className="hidden rounded-full border bg-card/70 px-4 py-2 text-sm font-semibold backdrop-blur transition hover:bg-muted sm:inline-flex">Our story</Link>
             <ShareButton />
+            <Link to="/slack" className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-bold text-primary-foreground transition hover:bg-primary/90 sm:px-4 sm:py-2 sm:text-sm"><Slack className="size-3.5 sm:size-4" /> For Slack</Link>
             <AccountButton />
           </div>
         </nav>
