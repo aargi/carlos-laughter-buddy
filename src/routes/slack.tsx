@@ -148,7 +148,7 @@ function SlackPage() {
             {TEAM.map((m) => <Face key={m.name} m={m} size={44} />)}
           </div>
           <h2 className="mt-6 font-display text-3xl font-black md:text-5xl">Your team already knows each other.</h2>
-          <p className="mt-2 font-display text-2xl font-black opacity-95 md:text-3xl">Now let them laugh at each other. And with each other.</p>
+          <p className="mt-2 font-display text-2xl font-black opacity-95 md:text-3xl">Now let the laughter spread.</p>
           <p className="mt-5 font-bold">Laughter Circle for Slack is coming soon.</p>
           <div className="mx-auto mt-7 max-w-md"><SlackWaitlistForm /></div>
           <p className="mt-4 text-sm opacity-90">Be one of the first teams to try Laughter Circle for Slack.</p>
