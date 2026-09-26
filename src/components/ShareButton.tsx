@@ -1,7 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { Share2, Copy, Check, Facebook, Linkedin, Twitter, MessageCircle } from "lucide-react";
 
-const SHARE_URL = "https://carlos-laughter-buddy.lovable.app";
+const CANONICAL_ORIGIN = "https://laughtercircle.com";
+
+/** Current page URL on the production domain (preview URLs are mapped to the real domain). */
+function shareUrl(): string {
+  if (typeof window === "undefined") return CANONICAL_ORIGIN;
+  const isPreview = window.location.origin.includes("lovable.app");
+  const origin = isPreview ? CANONICAL_ORIGIN : window.location.origin;
+  return `${origin}${window.location.pathname}`;
+}
 const SHARE_TEXT = "I just laughed my way through a guided laughter yoga session with 10 hilarious AI guides. Try it — it's contagious! 😂";
 
 export function ShareButton({ className = "" }: { className?: string }) {
@@ -16,7 +24,7 @@ export function ShareButton({ className = "" }: { className?: string }) {
     return () => document.removeEventListener("mousedown", close);
   }, [open]);
 
-  const url = (medium: string) => `${SHARE_URL}?utm_source=share&utm_medium=${medium}&utm_campaign=laughter_circle`;
+  const url = (medium: string) => `${shareUrl()}?utm_source=share&utm_medium=${medium}&utm_campaign=laughter_circle`;
 
   const copy = async () => {
     try { await navigator.clipboard.writeText(url("copy_link")); } catch { /* ignore */ }
