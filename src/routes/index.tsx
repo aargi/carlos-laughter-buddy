@@ -130,7 +130,7 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
             <span className="hidden rounded-full border bg-card/70 px-3 py-1 text-xs font-semibold text-muted-foreground backdrop-blur sm:inline">~8 min · 6 exercises</span>
             <Link to="/story" className="hidden rounded-full border bg-card/70 px-4 py-2 text-sm font-semibold backdrop-blur transition hover:bg-muted sm:inline-flex">Our story</Link>
             <ShareButton />
-            <Link to="/slack" className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-bold text-primary-foreground transition hover:bg-primary/90 sm:px-4 sm:py-2 sm:text-sm"><Slack className="size-3.5 sm:size-4" /> For Slack</Link>
+            <Link to="/slack" className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold text-white transition hover:opacity-90 sm:px-4 sm:py-2 sm:text-sm" style={{ backgroundColor: "#4A154B" }}><SlackLogo className="size-3.5 sm:size-4" /> Slack</Link>
             <AccountButton />
           </div>
         </nav>
