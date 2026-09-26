@@ -121,7 +121,8 @@ function Story() {
                   <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">hours on the move</span>
                 </div>
                 <div className="rounded-2xl border bg-background/60 p-4 text-center">
-                  <span className="block whitespace-nowrap font-display text-xl font-black text-primary sm:text-2xl">~300 m</span>
+                  <span className="block font-display text-xl font-black text-primary sm:text-2xl">~300</span>
+                  <span className="block font-display text-lg font-black leading-none text-primary sm:text-xl">m</span>
                   <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">beachside laps</span>
                 </div>
               </div>
