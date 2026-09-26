@@ -122,7 +122,7 @@ function Story() {
                 </div>
                 <div className="rounded-2xl border bg-background/60 p-4 text-center">
                   <span className="block font-display text-xl font-black text-primary sm:text-2xl">~300</span>
-                  <span className="block font-display text-lg font-black leading-none text-primary sm:text-xl">m</span>
+                  <span className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground">m</span>
                   <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">beachside laps</span>
                 </div>
               </div>
