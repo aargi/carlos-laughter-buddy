@@ -26,7 +26,7 @@ function Story() {
   return (
     <main className="min-h-screen">
       <div className="mx-auto max-w-3xl px-6 py-12 md:py-16">
-        <nav className="mb-12 flex items-center justify-between">
+        <nav className="sticky top-0 z-50 -mx-6 mb-12 flex items-center justify-between bg-background/80 px-6 py-3 backdrop-blur-md">
           <Link to="/" className="flex shrink-0 items-center gap-2 font-display text-xl font-black tracking-tight">
             <LogoMark size={30} className="hidden sm:block" />
             <span className="whitespace-nowrap">Laughter<span className="text-primary">Circle</span></span>
