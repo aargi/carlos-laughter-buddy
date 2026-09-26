@@ -60,17 +60,28 @@ function Story() {
 
         <div className="mt-10 space-y-6 text-lg leading-relaxed text-muted-foreground">
           <p>
-            Laughter Circle was born on <strong className="text-foreground">September 24, 2026</strong>, during the{" "}
-            <a href="https://runninghackathon.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary underline-offset-4 hover:underline">
-              first Running Hackathon in Barcelona
+            Laughter Circle was born on <strong className="text-foreground">September 24, 2026</strong>, during{" "}
+            <a href="https://www.runninghackathon.com/" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary underline-offset-4 hover:underline">
+              Running Hackathon v.02 in Barcelona
             </a>{" "}
-            — probably the first hackathon in Europe where you run and build at the same time. Instead of sitting in front of a screen,
-            participants ran through the streets of Barcelona building with voice AI, starting and finishing at the Claude Community House,
+            — the second edition of the event, following the{" "}
+            <a href="https://www.therunninghackathon.com/" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary underline-offset-4 hover:underline">
+              first Running Hackathon in London
+            </a>
+            . Participants ran through the streets of Barcelona building with voice AI, starting and finishing at the Claude Community House,
             with demos (and a rooftop party) at the finish line.
           </p>
           <p>
+            The challenge was radical: <strong className="text-foreground">build an entire product while running, hands-free, using only voice instructions</strong> — that was the rule.
+            That's exactly how the first version of Laughter Circle was created: entirely in motion, using voice from start to finish.
+          </p>
+          <p>
             Somewhere along the route, between strides and voice prompts, an idea took shape:{" "}
-            <strong className="text-foreground">laughter is the most contagious sound in the world — so why not build an app that spreads it?</strong>
+            <strong className="text-foreground">laughter is the most contagious sound in the world — so why not build an app that spreads it?</strong>{" "}
+            A few hours later, Laughter Circle took <strong className="text-foreground">third prize</strong>.
+          </p>
+          <p className="font-display text-xl font-black text-foreground">
+            Built while running. Built by voice. <span className="text-primary">Third prize a few hours later.</span>
           </p>
         </div>
 
