@@ -59,6 +59,7 @@ function SlackPage() {
           <div className="flex min-w-0 items-center gap-1.5 text-xs font-semibold sm:gap-2 sm:text-sm">
             <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary/15 px-2.5 py-1.5 text-primary sm:px-3 sm:py-2"><Slack className="size-3.5 sm:size-4" /> For Slack</span>
             <Link to="/story" className="shrink-0 rounded-full px-2.5 py-1.5 hover:bg-muted sm:px-3 sm:py-2">Our story</Link>
+            <ShareButton />
             <Link to="/auth" className="hidden shrink-0 rounded-full border bg-card/70 px-4 py-2 hover:bg-muted sm:inline-block">Sign in</Link>
           </div>
         </nav>

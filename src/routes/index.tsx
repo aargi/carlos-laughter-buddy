@@ -790,9 +790,6 @@ function WaitlistForm({ interest, onDone, stacked = false }: { interest: string;
   );
 }
 
-/* ---------------- Share ---------------- */
-const SHARE_URL = "https://carlos-laughter-buddy.lovable.app";
-const SHARE_TEXT = "I just laughed my way through a guided laughter yoga session with 10 hilarious AI guides. Try it — it's contagious! 😂";
 
 function ShareButton({ className = "" }: { className?: string }) {
   const [open, setOpen] = useState(false);
