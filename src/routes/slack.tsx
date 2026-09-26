@@ -48,9 +48,9 @@ function Face({ m, size = 96 }: { m: Mate; size?: number }) {
 
 function SlackPage() {
   return (
-    <main className="min-h-screen overflow-x-hidden">
+    <main className="min-h-screen overflow-x-clip">
       <div className="mx-auto max-w-5xl px-5 py-8 md:px-6 md:py-12">
-        <nav className="sticky top-0 z-50 -mx-5 mb-10 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 bg-background/80 px-5 py-3 backdrop-blur-md sm:mb-12 sm:gap-3 md:-mx-6 md:px-6">
+        <nav className="sticky top-0 z-50 -mx-5 mb-10 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 px-5 py-3 sm:mb-12 sm:gap-3 md:-mx-6 md:px-6">
           <Link to="/" className="flex shrink-0 items-center gap-2 font-display text-base font-black tracking-tight md:text-xl">
             <LogoMark size={28} className="hidden sm:block" />
             <span className="whitespace-nowrap">Laughter<span className="text-primary">Circle</span></span>

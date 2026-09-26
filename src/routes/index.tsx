@@ -118,14 +118,14 @@ function Home({ guide, setGuideId, onStart }: { guide: Character; setGuideId: (i
     setPlaying((p) => (p === c.id ? null : p));
   };
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative overflow-x-clip">
       <div
         aria-hidden
         className="pointer-events-none absolute -top-40 right-[-10%] size-[46rem] rounded-full opacity-40 blur-3xl transition-colors duration-700"
         style={{ background: `radial-gradient(circle, ${auraColor(guide, 0.7, 0.18)}, transparent 65%)` }}
       />
       <div className="relative mx-auto max-w-6xl px-4 py-6 sm:px-6 md:py-14">
-        <nav className="sticky top-0 z-50 -mx-4 mb-8 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 bg-background/80 px-4 py-3 backdrop-blur-md sm:-mx-6 sm:mb-10 sm:flex sm:justify-between sm:px-6">
+        <nav className="sticky top-0 z-50 -mx-4 mb-8 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-3 sm:-mx-6 sm:mb-10 sm:flex sm:justify-between sm:px-6">
           <span className="flex min-w-0 items-center gap-2 font-display text-base font-black tracking-tight sm:text-xl"><LogoMark size={32} className="hidden sm:block" /><span className="whitespace-nowrap">Laughter<span className="text-primary">Circle</span></span></span>
           <div className="flex items-center justify-end gap-2 sm:gap-3">
             <span className="hidden rounded-full border bg-card/70 px-3 py-1 text-xs font-semibold text-muted-foreground backdrop-blur sm:inline">~8 min · 6 exercises</span>
