@@ -53,7 +53,7 @@ function SlackPage() {
         <nav className="mb-10 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 sm:mb-12 sm:gap-3">
           <Link to="/" className="flex shrink-0 items-center gap-2 font-display text-base font-black tracking-tight md:text-xl">
             <LogoMark size={28} className="hidden sm:block" />
-            Laughter<span className="text-primary">Circle</span>
+            <span className="whitespace-nowrap">Laughter<span className="text-primary">Circle</span></span>
           </Link>
           <div className="flex min-w-0 items-center gap-1.5 text-xs font-semibold sm:gap-2 sm:text-sm">
             <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary/15 px-2.5 py-1.5 text-primary sm:px-3 sm:py-2"><Slack className="size-3.5 sm:size-4" /> For Slack</span>

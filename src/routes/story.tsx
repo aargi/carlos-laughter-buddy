@@ -28,7 +28,7 @@ function Story() {
         <nav className="mb-12 flex items-center justify-between">
           <Link to="/" className="flex shrink-0 items-center gap-2 font-display text-xl font-black tracking-tight">
             <LogoMark size={30} className="hidden sm:block" />
-            Laughter<span className="text-primary">Circle</span>
+            <span className="whitespace-nowrap">Laughter<span className="text-primary">Circle</span></span>
           </Link>
           <Link to="/" className="rounded-full border bg-card/70 px-4 py-2 text-sm font-semibold backdrop-blur hover:bg-muted">
             Try the session
