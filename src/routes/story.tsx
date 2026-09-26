@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Play, Footprints, Mic, Heart, ExternalLink } from "lucide-react";
+import { ShareButton } from "@/components/ShareButton";
 import { LogoMark } from "@/components/LogoMark";
 import { SiteFooter } from "@/components/SiteFooter";
 import { CHARACTERS, auraColor } from "@/lib/characters";
@@ -31,9 +32,12 @@ function Story() {
             <LogoMark size={30} className="hidden sm:block" />
             <span className="whitespace-nowrap">Laughter<span className="text-primary">Circle</span></span>
           </Link>
-          <Link to="/" className="rounded-full border bg-card/70 px-4 py-2 text-sm font-semibold backdrop-blur hover:bg-muted">
-            Try the session
-          </Link>
+          <div className="flex items-center gap-2">
+            <ShareButton />
+            <Link to="/" className="rounded-full border bg-card/70 px-4 py-2 text-sm font-semibold backdrop-blur hover:bg-muted">
+              Try the session
+            </Link>
+          </div>
         </nav>
 
         <div className="relative mb-12 flex justify-center">
