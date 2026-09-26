@@ -89,12 +89,15 @@ function Story() {
         {/* The run, on Strava */}
         <div className="mt-12 overflow-hidden rounded-3xl border bg-card">
           <div className="grid md:grid-cols-[300px_1fr]">
-            <div className="flex items-center justify-center border-b bg-primary/10 p-6 md:border-b-0 md:border-r">
+            <div className="flex flex-col items-center justify-center border-b bg-primary/10 p-6 md:border-b-0 md:border-r">
               <img
                 src={stravaRun.url}
                 alt="Strava map of the hackathon run: laps along Passeig Marítim de la Barceloneta beach in Barcelona"
                 className="max-h-[440px] w-auto rounded-2xl shadow-lg"
               />
+              <p className="mt-3 text-center text-xs leading-snug text-muted-foreground">
+                Strava screenshot taken during the Running Hackathon in Barcelona.
+              </p>
             </div>
             <div className="p-8">
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">The run, on Strava</p>
