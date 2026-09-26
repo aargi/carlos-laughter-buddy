@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Play, Footprints, Mic, Heart, ExternalLink } from "lucide-react";
+import { ShareButton } from "@/components/ShareButton";
 import { LogoMark } from "@/components/LogoMark";
 import { SiteFooter } from "@/components/SiteFooter";
 import { CHARACTERS, auraColor } from "@/lib/characters";

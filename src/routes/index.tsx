@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Play, SkipForward, Volume2, VolumeX, X, Headphones, RefreshCw, UserRound, Sparkles, Handshake, Share2, Copy, Check, Facebook, Linkedin, Twitter, MessageCircle, Lock, LogOut } from "lucide-react";
+import { Play, SkipForward, Volume2, VolumeX, X, Headphones, RefreshCw, UserRound, Sparkles, Handshake, Lock, LogOut } from "lucide-react";
+import { ShareButton } from "@/components/ShareButton";
 import { SlackLogo } from "@/components/SlackLogo";
 import { useAuth, signOut } from "@/hooks/use-auth";
 import { LogoMark } from "@/components/LogoMark";
