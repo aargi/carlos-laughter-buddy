@@ -6,6 +6,7 @@ import { CHARACTERS, auraColor } from "@/lib/characters";
 import { AVATARS } from "@/lib/avatars";
 import storyHero from "@/assets/story-hero.mp4.asset.json";
 import storyPoster from "@/assets/story-poster.jpg.asset.json";
+import stravaRun from "@/assets/strava-run.jpg.asset.json";
 
 export const Route = createFileRoute("/story")({
   head: () => ({
@@ -83,6 +84,46 @@ function Story() {
           <p className="font-display text-xl font-black text-foreground">
             Built while running. Built by voice. <span className="text-primary">Third prize a few hours later.</span>
           </p>
+        </div>
+
+        {/* The run, on Strava */}
+        <div className="mt-12 overflow-hidden rounded-3xl border bg-card">
+          <div className="grid md:grid-cols-[300px_1fr]">
+            <div className="flex items-center justify-center border-b bg-primary/10 p-6 md:border-b-0 md:border-r">
+              <img
+                src={stravaRun.url}
+                alt="Strava map of the hackathon run: laps along Passeig Marítim de la Barceloneta beach in Barcelona"
+                className="max-h-[440px] w-auto rounded-2xl shadow-lg"
+              />
+            </div>
+            <div className="p-8">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">The run, on Strava</p>
+              <h2 className="mt-2 font-display text-2xl font-black leading-tight md:text-3xl">
+                11.96 km. 1 hour 33 minutes. <span className="text-primary">Zero keyboard.</span>
+              </h2>
+              <p className="mt-4 text-muted-foreground">
+                The Strava trace tells it all: for an hour and a half I ran in circles next to the beach, along{" "}
+                <strong className="text-foreground">Passeig Marítim de la Barceloneta</strong> — laps of about{" "}
+                <strong className="text-foreground">300 meters</strong>, because looping a small stretch made it easier to keep
+                building while moving. With Lovable open on my phone and earbuds in, I dictated every instruction for the next
+                iteration out loud, in full stride.
+              </p>
+              <div className="mt-6 grid grid-cols-3 gap-3">
+                <div className="rounded-2xl border bg-background/60 p-4 text-center">
+                  <span className="block font-display text-2xl font-black text-primary">11.96</span>
+                  <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">km running</span>
+                </div>
+                <div className="rounded-2xl border bg-background/60 p-4 text-center">
+                  <span className="block font-display text-2xl font-black text-primary">1:33</span>
+                  <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">hours on the move</span>
+                </div>
+                <div className="rounded-2xl border bg-background/60 p-4 text-center">
+                  <span className="block font-display text-2xl font-black text-primary">~300 m</span>
+                  <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">beachside laps</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-3">
