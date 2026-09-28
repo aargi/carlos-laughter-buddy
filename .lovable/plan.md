@@ -39,7 +39,15 @@ Block Kit: title, one-line invite with guide of the day, **Start laughing** URL 
 
 ## Technical details
 - Tables (RLS + grants in the same migration): `slack_workspaces` (team_id unique, team_name, owner_user_id, channel, timezone, days, time, active, reconnect_required), `app_user_connections` (service-role only), `slack_deliveries` (service-role only), `slack_events` (delivery_id, kind, browser_id, unique(delivery_id, kind, browser_id); service-role only). Owner reads settings via RLS; stats via security-definer `slack_stats(workspace_id)` that checks ownership and returns counts only.
-- Server functions (`src/lib/slack.functions.ts`, `requireSupabaseAuth`): startConnect, completeConnection (exchange one-time code, `auth.test` for team id), listChannels, saveSchedule, sendTest, setActive, getStats, disconnectAndDelete. Every query filtered by owner and workspace.
+- Server functions (`src/lib/slack.functions.ts`, `requireSupabaseAuth`): startConnect, completeConnectorConnection (only finalizes the gateway connection with the connector's one-time code; never talks OAuth with Slack, never sees or logs Slack tokens; then `auth.test` via gateway for team id), listChannels, saveSchedule, sendTest, setActive, getStats, disconnectAndDelete. Every query filtered by owner and workspace.
 - Public tracking server function for start/finish (zod: launch reference, kind, browser id), inserts only.
 - Tests (vitest): time zones (Madrid, New York, Tokyo, Kathmandu), DST switches, weekday edges, no double slot; claim logic under two concurrent runs; retry/failed classification; Block Kit builder; token expiry; tenant isolation with two workspaces (A cannot read, edit, post, see stats or delete B); scheduler route rejects missing/wrong secret.
 - Before publishing: frontend tests, server tests (in place of Edge Function tests, since none exist), Deep Security Scan, fix findings.
+
+## Approved changes (v3)
+- Browser id: temporary technical id in **sessionStorage**, one per browser session, used only to dedupe a delivery's events. Events are deleted when their launch token expires.
+- `open` is recorded from the client after the page loads (not on the link GET) and shown as **estimated opens** (corporate link scanners may visit links).
+- Idempotency: Slack `chat.postMessage` has no documented idempotency key (`client_msg_id` is not supported for bots), so ambiguous outcomes (timeouts, disconnects, 5xx after send) are **never auto-retried**: status `unknown`, flagged for manual review in the admin page. Auto-retry only unambiguous safe errors (`ratelimited` honoring Retry-After, gateway rejections before reaching Slack). States: pending, sending, sent, failed, unknown.
+- Every Block Kit message includes a full top-level `text` fallback.
+- One owner per workspace for the MVP (documented limitation). Table `slack_workspace_members` (workspace_id, user_id, role) created now, owner row inserted on connect, access checks go through it so more admins can be added later.
+- If the owner deletes their account: cascade removes their membership; a trigger pauses the workspace and a cleanup revokes the gateway connection and deletes settings, deliveries and events when no admin remains.
