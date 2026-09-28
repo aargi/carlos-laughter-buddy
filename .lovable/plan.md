@@ -1,34 +1,45 @@
-# Laughter Circle for Slack — distributable version
+# Laughter Circle for Slack — distributable version (revised)
+
+## Stack check (confirmed)
+- The project is **TanStack Start** (not a Vite SPA). Server functions and server routes run in production on the published site. No Edge Functions exist and none will be created.
+- Scheduled work: Lovable's native scheduled jobs call an HTTP route on the app, authenticated with the platform-managed `LOVABLE_CRON_SECRET` (bearer header, deny by default). A job cannot call a server function without HTTP, so one protected route is required (see Scheduler).
 
 ## Before building (blocker)
-No Slack OAuth client is registered in this workspace yet. A workspace admin must create one in **Workspace settings → App User Connectors → Slack** using our own Slack app (api.slack.com/apps), with redirect URL `https://connector-gateway.lovable.dev/api/v1/app-users/oauth2/callback` and **offline access enabled**. Then it gets linked to this project from a card in chat.
+No Slack App User Connector client exists in this workspace. A workspace admin creates it in **Workspace settings → App User Connectors → Slack** with our own Slack app, redirect URL `https://connector-gateway.lovable.dev/api/v1/app-users/oauth2/callback`, bot scopes `channels:read` + `chat:write`, and **offline access enabled**. I then link it to the project from a chat card.
 
-## What the admin will be able to do (new page `/slack/admin`, sign-in required)
-1. **Connect Slack workspace** (popup, Slack consent screen).
-2. **Pick a public channel** from a list.
-3. **Schedule**: time zone, two weekdays, a time (e.g. Tue + Thu, 10:00 Europe/Madrid).
-4. **Send test message** to the chosen channel.
-5. **Activate / Pause** the two weekly posts.
-6. **Stats**: only totals — opens, sessions started, sessions finished (last 7 / 30 days). No names, no per-person data.
-7. **Disconnect & delete data**: revokes the Slack connection and erases all settings and stats for that workspace.
+## Admin experience (`/slack/admin`, sign-in required)
+1. **Connect Slack** (popup; the connector gateway handles OAuth and keeps/refreshes Slack tokens).
+2. **Channel**: list of public channels where the bot is already a member. If the wanted channel is missing: "In Slack, open the channel and type `/invite @LaughterCircle`, then press Reload list."
+3. **Schedule**: time zone, two weekdays, one time.
+4. **Send test message**.
+5. **Activate / Pause**.
+6. **Stats** (aggregate only): opens, sessions started, sessions finished — last 7 / 30 days.
+7. **Disconnect & delete data**: revokes the connection at the gateway and erases settings, deliveries and stats for the workspace.
+Clear errors: not connected, access expired (Reconnect), bot not in channel, channel archived, rate limited, Slack down.
 
-Clear error messages for: Slack not connected, access expired (Reconnect button), channel archived/not found, missing permission, Slack rate limit.
+## Slack post
+Block Kit: title, one-line invite with guide of the day, **Start laughing** URL button to `https://laughtercircle.com/s/<launch_token>`.
 
-## The Slack post
-Block Kit message: title, short invitation line with the guide of the day, and a **"Start laughing"** URL button opening `laughtercircle.com/?src=slack&w=<token>` so opens and sessions are counted per workspace without identifying people.
+## Credentials (no Slack tokens in our database)
+- OAuth, token storage and refresh are done only by the Lovable connector gateway. No direct Slack OAuth exchange, no access/refresh tokens stored by us, no custom token encryption.
+- The gateway returns an opaque connection handle (`lovack_…`). This is the only thing the app keeps, server-side, per workspace, so the scheduler can post without the admin present. It is stored with the platform-provided at-rest helper required by the connector (key auto-provisioned by Lovable, not ours), unreadable from the browser or by other tenants.
+- All Slack calls: server-side through the gateway (`callAsAppUser`, connector `slack`). Nothing reaches the browser.
+- No reading of messages or history; `conversations.list` (public channels, `is_member` filter) and `chat.postMessage` only.
 
-## Privacy
-- Slack permissions requested: `channels:read` (list public channels), `chat:write`, `chat:write.public` (post without joining). Nothing that reads messages or history.
-- All Slack keys and calls stay on the server; the browser never sees them.
+## Launch links and tracking
+- Each delivery gets a random, single-purpose `launch_token` (32 bytes, url-safe), expiring after 7 days. No workspace/channel IDs in the URL.
+- `/s/<launch_token>` resolves server-side to the delivery, records `open`, then opens the session with an internal reference.
+- Anonymous browser id (random UUID in localStorage, no names or profiles) dedupes `open`, `start`, `finish` per delivery via a unique constraint.
+
+## Deliveries and scheduler
+- `slack_deliveries`: workspace_id, slot_at (UTC instant of the scheduled slot), status `pending | sending | sent | failed`, attempts, next_attempt_at, last_error, slack_ts, launch_token, expires_at. **Unique (workspace_id, slot_at)**.
+- Every 5 minutes the job: computes due slots (pure `dueSlots(schedule, now)`, DST-safe), inserts `pending` rows with `ON CONFLICT DO NOTHING`, then **claims** rows atomically (`UPDATE … SET status='sending' … WHERE id IN (SELECT … FOR UPDATE SKIP LOCKED)` in a database function) before posting. Overlapping runs cannot claim the same row.
+- Retries: transient errors (rate limit, 5xx) → back to `pending` with backoff (max 3 attempts, honoring Slack's Retry-After); permanent errors (not in channel, archived, credential expired) → `failed`, surfaced to the admin. A `sending` row stuck >10 min is marked failed rather than re-sent, to never duplicate.
+- Scheduler route `/api/public/slack/scheduler`: POST only, bearer `LOVABLE_CRON_SECRET` checked first, everything else rejected. Lovable has no built-in request rate limiter; the route is idempotent and a cheap per-minute guard in the database (skip if last run < 60 s ago) protects it.
 
 ## Technical details
-- Connector: App User Connector `slack`, bot scopes above; helpers `src/integrations/lovable/appUserConnector.ts`, encrypted `app_user_connections` storage (AES-GCM, `APP_USER_CONNECTION_KEY_SECRET`).
-- Tables (RLS, grants, service-role only for secrets):
-  - `slack_workspaces` (id, team_id unique, team_name, owner_user_id, channel_id/name, timezone, days int[2], time, active, last_post_at, public_token, reconnect_required). Owner-only select/update via RLS.
-  - `slack_events` (workspace_id, kind: open|start|finish, created_at) — insert via public endpoint validated by token; no select for clients; aggregates via `security definer` function `slack_stats(workspace_id)` that checks ownership.
-- Server functions (`src/lib/slack.functions.ts`, `requireSupabaseAuth`): startConnect, completeConnection (exchange code, call `auth.test` to get team_id, upsert workspace), listChannels, saveSchedule, sendTest, setActive, getStats, disconnectAndDelete. Every query scoped by `owner_user_id = userId` AND workspace id → strict tenant isolation.
-- Scheduler: pg_cron every 5 min → `POST /api/public/slack/cron` (verified with `LOVABLE_CRON_SECRET`), picks due workspaces with pure function `isDue(schedule, now, lastPostAt)` (Intl time-zone math, DST-safe, one post per slot).
-- Tracking endpoint `/api/public/slack/track` (zod, token lookup, kind enum); home page sends open on `?src=slack`, start/finish from the session flow.
-- Tests (vitest): `isDue`/next-run across time zones (Madrid, New York, Tokyo, Kathmandu +5:45), DST transitions, weekday boundaries; Block Kit builder; tenant isolation with two mocked workspaces (A cannot read/update/send/delete B); error mapping (`not_in_channel`, `channel_not_found`, `ratelimited`, credential 401 → reconnect).
-- This stack uses server functions instead of Edge Functions, so the "Edge Function tests" become tests of the server handlers and cron endpoint.
-- Before publishing: run all tests, then the Deep Security Scan, and fix findings.
+- Tables (RLS + grants in the same migration): `slack_workspaces` (team_id unique, team_name, owner_user_id, channel, timezone, days, time, active, reconnect_required), `app_user_connections` (service-role only), `slack_deliveries` (service-role only), `slack_events` (delivery_id, kind, browser_id, unique(delivery_id, kind, browser_id); service-role only). Owner reads settings via RLS; stats via security-definer `slack_stats(workspace_id)` that checks ownership and returns counts only.
+- Server functions (`src/lib/slack.functions.ts`, `requireSupabaseAuth`): startConnect, completeConnection (exchange one-time code, `auth.test` for team id), listChannels, saveSchedule, sendTest, setActive, getStats, disconnectAndDelete. Every query filtered by owner and workspace.
+- Public tracking server function for start/finish (zod: launch reference, kind, browser id), inserts only.
+- Tests (vitest): time zones (Madrid, New York, Tokyo, Kathmandu), DST switches, weekday edges, no double slot; claim logic under two concurrent runs; retry/failed classification; Block Kit builder; token expiry; tenant isolation with two workspaces (A cannot read, edit, post, see stats or delete B); scheduler route rejects missing/wrong secret.
+- Before publishing: frontend tests, server tests (in place of Edge Function tests, since none exist), Deep Security Scan, fix findings.
