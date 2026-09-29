@@ -174,8 +174,10 @@ export const getSlackStats = createServerFn({ method: "GET" })
   .handler(async ({ data, context }) => {
     const { data: rows, error } = await context.supabase.rpc("slack_stats", { _workspace_id: data.workspaceId, _days: data.days });
     if (error) throw new Error("Could not load stats.");
-    const r = rows?.[0] ?? { opens: 0, starts: 0, finishes: 0, sent: 0 };
-    return { opens: Number(r.opens), starts: Number(r.starts), finishes: Number(r.finishes), sent: Number(r.sent) };
+    const r = (rows?.[0] ?? {}) as Record<string, number | undefined>;
+    const n = (k: string) => Number(r[k] ?? 0);
+    return { opens: n("opens"), starts: n("starts"), finishes: n("finishes"), sent: n("sent"),
+      testOpens: n("test_opens"), testStarts: n("test_starts"), testFinishes: n("test_finishes"), testSent: n("test_sent") };
   });
 
 export const resolveDeliveryReview = createServerFn({ method: "POST" })

@@ -352,6 +352,10 @@ export type Database = {
           opens: number
           sent: number
           starts: number
+          test_finishes: number
+          test_opens: number
+          test_sent: number
+          test_starts: number
         }[]
       }
     }
