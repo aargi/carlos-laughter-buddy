@@ -12,6 +12,7 @@ import { exerciseText } from "@/lib/audio-phrases";
 import { getAnalyser, getMicAnalyser, laughAlong, preloadLaugh, preloadLaughAlong, preloadSpeak, speak, startMic, stopAll, stopGroup, stopMic } from "@/lib/carlos-audio";
 import { WaveRing } from "@/components/WaveRing";
 import { CHARACTERS, auraColor, getCharacter, type Character } from "@/lib/characters";
+import { trackLaunch } from "@/lib/slack/launch";
 
 /* Pro guides — rendered exactly like the character cards, but Pro-only. */
 const PRO_GUIDES: { c: Character; interest: string }[] = [
@@ -67,9 +68,9 @@ function App() {
 
   return (
     <main className="min-h-screen">
-      {screen === "home" && <Home guide={guide} setGuideId={setGuideId} onStart={() => setScreen("session")} />}
-      {screen === "session" && (
-        <Session guide={guide} muted={muted} setMuted={setMuted} onExit={() => { stopAll(); stopGroup(); stopMic(); setScreen("home"); }} onFinish={() => { stopGroup(); stopMic(); setScreen("closing"); }} />
+      {screen === "home" && <Home guide={guide} setGuideId={setGuideId} onStart={() => { void trackLaunch("start"); setScreen("session"); }} />}
+{screen === "session" && (
+        <Session guide={guide} muted={muted} setMuted={setMuted} onExit={() => { stopAll(); stopGroup(); stopMic(); setScreen("home"); }} onFinish={() => { void trackLaunch("finish"); stopGroup(); stopMic(); setScreen("closing"); }} />
       )}
       {screen === "closing" && <Closing guide={guide} muted={muted} onHome={() => setScreen("home")} />}
     </main>

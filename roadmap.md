@@ -9,5 +9,6 @@
 - [x] New brand kit "Fiesta Tropical" (dark plum + fuchsia + coral + yellow) applied app-wide, aura glows re-lit for dark background.
 - [x] Vídeo subido por el usuario en la parte superior de /story (CDN asset, vertical, poster, autoplay+controles)
 - Logo Laughter Circle: rejected generic flat icons; must match the site's illustrated/gouache avatar style with aura circles. IN PROGRESS
-- [ ] Laughter Circle for Slack (distributable): plan revised per user's architecture corrections, awaiting approval. Blocked on a Slack App User Connector client (workspace admin, offline access on).
-- [ ] Slack plan changes: completeConnectorConnection, sessionStorage temp id + event purge on token expiry, client-side open (estimated), no auto-retry on ambiguous errors + `unknown` state, Block Kit fallback text, slack_workspace_members schema + owner-deletion behaviour. Then implement MVP, tests, Deep Security Scan.
+- [x] Laughter Circle for Slack MVP built; tests + security scan done. Remaining: user publishes, adds redirect URL in Slack app, real end-to-end connect test.
+- [x] Scheduler every 15 min (user choice).
+- [x] Slack plan changes: completeConnectorConnection, sessionStorage temp id + event purge on token expiry, client-side open (estimated), no auto-retry on ambiguous errors + `unknown` state, Block Kit fallback text, slack_workspace_members schema + owner-deletion behaviour. Then implement MVP, tests, Deep Security Scan.

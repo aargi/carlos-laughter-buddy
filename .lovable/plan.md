@@ -33,7 +33,7 @@ Block Kit: title, one-line invite with guide of the day, **Start laughing** URL 
 
 ## Deliveries and scheduler
 - `slack_deliveries`: workspace_id, slot_at (UTC instant of the scheduled slot), status `pending | sending | sent | failed`, attempts, next_attempt_at, last_error, slack_ts, launch_token, expires_at. **Unique (workspace_id, slot_at)**.
-- Every 5 minutes the job: computes due slots (pure `dueSlots(schedule, now)`, DST-safe), inserts `pending` rows with `ON CONFLICT DO NOTHING`, then **claims** rows atomically (`UPDATE … SET status='sending' … WHERE id IN (SELECT … FOR UPDATE SKIP LOCKED)` in a database function) before posting. Overlapping runs cannot claim the same row.
+- Every 15 minutes the job: computes due slots (pure `dueSlots(schedule, now)`, DST-safe), inserts `pending` rows with `ON CONFLICT DO NOTHING`, then **claims** rows atomically (`UPDATE … SET status='sending' … WHERE id IN (SELECT … FOR UPDATE SKIP LOCKED)` in a database function) before posting. Overlapping runs cannot claim the same row.
 - Retries: transient errors (rate limit, 5xx) → back to `pending` with backoff (max 3 attempts, honoring Slack's Retry-After); permanent errors (not in channel, archived, credential expired) → `failed`, surfaced to the admin. A `sending` row stuck >10 min is marked failed rather than re-sent, to never duplicate.
 - Scheduler route `/api/public/slack/scheduler`: POST only, bearer `LOVABLE_CRON_SECRET` checked first, everything else rejected. Lovable has no built-in request rate limiter; the route is idempotent and a cheap per-minute guard in the database (skip if last run < 60 s ago) protects it.
 
