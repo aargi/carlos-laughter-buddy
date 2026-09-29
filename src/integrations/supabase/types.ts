@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      app_user_connections: {
+        Row: {
+          connection_key_ciphertext: string
+          connector_id: string
+          created_at: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          connection_key_ciphertext: string
+          connector_id: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          connection_key_ciphertext?: string
+          connector_id?: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -34,6 +61,195 @@ export type Database = {
           created_at?: string
           display_name?: string | null
           id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      slack_deliveries: {
+        Row: {
+          attempts: number
+          claimed_at: string | null
+          created_at: string
+          expires_at: string
+          id: string
+          is_test: boolean
+          last_error: string | null
+          launch_token: string
+          next_attempt_at: string
+          slack_ts: string | null
+          slot_at: string
+          status: string
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          attempts?: number
+          claimed_at?: string | null
+          created_at?: string
+          expires_at: string
+          id?: string
+          is_test?: boolean
+          last_error?: string | null
+          launch_token: string
+          next_attempt_at?: string
+          slack_ts?: string | null
+          slot_at: string
+          status?: string
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          attempts?: number
+          claimed_at?: string | null
+          created_at?: string
+          expires_at?: string
+          id?: string
+          is_test?: boolean
+          last_error?: string | null
+          launch_token?: string
+          next_attempt_at?: string
+          slack_ts?: string | null
+          slot_at?: string
+          status?: string
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "slack_deliveries_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "slack_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      slack_events: {
+        Row: {
+          browser_id: string
+          created_at: string
+          delivery_id: string
+          id: number
+          kind: string
+        }
+        Insert: {
+          browser_id: string
+          created_at?: string
+          delivery_id: string
+          id?: number
+          kind: string
+        }
+        Update: {
+          browser_id?: string
+          created_at?: string
+          delivery_id?: string
+          id?: number
+          kind?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "slack_events_delivery_id_fkey"
+            columns: ["delivery_id"]
+            isOneToOne: false
+            referencedRelation: "slack_deliveries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      slack_scheduler_state: {
+        Row: {
+          id: number
+          last_run: string
+        }
+        Insert: {
+          id?: number
+          last_run?: string
+        }
+        Update: {
+          id?: number
+          last_run?: string
+        }
+        Relationships: []
+      }
+      slack_workspace_members: {
+        Row: {
+          created_at: string
+          role: string
+          user_id: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          role?: string
+          user_id: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          role?: string
+          user_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "slack_workspace_members_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "slack_workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      slack_workspaces: {
+        Row: {
+          active: boolean
+          channel_id: string | null
+          channel_name: string | null
+          created_at: string
+          days: number[]
+          id: string
+          last_scheduler_run: string | null
+          orphaned_at: string | null
+          owner_user_id: string | null
+          post_time: string
+          reconnect_required: boolean
+          team_id: string
+          team_name: string | null
+          timezone: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          channel_id?: string | null
+          channel_name?: string | null
+          created_at?: string
+          days?: number[]
+          id?: string
+          last_scheduler_run?: string | null
+          orphaned_at?: string | null
+          owner_user_id?: string | null
+          post_time?: string
+          reconnect_required?: boolean
+          team_id: string
+          team_name?: string | null
+          timezone?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          channel_id?: string | null
+          channel_name?: string | null
+          created_at?: string
+          days?: number[]
+          id?: string
+          last_scheduler_run?: string | null
+          orphaned_at?: string | null
+          owner_user_id?: string | null
+          post_time?: string
+          reconnect_required?: boolean
+          team_id?: string
+          team_name?: string | null
+          timezone?: string
           updated_at?: string
         }
         Relationships: []
@@ -67,7 +283,45 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      claim_slack_deliveries: {
+        Args: { _limit: number }
+        Returns: {
+          attempts: number
+          claimed_at: string | null
+          created_at: string
+          expires_at: string
+          id: string
+          is_test: boolean
+          last_error: string | null
+          launch_token: string
+          next_attempt_at: string
+          slack_ts: string | null
+          slot_at: string
+          status: string
+          updated_at: string
+          workspace_id: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "slack_deliveries"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      is_slack_admin: {
+        Args: { _user_id: string; _workspace_id: string }
+        Returns: boolean
+      }
+      slack_scheduler_try_start: { Args: never; Returns: boolean }
+      slack_stats: {
+        Args: { _days: number; _workspace_id: string }
+        Returns: {
+          finishes: number
+          opens: number
+          sent: number
+          starts: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
