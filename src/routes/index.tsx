@@ -69,7 +69,7 @@ function App() {
   return (
     <main className="min-h-screen">
       {screen === "home" && <Home guide={guide} setGuideId={setGuideId} onStart={() => { void trackLaunch("start"); setScreen("session"); }} />}
-...
+{screen === "session" && (
         <Session guide={guide} muted={muted} setMuted={setMuted} onExit={() => { stopAll(); stopGroup(); stopMic(); setScreen("home"); }} onFinish={() => { void trackLaunch("finish"); stopGroup(); stopMic(); setScreen("closing"); }} />
       )}
       {screen === "closing" && <Closing guide={guide} muted={muted} onHome={() => setScreen("home")} />}
