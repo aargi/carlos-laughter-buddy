@@ -70,14 +70,18 @@ export type Database = {
           attempts: number
           claimed_at: string | null
           created_at: string
+          events_purged: boolean
           expires_at: string
+          finishes: number
           id: string
           is_test: boolean
           last_error: string | null
           launch_token: string
           next_attempt_at: string
+          opens: number
           slack_ts: string | null
           slot_at: string
+          starts: number
           status: string
           updated_at: string
           workspace_id: string
@@ -86,14 +90,18 @@ export type Database = {
           attempts?: number
           claimed_at?: string | null
           created_at?: string
+          events_purged?: boolean
           expires_at: string
+          finishes?: number
           id?: string
           is_test?: boolean
           last_error?: string | null
           launch_token: string
           next_attempt_at?: string
+          opens?: number
           slack_ts?: string | null
           slot_at: string
+          starts?: number
           status?: string
           updated_at?: string
           workspace_id: string
@@ -102,14 +110,18 @@ export type Database = {
           attempts?: number
           claimed_at?: string | null
           created_at?: string
+          events_purged?: boolean
           expires_at?: string
+          finishes?: number
           id?: string
           is_test?: boolean
           last_error?: string | null
           launch_token?: string
           next_attempt_at?: string
+          opens?: number
           slack_ts?: string | null
           slot_at?: string
+          starts?: number
           status?: string
           updated_at?: string
           workspace_id?: string
@@ -289,14 +301,18 @@ export type Database = {
           attempts: number
           claimed_at: string | null
           created_at: string
+          events_purged: boolean
           expires_at: string
+          finishes: number
           id: string
           is_test: boolean
           last_error: string | null
           launch_token: string
           next_attempt_at: string
+          opens: number
           slack_ts: string | null
           slot_at: string
+          starts: number
           status: string
           updated_at: string
           workspace_id: string
@@ -312,6 +328,7 @@ export type Database = {
         Args: { _user_id: string; _workspace_id: string }
         Returns: boolean
       }
+      purge_expired_slack_events: { Args: never; Returns: number }
       slack_scheduler_try_start: { Args: never; Returns: boolean }
       slack_stats: {
         Args: { _days: number; _workspace_id: string }
