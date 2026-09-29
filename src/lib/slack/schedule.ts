@@ -23,8 +23,8 @@ function parts(ts: number, tz: string) {
   });
   const p: Record<string, string> = {};
   for (const x of f.formatToParts(new Date(ts))) p[x.type] = x.value;
-  const wd = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].indexOf(p.weekday!) + 1;
-  return { y: +p.year!, mo: +p.month!, d: +p.day!, h: +p.hour!, mi: +p.minute!, s: +p.second!, wd };
+  const wd = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].indexOf(p['weekday']!) + 1;
+  return { y: +p['year']!, mo: +p['month']!, d: +p['day']!, h: +p['hour']!, mi: +p['minute']!, s: +p['second']!, wd };
 }
 
 /** Offset (ms) of tz at instant ts: local wall clock minus UTC. */

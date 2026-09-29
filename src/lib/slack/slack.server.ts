@@ -72,7 +72,7 @@ async function postDelivery(d: Delivery, ws: WS): Promise<Outcome> {
 }
 
 async function applyOutcome(d: Delivery, o: Outcome) {
-  const patch: Record<string, unknown> =
+  const patch: { status: "sent" | "pending" | "failed" | "unknown"; slack_ts?: string; last_error: string | null; next_attempt_at?: string } =
     o.kind === "sent" ? { status: "sent", slack_ts: o.ts, last_error: null }
     : o.kind === "retry" ? { status: "pending", next_attempt_at: new Date(Date.now() + o.afterSeconds * 1000).toISOString(), last_error: o.error }
     : { status: o.kind, last_error: o.error };
