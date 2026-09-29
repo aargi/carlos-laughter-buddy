@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { authenticateCronRequest } from "@/integrations/supabase/cron-auth";
 
-// Called every 5 minutes by the scheduled job. Deny by default: only POST with the
+// Called every 15 minutes by the scheduled job. Deny by default: only POST with the
 // platform cron secret; a DB-level throttle rejects runs closer than 60 s.
 export const Route = createFileRoute("/api/public/slack/scheduler")({
   server: {
