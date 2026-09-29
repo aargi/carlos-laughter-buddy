@@ -154,6 +154,7 @@ function SlackPage() {
           <p className="mt-5 font-bold">Laughter Circle for Slack is coming soon.</p>
           <div className="mx-auto mt-7 max-w-md"><SlackWaitlistForm /></div>
           <p className="mt-4 text-sm opacity-90">Be one of the first teams to try Laughter Circle for Slack.</p>
+          <Link to="/slack-admin" className="mt-3 inline-block text-sm font-bold underline">Workspace admin? Connect Slack →</Link>
         </section>
 
         <SiteFooter />
