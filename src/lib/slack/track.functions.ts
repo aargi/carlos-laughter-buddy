@@ -13,14 +13,13 @@ export const trackSlackEvent = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: d } = await supabaseAdmin.from("slack_deliveries")
-      .select("id, expires_at, is_test").eq("launch_token", data.token).maybeSingle();
+      .select("id, expires_at").eq("launch_token", data.token).maybeSingle();
     if (!d || new Date(d.expires_at).getTime() < Date.now()) return { valid: false };
-    if (!d.is_test) {
-      // Unique (delivery, kind, browser) dedupes; duplicates are ignored.
-      await supabaseAdmin.from("slack_events").upsert(
-        { delivery_id: d.id, kind: data.kind, browser_id: data.browserId },
-        { onConflict: "delivery_id,kind,browser_id", ignoreDuplicates: true },
-      );
-    }
+    // Test deliveries are tracked too; stats report them separately from team totals.
+    const { error } = await supabaseAdmin.from("slack_events").upsert(
+      { delivery_id: d.id, kind: data.kind, browser_id: data.browserId },
+      { onConflict: "delivery_id,kind,browser_id", ignoreDuplicates: true },
+    );
+    if (error) console.error("slack track failed", error.message);
     return { valid: true };
   });

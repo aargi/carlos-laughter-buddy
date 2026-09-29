@@ -238,6 +238,9 @@ function Stats({ workspaceId }: { workspaceId: string }) {
           ))}
         </div>
       )}
+      {!!q.data?.testSent && (
+        <p className="mt-3 text-sm text-muted-foreground">Test messages (not in team totals): {q.data.testSent} sent · {q.data.testOpens} opens · {q.data.testStarts} started · {q.data.testFinishes} finished</p>
+      )}
       <p className="mt-3 text-xs text-muted-foreground">Totals only, never who joined. Opens are estimated: some company link scanners open links automatically.</p>
     </section>
   );
