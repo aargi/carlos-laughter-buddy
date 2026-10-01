@@ -8,7 +8,7 @@ export function buildLaughMessage(opts: { url: string; guide: string; isTest?: b
     text, // full fallback for notifications and screen readers
     blocks: [
       { type: "header", text: { type: "plain_text", text: title, emoji: true } },
-      { type: "section", text: { type: "mrkdwn", text: `*${headline}*\n${description}` } },
+      { type: "section", text: { type: "mrkdwn", text: `${headline}\n${description}` } },
       {
         type: "actions",
         elements: [{ type: "button", style: "primary", text: { type: "plain_text", text: "Start laughing", emoji: true }, url: opts.url, action_id: "open_session" }],
