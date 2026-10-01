@@ -1,17 +1,18 @@
 // Pure Block Kit builder.
 export function buildLaughMessage(opts: { url: string; guide: string; isTest?: boolean }) {
-  const intro = opts.isTest ? "Test message from Laughter Circle." : "Time for a laugh break!";
-  const text = `${intro} ${opts.guide} is guiding a short Laughter Circle session (about 3 minutes). Start laughing: ${opts.url}`;
+  const title = "3-minute laugh break 😂";
+  const description = `${opts.guide} is ready to guide today’s Laughter Circle. Take three minutes to laugh, reset and return lighter.`;
+  const text = `${title}\n${description}\nStart 3-minute laugh break: ${opts.url}\nAnonymous by design: only aggregate participation is measured.`;
   return {
     text, // full fallback for notifications and screen readers
     blocks: [
-      { type: "header", text: { type: "plain_text", text: opts.isTest ? "Laughter Circle test 😂" : "Laugh break 😂", emoji: true } },
-      { type: "section", text: { type: "mrkdwn", text: `*${intro}*\n${opts.guide} is guiding a ~3 minute Laughter Circle. Join from your browser, laugh along, feel lighter.` } },
+      { type: "header", text: { type: "plain_text", text: title, emoji: true } },
+      { type: "section", text: { type: "mrkdwn", text: description } },
       {
         type: "actions",
-        elements: [{ type: "button", style: "primary", text: { type: "plain_text", text: "Start laughing", emoji: true }, url: opts.url, action_id: "open_session" }],
+        elements: [{ type: "button", style: "primary", text: { type: "plain_text", text: "Start 3-minute laugh break", emoji: true }, url: opts.url, action_id: "open_session" }],
       },
-      { type: "context", elements: [{ type: "mrkdwn", text: "Anonymous: Laughter Circle only counts totals, never who joined." }] },
+      { type: "context", elements: [{ type: "mrkdwn", text: "Anonymous by design: only aggregate participation is measured." }] },
     ],
     unfurl_links: false,
     unfurl_media: false,

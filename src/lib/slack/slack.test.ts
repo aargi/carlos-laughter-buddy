@@ -76,12 +76,17 @@ describe("classify postMessage outcomes", () => {
 });
 
 describe("Block Kit", () => {
-  it("has full fallback text and a URL button", () => {
-    const m = buildLaughMessage({ url: "https://laughtercircle.com/s/abc", guide: "Carlos" });
-    expect(m.text).toContain("https://laughtercircle.com/s/abc");
-    expect(m.text).toContain("Carlos");
+  it.each([false, true])("formats %s delivery without duplicate heading, preserving the URL and guide", (isTest) => {
+    const url = "https://laughtercircle.com/s/abc";
+    const m = buildLaughMessage({ url, guide: "Big Walt", isTest });
+    expect(m.text).toContain(url);
+    expect(m.text).toContain("Big Walt is ready to guide today’s Laughter Circle. Take three minutes to laugh, reset and return lighter.");
+    expect(m.blocks[0]).toMatchObject({ type: "header", text: { text: "3-minute laugh break 😂" } });
+    expect(m.blocks[1]).toMatchObject({ type: "section", text: { text: "Big Walt is ready to guide today’s Laughter Circle. Take three minutes to laugh, reset and return lighter." } });
     const btn = (m.blocks.find((b) => b.type === "actions") as any).elements[0];
-    expect(btn.url).toBe("https://laughtercircle.com/s/abc");
+    expect(btn).toMatchObject({ url, text: { text: "Start 3-minute laugh break" } });
+    expect(m.blocks[3]).toMatchObject({ type: "context", elements: [{ text: "Anonymous by design: only aggregate participation is measured." }] });
+    expect(m.text).not.toContain("Time for a laugh break");
   });
 });
 
