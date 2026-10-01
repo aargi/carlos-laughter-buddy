@@ -80,13 +80,13 @@ describe("Block Kit", () => {
     const url = "https://laughtercircle.com/s/abc";
     const m = buildLaughMessage({ url, guide: "Big Walt", isTest });
     expect(m.text).toContain(url);
-    expect(m.text).toContain("Big Walt is ready to guide today’s Laughter Circle. Take three minutes to laugh, reset and return lighter.");
-    expect(m.blocks[0]).toMatchObject({ type: "header", text: { text: "3-minute laugh break 😂" } });
-    expect(m.blocks[1]).toMatchObject({ type: "section", text: { text: "Big Walt is ready to guide today’s Laughter Circle. Take three minutes to laugh, reset and return lighter." } });
+    expect(m.text).toContain("Big Walt is guiding a ~3 minute Laughter Circle. Join from your browser, laugh along, feel lighter.");
+    expect(m.blocks[0]).toMatchObject({ type: "header", text: { text: "Laugh break 😂" } });
+    expect(m.blocks[1]).toMatchObject({ type: "section", text: { text: "Time for a laugh break!\nBig Walt is guiding a ~3 minute Laughter Circle. Join from your browser, laugh along, feel lighter." } });
     const btn = (m.blocks.find((b) => b.type === "actions") as any).elements[0];
-    expect(btn).toMatchObject({ url, text: { text: "Start 3-minute laugh break" } });
-    expect(m.blocks[3]).toMatchObject({ type: "context", elements: [{ text: "Anonymous by design: only aggregate participation is measured." }] });
-    expect(m.text).not.toContain("Time for a laugh break");
+    expect(btn).toMatchObject({ url, text: { text: "Start laughing" } });
+    expect(m.blocks[3]).toMatchObject({ type: "context", elements: [{ text: "Anonymous: Laughter Circle only counts totals, never who joined." }] });
+    expect(m.text).not.toContain("3-minute laugh break 😂");
   });
 });
 
