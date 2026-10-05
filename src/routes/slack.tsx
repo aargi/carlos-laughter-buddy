@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { Slack, Check, Hash, Sparkles, Users, Coffee, RefreshCw } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Slack, Check, Hash, Sparkles, Users, Coffee, RefreshCw, Headphones } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { ShareButton } from "@/components/ShareButton";
 import { LogoMark } from "@/components/LogoMark";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -25,14 +26,14 @@ export const Route = createFileRoute("/slack")({
   component: SlackPage,
 });
 
-type Mate = { name: string; role: string; emoji: string; img: string; hue: number };
+type Mate = { id: string; name: string; role: string; emoji: string; img: string; hue: number };
 const TEAM: Mate[] = [
-  { name: "Lena", role: "Product Designer", emoji: "🎨", img: designer, hue: 355 },
-  { name: "Dev Dan", role: "Developer", emoji: "💻", img: developer, hue: 230 },
-  { name: "Grace", role: "Project Manager", emoji: "📋", img: pm, hue: 150 },
-  { name: "Mark", role: "Founder", emoji: "🚀", img: founder, hue: 70 },
-  { name: "Joy", role: "Marketing", emoji: "📣", img: marketer, hue: 300 },
-  { name: "Sal", role: "Sales", emoji: "📞", img: sales, hue: 25 },
+  { id: "lena", name: "Lena", role: "Product Designer", emoji: "🎨", img: designer, hue: 355 },
+  { id: "dan", name: "Dev Dan", role: "Developer", emoji: "💻", img: developer, hue: 230 },
+  { id: "grace", name: "Grace", role: "Project Manager", emoji: "📋", img: pm, hue: 150 },
+  { id: "mark", name: "Mark", role: "Founder", emoji: "🚀", img: founder, hue: 70 },
+  { id: "joy", name: "Joy", role: "Marketing", emoji: "📣", img: marketer, hue: 300 },
+  { id: "sal", name: "Sal", role: "Sales", emoji: "📞", img: sales, hue: 25 },
 ];
 
 function Face({ m, size = 96 }: { m: Mate; size?: number }) {
@@ -48,6 +49,54 @@ function Face({ m, size = 96 }: { m: Mate; size?: number }) {
 }
 
 function SlackPage() {
+  const [playing, setPlaying] = useState<string | null>(null);
+  const [audioError, setAudioError] = useState<string | null>(null);
+  const activeAudio = useRef<HTMLAudioElement | null>(null);
+  const playbackId = useRef(0);
+
+  useEffect(() => () => {
+    playbackId.current++;
+    activeAudio.current?.pause();
+    activeAudio.current = null;
+  }, []);
+
+  const preview = (mate: Mate) => {
+    playbackId.current++;
+    activeAudio.current?.pause();
+    activeAudio.current = null;
+    setAudioError(null);
+    if (playing === mate.id) {
+      setPlaying(null);
+      return;
+    }
+    const id = playbackId.current;
+    setPlaying(mate.id);
+    const laugh = new Audio(`/audio/office/${mate.id}-laugh.mp3`);
+    laugh.preload = "auto";
+    laugh.load();
+    const voice = new Audio(`/audio/office/${mate.id}-voice.mp3`);
+    activeAudio.current = voice;
+    const fail = () => {
+      if (playbackId.current !== id) return;
+      setAudioError(mate.id);
+      setPlaying(null);
+      activeAudio.current = null;
+    };
+    voice.onerror = fail;
+    laugh.onerror = fail;
+    voice.onended = () => {
+      if (playbackId.current !== id) return;
+      activeAudio.current = laugh;
+      void laugh.play().catch(fail);
+    };
+    laugh.onended = () => {
+      if (playbackId.current !== id) return;
+      activeAudio.current = null;
+      setPlaying(null);
+    };
+    void voice.play().catch(fail);
+  };
+
   return (
     <main className="min-h-screen overflow-x-clip">
       <div className="mx-auto max-w-5xl px-5 py-8 md:px-6 md:py-12">
@@ -104,6 +153,10 @@ function SlackPage() {
                 <p className="mt-4 font-display text-lg font-black">{m.name}</p>
                 <p className="text-xs text-muted-foreground">{m.role}</p>
                 <span className="mt-2 rounded-full bg-background/40 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide">created by a teammate</span>
+                <Button type="button" variant="outline" size="sm" onClick={() => preview(m)} className="mt-4 h-auto min-h-8 max-w-full rounded-full bg-transparent px-2.5 py-1.5 text-xs hover:bg-muted" aria-label={`${playing === m.id ? "Stop" : "Play"} ${m.name}'s voice and laugh`}>
+                  <Headphones className="size-3.5" /> {playing === m.id ? "Playing…" : "Voice & laugh"}
+                </Button>
+                {audioError === m.id && <p role="alert" className="mt-2 text-xs text-destructive">Audio unavailable. Try again.</p>}
               </div>
             ))}
           </div>
