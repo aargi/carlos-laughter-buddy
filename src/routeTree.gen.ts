@@ -18,6 +18,7 @@ import { Route as StoryRouteImport } from './routes/story'
 import { Route as AuthenticatedSlackAdminRouteImport } from './routes/_authenticated/slack-admin'
 import { Route as ApiTtsRouteImport } from './routes/api/tts'
 import { Route as STokenRouteImport } from './routes/s.$token'
+import { Route as SlackTeamBuildingRouteImport } from './routes/slack.team-building'
 import { Route as ApiPublicWaitlistRouteImport } from './routes/api/public/waitlist'
 import { Route as OauthSlackReturnRouteImport } from './routes/oauth.slack.return'
 import { Route as ApiPublicSlackSchedulerRouteImport } from './routes/api/public/slack/scheduler'
@@ -66,6 +67,11 @@ const STokenRoute = STokenRouteImport.update({
   path: '/s/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SlackTeamBuildingRoute = SlackTeamBuildingRouteImport.update({
+  id: '/team-building',
+  path: '/team-building',
+  getParentRoute: () => SlackRoute,
+} as any)
 const ApiPublicWaitlistRoute = ApiPublicWaitlistRouteImport.update({
   id: '/api/public/waitlist',
   path: '/api/public/waitlist',
@@ -86,11 +92,12 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/slack': typeof SlackRoute
+  '/slack': typeof SlackRouteWithChildren
   '/story': typeof StoryRoute
   '/slack-admin': typeof AuthenticatedSlackAdminRoute
   '/api/tts': typeof ApiTtsRoute
   '/s/$token': typeof STokenRoute
+  '/slack/team-building': typeof SlackTeamBuildingRoute
   '/api/public/waitlist': typeof ApiPublicWaitlistRoute
   '/oauth/slack/return': typeof OauthSlackReturnRoute
   '/api/public/slack/scheduler': typeof ApiPublicSlackSchedulerRoute
@@ -99,11 +106,12 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/slack': typeof SlackRoute
+  '/slack': typeof SlackRouteWithChildren
   '/story': typeof StoryRoute
   '/slack-admin': typeof AuthenticatedSlackAdminRoute
   '/api/tts': typeof ApiTtsRoute
   '/s/$token': typeof STokenRoute
+  '/slack/team-building': typeof SlackTeamBuildingRoute
   '/api/public/waitlist': typeof ApiPublicWaitlistRoute
   '/oauth/slack/return': typeof OauthSlackReturnRoute
   '/api/public/slack/scheduler': typeof ApiPublicSlackSchedulerRoute
@@ -114,11 +122,12 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/slack': typeof SlackRoute
+  '/slack': typeof SlackRouteWithChildren
   '/story': typeof StoryRoute
   '/_authenticated/slack-admin': typeof AuthenticatedSlackAdminRoute
   '/api/tts': typeof ApiTtsRoute
   '/s/$token': typeof STokenRoute
+  '/slack/team-building': typeof SlackTeamBuildingRoute
   '/api/public/waitlist': typeof ApiPublicWaitlistRoute
   '/oauth/slack/return': typeof OauthSlackReturnRoute
   '/api/public/slack/scheduler': typeof ApiPublicSlackSchedulerRoute
@@ -134,6 +143,7 @@ export interface FileRouteTypes {
     | '/slack-admin'
     | '/api/tts'
     | '/s/$token'
+    | '/slack/team-building'
     | '/api/public/waitlist'
     | '/oauth/slack/return'
     | '/api/public/slack/scheduler'
@@ -147,6 +157,7 @@ export interface FileRouteTypes {
     | '/slack-admin'
     | '/api/tts'
     | '/s/$token'
+    | '/slack/team-building'
     | '/api/public/waitlist'
     | '/oauth/slack/return'
     | '/api/public/slack/scheduler'
@@ -161,6 +172,7 @@ export interface FileRouteTypes {
     | '/_authenticated/slack-admin'
     | '/api/tts'
     | '/s/$token'
+    | '/slack/team-building'
     | '/api/public/waitlist'
     | '/oauth/slack/return'
     | '/api/public/slack/scheduler'
@@ -171,7 +183,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
-  SlackRoute: typeof SlackRoute
+  SlackRoute: typeof SlackRouteWithChildren
   StoryRoute: typeof StoryRoute
   ApiTtsRoute: typeof ApiTtsRoute
   STokenRoute: typeof STokenRoute
@@ -245,6 +257,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof STokenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/slack/team-building': {
+      id: '/slack/team-building'
+      path: '/team-building'
+      fullPath: '/slack/team-building'
+      preLoaderRoute: typeof SlackTeamBuildingRouteImport
+      parentRoute: typeof SlackRoute
+    }
     '/api/public/waitlist': {
       id: '/api/public/waitlist'
       path: '/api/public/waitlist'
@@ -280,12 +299,22 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface SlackRouteChildren {
+  SlackTeamBuildingRoute: typeof SlackTeamBuildingRoute
+}
+
+const SlackRouteChildren: SlackRouteChildren = {
+  SlackTeamBuildingRoute: SlackTeamBuildingRoute,
+}
+
+const SlackRouteWithChildren = SlackRoute._addFileChildren(SlackRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   ResetPasswordRoute: ResetPasswordRoute,
-  SlackRoute: SlackRoute,
+  SlackRoute: SlackRouteWithChildren,
   StoryRoute: StoryRoute,
   ApiTtsRoute: ApiTtsRoute,
   STokenRoute: STokenRoute,
