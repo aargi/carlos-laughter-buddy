@@ -18,6 +18,7 @@ export function SiteFooter() {
           <Link to="/" className="text-muted-foreground transition hover:text-primary">Start a session</Link>
           <Link to="/story" className="text-muted-foreground transition hover:text-primary">Our story</Link>
           <Link to="/slack" className="text-muted-foreground transition hover:text-primary">For Slack</Link>
+          <Link to="/blog/best-slack-apps-team-building" className="text-muted-foreground transition hover:text-primary">Best Slack apps 2026</Link>
         </div>
         <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} Laughter Circle</p>
       </div>
