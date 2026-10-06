@@ -18,6 +18,7 @@ import { Route as StoryRouteImport } from './routes/story'
 import { Route as AuthenticatedSlackAdminRouteImport } from './routes/_authenticated/slack-admin'
 import { Route as ApiTtsRouteImport } from './routes/api/tts'
 import { Route as STokenRouteImport } from './routes/s.$token'
+import { Route as SlackIndexRouteImport } from './routes/slack.index'
 import { Route as SlackTeamBuildingRouteImport } from './routes/slack.team-building'
 import { Route as ApiPublicWaitlistRouteImport } from './routes/api/public/waitlist'
 import { Route as OauthSlackReturnRouteImport } from './routes/oauth.slack.return'
@@ -67,6 +68,11 @@ const STokenRoute = STokenRouteImport.update({
   path: '/s/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SlackIndexRoute = SlackIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SlackRoute,
+} as any)
 const SlackTeamBuildingRoute = SlackTeamBuildingRouteImport.update({
   id: '/team-building',
   path: '/team-building',
@@ -98,6 +104,7 @@ export interface FileRoutesByFullPath {
   '/api/tts': typeof ApiTtsRoute
   '/s/$token': typeof STokenRoute
   '/slack/team-building': typeof SlackTeamBuildingRoute
+  '/slack/': typeof SlackIndexRoute
   '/api/public/waitlist': typeof ApiPublicWaitlistRoute
   '/oauth/slack/return': typeof OauthSlackReturnRoute
   '/api/public/slack/scheduler': typeof ApiPublicSlackSchedulerRoute
@@ -106,12 +113,12 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/slack': typeof SlackRouteWithChildren
   '/story': typeof StoryRoute
   '/slack-admin': typeof AuthenticatedSlackAdminRoute
   '/api/tts': typeof ApiTtsRoute
   '/s/$token': typeof STokenRoute
   '/slack/team-building': typeof SlackTeamBuildingRoute
+  '/slack': typeof SlackIndexRoute
   '/api/public/waitlist': typeof ApiPublicWaitlistRoute
   '/oauth/slack/return': typeof OauthSlackReturnRoute
   '/api/public/slack/scheduler': typeof ApiPublicSlackSchedulerRoute
@@ -128,6 +135,7 @@ export interface FileRoutesById {
   '/api/tts': typeof ApiTtsRoute
   '/s/$token': typeof STokenRoute
   '/slack/team-building': typeof SlackTeamBuildingRoute
+  '/slack/': typeof SlackIndexRoute
   '/api/public/waitlist': typeof ApiPublicWaitlistRoute
   '/oauth/slack/return': typeof OauthSlackReturnRoute
   '/api/public/slack/scheduler': typeof ApiPublicSlackSchedulerRoute
@@ -144,6 +152,7 @@ export interface FileRouteTypes {
     | '/api/tts'
     | '/s/$token'
     | '/slack/team-building'
+    | '/slack/'
     | '/api/public/waitlist'
     | '/oauth/slack/return'
     | '/api/public/slack/scheduler'
@@ -152,12 +161,12 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/reset-password'
-    | '/slack'
     | '/story'
     | '/slack-admin'
     | '/api/tts'
     | '/s/$token'
     | '/slack/team-building'
+    | '/slack'
     | '/api/public/waitlist'
     | '/oauth/slack/return'
     | '/api/public/slack/scheduler'
@@ -173,6 +182,7 @@ export interface FileRouteTypes {
     | '/api/tts'
     | '/s/$token'
     | '/slack/team-building'
+    | '/slack/'
     | '/api/public/waitlist'
     | '/oauth/slack/return'
     | '/api/public/slack/scheduler'
@@ -257,6 +267,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof STokenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/slack/': {
+      id: '/slack/'
+      path: '/'
+      fullPath: '/slack/'
+      preLoaderRoute: typeof SlackIndexRouteImport
+      parentRoute: typeof SlackRoute
+    }
     '/slack/team-building': {
       id: '/slack/team-building'
       path: '/team-building'
@@ -301,10 +318,12 @@ const AuthenticatedRouteRouteWithChildren =
 
 interface SlackRouteChildren {
   SlackTeamBuildingRoute: typeof SlackTeamBuildingRoute
+  SlackIndexRoute: typeof SlackIndexRoute
 }
 
 const SlackRouteChildren: SlackRouteChildren = {
   SlackTeamBuildingRoute: SlackTeamBuildingRoute,
+  SlackIndexRoute: SlackIndexRoute,
 }
 
 const SlackRouteWithChildren = SlackRoute._addFileChildren(SlackRouteChildren)

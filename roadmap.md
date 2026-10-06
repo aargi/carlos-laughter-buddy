@@ -16,3 +16,4 @@
 - [x] Laughter Circle for Slack MVP built; tests + security scan done. Remaining: user publishes, adds redirect URL in Slack app, real end-to-end connect test.
 - [x] Scheduler every 15 min (user choice).
 - [x] Slack plan changes: completeConnectorConnection, sessionStorage temp id + event purge on token expiry, client-side open (estimated), no auto-retry on ambiguous errors + `unknown` state, Block Kit fallback text, slack_workspace_members schema + owner-deletion behaviour. Then implement MVP, tests, Deep Security Scan.
+- [x] New SEO page /slack/team-building (title: Slack Team Building: Simple Activities Your Team Can Do Without Another Meeting); SlackWaitlistForm extracted to shared component; slack.tsx converted to layout with slack.index.tsx leaf.
