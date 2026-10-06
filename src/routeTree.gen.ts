@@ -12,11 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SlackRouteImport } from './routes/slack'
 import { Route as StoryRouteImport } from './routes/story'
 import { Route as AuthenticatedSlackAdminRouteImport } from './routes/_authenticated/slack-admin'
 import { Route as ApiTtsRouteImport } from './routes/api/tts'
+import { Route as BlogBestSlackAppsTeamBuildingRouteImport } from './routes/blog.best-slack-apps-team-building'
 import { Route as STokenRouteImport } from './routes/s.$token'
 import { Route as SlackIndexRouteImport } from './routes/slack.index'
 import { Route as SlackTeamBuildingRouteImport } from './routes/slack.team-building'
@@ -36,6 +38,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -63,6 +70,12 @@ const ApiTtsRoute = ApiTtsRouteImport.update({
   path: '/api/tts',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogBestSlackAppsTeamBuildingRoute =
+  BlogBestSlackAppsTeamBuildingRouteImport.update({
+    id: '/best-slack-apps-team-building',
+    path: '/best-slack-apps-team-building',
+    getParentRoute: () => BlogRoute,
+  } as any)
 const STokenRoute = STokenRouteImport.update({
   id: '/s/$token',
   path: '/s/$token',
@@ -97,11 +110,13 @@ const ApiPublicSlackSchedulerRoute = ApiPublicSlackSchedulerRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/slack': typeof SlackRouteWithChildren
   '/story': typeof StoryRoute
   '/slack-admin': typeof AuthenticatedSlackAdminRoute
   '/api/tts': typeof ApiTtsRoute
+  '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
   '/s/$token': typeof STokenRoute
   '/slack/team-building': typeof SlackTeamBuildingRoute
   '/slack/': typeof SlackIndexRoute
@@ -112,10 +127,12 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/story': typeof StoryRoute
   '/slack-admin': typeof AuthenticatedSlackAdminRoute
   '/api/tts': typeof ApiTtsRoute
+  '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
   '/s/$token': typeof STokenRoute
   '/slack/team-building': typeof SlackTeamBuildingRoute
   '/slack': typeof SlackIndexRoute
@@ -128,11 +145,13 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/slack': typeof SlackRouteWithChildren
   '/story': typeof StoryRoute
   '/_authenticated/slack-admin': typeof AuthenticatedSlackAdminRoute
   '/api/tts': typeof ApiTtsRoute
+  '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
   '/s/$token': typeof STokenRoute
   '/slack/team-building': typeof SlackTeamBuildingRoute
   '/slack/': typeof SlackIndexRoute
@@ -145,11 +164,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/blog'
     | '/reset-password'
     | '/slack'
     | '/story'
     | '/slack-admin'
     | '/api/tts'
+    | '/blog/best-slack-apps-team-building'
     | '/s/$token'
     | '/slack/team-building'
     | '/slack/'
@@ -160,10 +181,12 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/blog'
     | '/reset-password'
     | '/story'
     | '/slack-admin'
     | '/api/tts'
+    | '/blog/best-slack-apps-team-building'
     | '/s/$token'
     | '/slack/team-building'
     | '/slack'
@@ -175,11 +198,13 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/blog'
     | '/reset-password'
     | '/slack'
     | '/story'
     | '/_authenticated/slack-admin'
     | '/api/tts'
+    | '/blog/best-slack-apps-team-building'
     | '/s/$token'
     | '/slack/team-building'
     | '/slack/'
@@ -192,6 +217,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  BlogRoute: typeof BlogRouteWithChildren
   ResetPasswordRoute: typeof ResetPasswordRoute
   SlackRoute: typeof SlackRouteWithChildren
   StoryRoute: typeof StoryRoute
@@ -223,6 +249,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -259,6 +292,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/tts'
       preLoaderRoute: typeof ApiTtsRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/blog/best-slack-apps-team-building': {
+      id: '/blog/best-slack-apps-team-building'
+      path: '/best-slack-apps-team-building'
+      fullPath: '/blog/best-slack-apps-team-building'
+      preLoaderRoute: typeof BlogBestSlackAppsTeamBuildingRouteImport
+      parentRoute: typeof BlogRoute
     }
     '/s/$token': {
       id: '/s/$token'
@@ -316,6 +356,16 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface BlogRouteChildren {
+  BlogBestSlackAppsTeamBuildingRoute: typeof BlogBestSlackAppsTeamBuildingRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogBestSlackAppsTeamBuildingRoute: BlogBestSlackAppsTeamBuildingRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
+
 interface SlackRouteChildren {
   SlackTeamBuildingRoute: typeof SlackTeamBuildingRoute
   SlackIndexRoute: typeof SlackIndexRoute
@@ -332,6 +382,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  BlogRoute: BlogRouteWithChildren,
   ResetPasswordRoute: ResetPasswordRoute,
   SlackRoute: SlackRouteWithChildren,
   StoryRoute: StoryRoute,
