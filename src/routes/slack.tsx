@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Slack, Check, Hash, Sparkles, Users, Coffee, RefreshCw, Headphones } from "lucide-react";
+import { Slack, Hash, Sparkles, Users, Coffee, RefreshCw, Headphones } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ShareButton } from "@/components/ShareButton";
 import { LogoMark } from "@/components/LogoMark";
