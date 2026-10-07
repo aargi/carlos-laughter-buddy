@@ -1,5 +1,7 @@
 # Roadmap
 
+- [ ] Add official app logos and links beneath Best for in the seven-app comparison; Laughter Circle links to For Slack.
+
 - [x] Add reusable ElevenLabs voice and laugh demos to all six office characters on For Slack.
 
 - [x] Refresh Slack message copy, test delivery, and request publication. Slack bot avatar must be changed in Slack app settings by the owner.
