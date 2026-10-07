@@ -1,5 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Slack, Check, Sparkles } from "lucide-react";
+import { Slack, Check, Sparkles, ArrowUpRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import carlos from "@/assets/carlos.png";
+import donut from "@/assets/app-logos/donut.png.asset.json";
+import trivia from "@/assets/app-logos/trivia.svg.asset.json";
+import culturebot from "@/assets/app-logos/culturebot.png.asset.json";
+import heytaco from "@/assets/app-logos/heytaco.png.asset.json";
+import polly from "@/assets/app-logos/polly.png.asset.json";
+import ricotta from "@/assets/app-logos/ricotta.png.asset.json";
 import { ShareButton } from "@/components/ShareButton";
 import { LogoMark } from "@/components/LogoMark";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -36,6 +44,8 @@ export const Route = createFileRoute("/blog/best-slack-apps-team-building")({
 const APPS = [
   {
     name: "Laughter Circle",
+    logo: carlos,
+    href: "/slack",
     tagline: "The shared laugh break",
     best: "Teams that want a physical, genuine moment of connection — not another quiz.",
     body: "Laughter Circle does something no other Slack app does: it gets your team laughing out loud together for 2–5 minutes. The bot posts a laugh break into a channel your admin picks, on the days and time your team chooses, with a button that opens a guided session in the browser. Ten AI guides — each with their own voice and unmistakable laugh — lead the exercises, and two buddy guides laugh along with you by default. No meeting, no camera, no performing. Anonymous by design: only aggregate participation is measured, never who joined.",
@@ -44,6 +54,8 @@ const APPS = [
   },
   {
     name: "Donut",
+    logo: donut.url,
+    href: "https://www.donut.com/",
     tagline: "The coffee-chat pairing app",
     best: "Random 1:1 introductions across a large organization.",
     body: "Donut pairs teammates for virtual coffee chats on a recurring schedule and nudges them to meet. It's the classic answer to 'people in different departments never talk to each other' and works well for onboarding buddies and cross-team intros.",
@@ -51,6 +63,8 @@ const APPS = [
   },
   {
     name: "Trivia",
+    logo: trivia.url,
+    href: "https://trytrivia.co/",
     tagline: "Games inside your channels",
     best: "Quick competitive games — trivia, word puzzles, GIF battles — without leaving Slack.",
     body: "Trivia turns any channel into a game show: scheduled quizzes, word games and picture rounds with leaderboards. It's easy to start and gives competitive teams a fun reason to show up in a channel.",
@@ -58,6 +72,8 @@ const APPS = [
   },
   {
     name: "CultureBot",
+    logo: culturebot.url,
+    href: "https://getculturebot.com/",
     tagline: "The culture automation toolkit",
     best: "Automating the People Ops basics: birthdays, anniversaries, shout-outs, watercooler prompts.",
     body: "CultureBot is a broad toolkit: it celebrates birthdays and work anniversaries, sends watercooler conversation starters, collects peer shout-outs and runs health checks. It keeps the small rituals of office culture alive in a remote setting.",
@@ -65,6 +81,8 @@ const APPS = [
   },
   {
     name: "HeyTaco",
+    logo: heytaco.url,
+    href: "https://heytaco.com/",
     tagline: "Peer recognition with tacos",
     best: "Making appreciation a daily habit through playful peer-to-peer recognition.",
     body: "HeyTaco lets teammates give each other virtual tacos to say thanks, with leaderboards and rewards. It's simple, cheerful and surprisingly effective at making gratitude visible in day-to-day work.",
@@ -72,6 +90,8 @@ const APPS = [
   },
   {
     name: "Polly",
+    logo: polly.url,
+    href: "https://www.polly.ai/",
     tagline: "Polls and surveys in Slack",
     best: "Instant polls, pulse surveys and feedback loops without leaving the conversation.",
     body: "Polly is the polling workhorse of Slack: quick votes, standups, pulse surveys and feedback forms, with results right in the channel. It's less about play and more about giving every voice a low-friction way to be heard.",
@@ -79,6 +99,8 @@ const APPS = [
   },
   {
     name: "Ricotta",
+    logo: ricotta.url,
+    href: "https://www.ricotta.team/",
     tagline: "Trivia and icebreakers on autopilot",
     best: "Scheduled trivia contests and icebreaker questions that run themselves.",
     body: "Ricotta schedules trivia games, 'this or that' questions, word chains and icebreakers into your channels automatically. Set the cadence once and the channel stays lively without anyone having to host.",
@@ -150,6 +172,21 @@ function BestSlackAppsPage() {
                   <span className="font-bold text-primary">Best for:</span>{" "}
                   <span className="text-muted-foreground">{a.fit}</span>
                 </p>
+                <Button asChild variant="link" className="mt-4 h-auto max-w-full justify-start gap-3 px-0 py-1 whitespace-normal text-left">
+                  {a.ours ? (
+                    <Link to="/slack">
+                      <img src={a.logo} alt="" loading="lazy" width={32} height={32} className="size-8 shrink-0 rounded-full object-contain ring-2 ring-primary/50" />
+                      <span>Laughter Circle for Slack</span>
+                      <ArrowUpRight aria-hidden="true" />
+                    </Link>
+                  ) : (
+                    <a href={a.href} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${a.name} (opens in a new tab)`}>
+                      <img src={a.logo} alt="" loading="lazy" width={32} height={32} className="size-8 shrink-0 rounded-md object-contain" />
+                      <span>Visit {a.name}</span>
+                      <ArrowUpRight aria-hidden="true" />
+                    </a>
+                  )}
+                </Button>
               </article>
             ))}
           </div>
