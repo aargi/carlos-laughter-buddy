@@ -17,3 +17,4 @@
 - [x] Scheduler every 15 min (user choice).
 - [x] Slack plan changes: completeConnectorConnection, sessionStorage temp id + event purge on token expiry, client-side open (estimated), no auto-retry on ambiguous errors + `unknown` state, Block Kit fallback text, slack_workspace_members schema + owner-deletion behaviour. Then implement MVP, tests, Deep Security Scan.
 - [x] New SEO page /slack/team-building (title: Slack Team Building: Simple Activities Your Team Can Do Without Another Meeting); SlackWaitlistForm extracted to shared component; slack.tsx converted to layout with slack.index.tsx leaf.
+- [x] New SEO page /blog/best-slack-apps-team-building ("7 Best Slack Apps for Team Building in 2026"): honest comparison of Laughter Circle, Donut, Trivia, CultureBot, HeyTaco, Polly, Ricotta; blog.tsx layout; footer link; published.
