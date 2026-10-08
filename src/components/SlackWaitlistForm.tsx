@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Slack, Check, AlertCircle } from "lucide-react";
+import { Slack, Check, AlertCircle, RefreshCw } from "lucide-react";
 import { submitWaitlist } from "@/lib/waitlist";
 
 const TEAM_SIZES = ["1–10", "11–50", "51–200", "200+"] as const;
