@@ -10,6 +10,7 @@ import storyPoster from "@/assets/story-poster.jpg.asset.json";
 import stravaRun from "@/assets/strava-run.jpg.asset.json";
 
 export const Route = createFileRoute("/story")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Our Story — Laughter Circle, born at the Running Hackathon Barcelona" },

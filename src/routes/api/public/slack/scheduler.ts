@@ -4,6 +4,8 @@ import { authenticateCronRequest } from "@/integrations/supabase/cron-auth";
 // Called every 15 minutes by the scheduled job. Deny by default: only POST with the
 // platform cron secret; a DB-level throttle rejects runs closer than 60 s.
 export const Route = createFileRoute("/api/public/slack/scheduler")({
+  // API endpoint, not a page.
+  staticData: { sitemap: false },
   server: {
     handlers: {
       POST: async ({ request }) => {

@@ -3,6 +3,8 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/reset-password")({
+  // Password-reset utility page: excluded from the sitemap and noindexed.
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Reset password — Laughter Circle" },

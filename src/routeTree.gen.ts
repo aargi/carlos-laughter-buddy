@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SlackRouteImport } from './routes/slack'
 import { Route as StoryRouteImport } from './routes/story'
 import { Route as AuthenticatedSlackAdminRouteImport } from './routes/_authenticated/slack-admin'
@@ -48,6 +49,11 @@ const BlogRoute = BlogRouteImport.update({
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SlackRoute = SlackRouteImport.update({
@@ -112,6 +118,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/slack': typeof SlackRouteWithChildren
   '/story': typeof StoryRoute
   '/slack-admin': typeof AuthenticatedSlackAdminRoute
@@ -129,6 +136,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/story': typeof StoryRoute
   '/slack-admin': typeof AuthenticatedSlackAdminRoute
   '/api/tts': typeof ApiTtsRoute
@@ -147,6 +155,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/slack': typeof SlackRouteWithChildren
   '/story': typeof StoryRoute
   '/_authenticated/slack-admin': typeof AuthenticatedSlackAdminRoute
@@ -166,6 +175,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blog'
     | '/reset-password'
+    | '/sitemap.xml'
     | '/slack'
     | '/story'
     | '/slack-admin'
@@ -183,6 +193,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blog'
     | '/reset-password'
+    | '/sitemap.xml'
     | '/story'
     | '/slack-admin'
     | '/api/tts'
@@ -200,6 +211,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blog'
     | '/reset-password'
+    | '/sitemap.xml'
     | '/slack'
     | '/story'
     | '/_authenticated/slack-admin'
@@ -219,6 +231,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BlogRoute: typeof BlogRouteWithChildren
   ResetPasswordRoute: typeof ResetPasswordRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SlackRoute: typeof SlackRouteWithChildren
   StoryRoute: typeof StoryRoute
   ApiTtsRoute: typeof ApiTtsRoute
@@ -263,6 +276,13 @@ declare module '@tanstack/react-router' {
       path: '/reset-password'
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/slack': {
@@ -384,6 +404,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BlogRoute: BlogRouteWithChildren,
   ResetPasswordRoute: ResetPasswordRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   SlackRoute: SlackRouteWithChildren,
   StoryRoute: StoryRoute,
   ApiTtsRoute: ApiTtsRoute,

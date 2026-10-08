@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { CHARACTERS } from "@/lib/characters";
 
 export const Route = createFileRoute("/api/tts")({
+  // API endpoint, not a page.
+  staticData: { sitemap: false },
   server: {
     handlers: {
       POST: async ({ request }) => {

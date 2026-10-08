@@ -14,6 +14,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SlackWaitlistForm } from "@/components/SlackWaitlistForm";
 
 export const Route = createFileRoute("/blog/best-slack-apps-team-building")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "7 Best Slack Apps for Team Building in 2026 — Laughter Circle" },

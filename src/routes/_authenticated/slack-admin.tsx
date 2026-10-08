@@ -10,6 +10,8 @@ import {
 } from "@/lib/slack/slack.functions";
 
 export const Route = createFileRoute("/_authenticated/slack-admin")({
+  // Private admin page: excluded (also covered by the ancestor exclusion).
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Slack admin — Laughter Circle" },

@@ -44,6 +44,7 @@ const PRO_GUIDES: { c: Character; interest: string }[] = [
 ];
 
 export const Route = createFileRoute("/")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Laughter Circle — guided laughter therapy with 10 characters" },
