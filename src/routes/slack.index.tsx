@@ -21,8 +21,10 @@ export const Route = createFileRoute("/slack/")({
       { property: "og:title", content: "Turn your Slack team into a Laughter Circle" },
       { property: "og:description", content: "Teammates create their own characters, clone their voices and make each other laugh — right inside Slack. Join the waitlist." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://laughtercircle.com/slack" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://laughtercircle.com/slack" }],
   }),
   component: SlackPage,
 });

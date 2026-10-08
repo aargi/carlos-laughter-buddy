@@ -16,8 +16,10 @@ export const Route = createFileRoute("/auth")({
       { property: "og:title", content: "Sign in — Laughter Circle" },
       { property: "og:description", content: "Unlock Pro features in Laughter Circle." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://laughtercircle.com/auth" },
       { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: "https://laughtercircle.com/auth" }],
   }),
   component: AuthPage,
 });

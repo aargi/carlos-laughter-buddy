@@ -17,9 +17,11 @@ export const Route = createFileRoute("/_authenticated/slack-admin")({
       { property: "og:title", content: "Slack admin — Laughter Circle" },
       { property: "og:description", content: "Schedule Laughter Circle breaks in your Slack workspace." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://laughtercircle.com/slack-admin" },
       { name: "twitter:card", content: "summary" },
       { name: "robots", content: "noindex" },
     ],
+    links: [{ rel: "canonical", href: "https://laughtercircle.com/slack-admin" }],
   }),
   component: SlackAdmin,
 });

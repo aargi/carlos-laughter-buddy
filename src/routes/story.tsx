@@ -17,8 +17,10 @@ export const Route = createFileRoute("/story")({
       { property: "og:title", content: "Our Story — Laughter Circle" },
       { property: "og:description", content: "Built while running through Barcelona: the story of a laughter yoga app with 10 AI guides, born at the Running Hackathon." },
       { property: "og:type", content: "article" },
+      { property: "og:url", content: "https://laughtercircle.com/story" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://laughtercircle.com/story" }],
   }),
   component: Story,
 });

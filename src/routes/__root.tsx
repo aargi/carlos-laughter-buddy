@@ -78,8 +78,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Risoterapia con Carlos" },
-      { name: "description", content: "Sesión guiada de risoterapia con Carlos, tu facilitador virtual." },
+      { title: "Laughter Circle — Guided laughter therapy" },
+      { name: "description", content: "Join a guided laughter therapy session with Carlos and the circle. Choose your AI guide, laugh along together and take a moment to reset." },
+      { property: "og:title", content: "Laughter Circle — Guided laughter therapy" },
+      { property: "og:description", content: "Join a guided laughter therapy session with Carlos and the circle. Choose your AI guide, laugh along together and take a moment to reset." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#2A0A2E" },
