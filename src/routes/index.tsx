@@ -1,12 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Play, SkipForward, Volume2, VolumeX, X, Headphones, RefreshCw, UserRound, Sparkles, Handshake, Lock, LogOut } from "lucide-react";
+import { Play, SkipForward, Volume2, VolumeX, X, Headphones, RefreshCw, UserRound, Sparkles, Handshake, Lock, LogOut, AlertCircle } from "lucide-react";
 import { ShareButton } from "@/components/ShareButton";
 import { SlackLogo } from "@/components/SlackLogo";
 import { useAuth, signOut } from "@/hooks/use-auth";
 import { LogoMark } from "@/components/LogoMark";
 import { SiteFooter } from "@/components/SiteFooter";
 import { AVATARS } from "@/lib/avatars";
+import { submitWaitlist } from "@/lib/waitlist";
 import { EXERCISES } from "@/lib/exercises";
 import { exerciseText } from "@/lib/audio-phrases";
 import { getAnalyser, getMicAnalyser, laughAlong, preloadLaugh, preloadLaughAlong, preloadSpeak, speak, startMic, stopAll, stopGroup, stopMic } from "@/lib/carlos-audio";
@@ -672,13 +673,6 @@ function AccountButton() {
 }
 
 /* ---------- Waitlist helpers (saved to the backend) ---------- */
-function saveWaitlist(interest: string, email: string, teamSize?: string) {
-  fetch("/api/public/waitlist", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ interest, email, teamSize }),
-  }).catch(() => { /* network hiccup — keep the UI flow anyway */ });
-}
 
 function WaitlistCard({ interest, icon, title, text, cta }: { interest: string; icon: React.ReactNode; title: string; text: string; cta: string }) {
   const [open, setOpen] = useState(false);
@@ -768,14 +762,27 @@ function WaitlistLink({ interest, text }: { interest: string; text: string }) {
 
 function WaitlistForm({ interest, onDone, stacked = false }: { interest: string; onDone: () => void; stacked?: boolean }) {
   const [email, setEmail] = useState("");
-  const submit = () => {
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return;
-    saveWaitlist(interest, email);
-    onDone();
+  const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
+  const [error, setError] = useState("");
+  const submit = async () => {
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      setStatus("error");
+      setError("Please enter a valid email address.");
+      return;
+    }
+    setStatus("sending");
+    setError("");
+    const saved = await submitWaitlist(interest, email);
+    if (saved) {
+      onDone();
+    } else {
+      setStatus("error");
+      setError("We couldn't save your email. Please try again.");
+    }
   };
   return (
     <form
-      className={`mt-4 flex w-full gap-2 ${stacked ? "flex-col" : ""}`}
+      className={`mt-4 flex w-full flex-wrap gap-2 ${stacked ? "flex-col" : ""}`}
       onSubmit={(e) => { e.preventDefault(); submit(); }}
     >
       <input
@@ -786,9 +793,18 @@ function WaitlistForm({ interest, onDone, stacked = false }: { interest: string;
         placeholder="your@email.com"
         className="min-w-0 flex-1 rounded-full border bg-background px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/50"
       />
-      <button type="submit" className="shrink-0 rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground hover:bg-primary/90">
-        Notify me
+      <button
+        type="submit"
+        disabled={status === "sending"}
+        className="shrink-0 rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground hover:bg-primary/90 disabled:cursor-wait disabled:opacity-60"
+      >
+        {status === "sending" ? "Sending…" : "Notify me"}
       </button>
+      {status === "error" && (
+        <p role="alert" className="flex w-full basis-full items-center gap-1.5 text-xs font-medium text-destructive">
+          <AlertCircle className="size-3.5 shrink-0" /> {error}
+        </p>
+      )}
     </form>
   );
 }
