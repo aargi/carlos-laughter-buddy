@@ -1,25 +1,34 @@
 import { useState } from "react";
-import { Slack, Check } from "lucide-react";
+import { Slack, Check, AlertCircle } from "lucide-react";
+import { submitWaitlist } from "@/lib/waitlist";
 
 const TEAM_SIZES = ["1–10", "11–50", "51–200", "200+"] as const;
 
 export function SlackWaitlistForm() {
   const [email, setEmail] = useState("");
   const [size, setSize] = useState<string>(TEAM_SIZES[0]);
-  const [done, setDone] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
+  const [error, setError] = useState("");
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return;
-    fetch("/api/public/waitlist", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ interest: "slack-workspace", email, teamSize: size }),
-    }).catch(() => { /* ignore */ });
-    setDone(true);
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      setStatus("error");
+      setError("Please enter a valid work email.");
+      return;
+    }
+    setStatus("sending");
+    setError("");
+    const saved = await submitWaitlist("slack-workspace", email, size);
+    if (saved) {
+      setStatus("done");
+    } else {
+      setStatus("error");
+      setError("We couldn't save your email. Please try again.");
+    }
   };
 
-  if (done) {
+  if (status === "done") {
     return <div className="flex items-center justify-center gap-2 rounded-full bg-background/20 py-4 text-lg font-bold"><Check className="size-5" /> You're on the list! 🎉</div>;
   }
 
@@ -38,8 +47,14 @@ export function SlackWaitlistForm() {
           ))}
         </div>
       </div>
-      <button type="submit" className="inline-flex items-center justify-center gap-2 rounded-full bg-background py-3.5 text-sm font-bold text-foreground shadow-lg transition hover:scale-[1.02]">
-        <Slack className="size-4" /> Join the waitlist
+      {status === "error" && (
+        <p role="alert" className="flex items-center gap-2 rounded-full bg-background/20 px-4 py-2 text-xs font-semibold text-accent">
+          <AlertCircle className="size-4 shrink-0" /> {error}
+        </p>
+      )}
+      <button type="submit" disabled={status === "sending"}
+        className="inline-flex items-center justify-center gap-2 rounded-full bg-background py-3.5 text-sm font-bold text-foreground shadow-lg transition hover:scale-[1.02] disabled:cursor-wait disabled:opacity-60 disabled:hover:scale-100">
+        {status === "sending" ? <><RefreshCw className="size-4 animate-spin" /> Joining…</> : <><Slack className="size-4" /> Join the waitlist</>}
       </button>
     </form>
   );
