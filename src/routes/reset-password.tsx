@@ -10,8 +10,10 @@ export const Route = createFileRoute("/reset-password")({
       { property: "og:title", content: "Reset password — Laughter Circle" },
       { property: "og:description", content: "Choose a new password for your Laughter Circle account." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://laughtercircle.com/reset-password" },
       { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: "https://laughtercircle.com/reset-password" }],
   }),
   component: ResetPassword,
 });

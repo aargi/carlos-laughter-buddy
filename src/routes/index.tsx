@@ -50,8 +50,10 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Laughter Circle — guided laughter therapy" },
       { property: "og:description", content: "Ten characters, ten voices, ten laughs. Choose your guide and laugh with the group." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://laughtercircle.com/" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://laughtercircle.com/" }],
   }),
   component: App,
 });

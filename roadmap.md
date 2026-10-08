@@ -1,5 +1,7 @@
 # Roadmap
 
+- [ ] Correct English default SEO metadata and verify self-referencing canonical URLs on leaf pages.
+
 - [x] Add official app logos and links beneath Best for in the seven-app comparison; Laughter Circle links to For Slack. Verified all seven logos and the internal destination in the browser.
 
 - [x] Add reusable ElevenLabs voice and laugh demos to all six office characters on For Slack.

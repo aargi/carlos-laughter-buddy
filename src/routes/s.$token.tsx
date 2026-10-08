@@ -4,16 +4,18 @@ import { LogoMark } from "@/components/LogoMark";
 import { setLaunchToken, trackLaunch } from "@/lib/slack/launch";
 
 export const Route = createFileRoute("/s/$token")({
-  head: () => ({
+  head: ({ params }) => ({
     meta: [
       { title: "Laugh break — Laughter Circle" },
       { name: "description", content: "Your team's Laughter Circle break is ready. Start a short guided laughter session." },
       { property: "og:title", content: "Laugh break — Laughter Circle" },
       { property: "og:description", content: "Your team's Laughter Circle break is ready." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: `https://laughtercircle.com/s/${encodeURIComponent(params.token)}` },
       { name: "twitter:card", content: "summary" },
       { name: "robots", content: "noindex" },
     ],
+    links: [{ rel: "canonical", href: `https://laughtercircle.com/s/${encodeURIComponent(params.token)}` }],
   }),
   component: LaunchPage,
 });
