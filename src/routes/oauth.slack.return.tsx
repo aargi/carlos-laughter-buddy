@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/oauth/slack/return")({
+  // OAuth callback: noindex, not for the sitemap.
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Connecting Slack — Laughter Circle" },

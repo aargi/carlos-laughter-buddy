@@ -9,6 +9,8 @@ const bodySchema = z.object({
 });
 
 export const Route = createFileRoute("/api/public/waitlist")({
+  // API endpoint, not a page.
+  staticData: { sitemap: false },
   server: {
     handlers: {
       POST: async ({ request }) => {

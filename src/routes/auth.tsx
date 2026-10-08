@@ -8,6 +8,8 @@ import { lovable } from "@/integrations/lovable/index";
 const search = z.object({ redirect: z.string().optional() });
 
 export const Route = createFileRoute("/auth")({
+  // Sign-in utility page: not for search discovery.
+  staticData: { sitemap: false },
   validateSearch: (s) => search.parse(s),
   head: () => ({
     meta: [

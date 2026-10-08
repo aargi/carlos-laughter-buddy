@@ -6,6 +6,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SlackWaitlistForm } from "@/components/SlackWaitlistForm";
 
 export const Route = createFileRoute("/slack/team-building")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Slack Team Building: Simple Activities Your Team Can Do Without Another Meeting" },

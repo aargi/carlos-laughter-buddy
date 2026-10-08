@@ -14,6 +14,7 @@ import marketer from "@/assets/office/marketer.png";
 import sales from "@/assets/office/sales.png";
 
 export const Route = createFileRoute("/slack/")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Laughter Circle for Slack — turn your team into a Laughter Circle" },

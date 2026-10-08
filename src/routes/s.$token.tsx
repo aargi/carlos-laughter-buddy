@@ -4,6 +4,8 @@ import { LogoMark } from "@/components/LogoMark";
 import { setLaunchToken, trackLaunch } from "@/lib/slack/launch";
 
 export const Route = createFileRoute("/s/$token")({
+  // Personalized Slack launch links: noindex, not for the sitemap.
+  staticData: { sitemap: false },
   head: ({ params }) => ({
     meta: [
       { title: "Laugh break — Laughter Circle" },
