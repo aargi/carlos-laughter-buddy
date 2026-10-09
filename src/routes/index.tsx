@@ -47,10 +47,10 @@ export const Route = createFileRoute("/")({
   staticData: { sitemap: true },
   head: () => ({
     meta: [
-      { title: "Laughter Circle — guided laughter therapy with 10 characters" },
-      { name: "description", content: "Pick your guide from 10 characters, each with their own voice, aura and laugh, and laugh together through a guided session." },
-      { property: "og:title", content: "Laughter Circle — guided laughter therapy" },
-      { property: "og:description", content: "Ten characters, ten voices, ten laughs. Choose your guide and laugh with the group." },
+      { title: "Laughter Circle — Laughter Therapy with 10 AI Characters" },
+      { name: "description", content: "Join a guided laughter therapy session led by 10 AI characters, each with their own voice, aura and laugh. Pick your guide and laugh along." },
+      { property: "og:title", content: "Laughter Circle — Laughter Therapy with 10 AI Characters" },
+      { property: "og:description", content: "Join a guided laughter therapy session led by 10 AI characters, each with their own voice, aura and laugh. Pick your guide and laugh along." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://laughtercircle.com/" },
       { name: "twitter:card", content: "summary_large_image" },
