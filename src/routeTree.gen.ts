@@ -22,6 +22,7 @@ import { Route as ApiTtsRouteImport } from './routes/api/tts'
 import { Route as BlogBestSlackAppsTeamBuildingRouteImport } from './routes/blog.best-slack-apps-team-building'
 import { Route as STokenRouteImport } from './routes/s.$token'
 import { Route as SlackIndexRouteImport } from './routes/slack.index'
+import { Route as SlackEmployeeEngagementRouteImport } from './routes/slack.employee-engagement'
 import { Route as SlackTeamBuildingRouteImport } from './routes/slack.team-building'
 import { Route as ApiPublicWaitlistRouteImport } from './routes/api/public/waitlist'
 import { Route as OauthSlackReturnRouteImport } from './routes/oauth.slack.return'
@@ -92,6 +93,11 @@ const SlackIndexRoute = SlackIndexRouteImport.update({
   path: '/',
   getParentRoute: () => SlackRoute,
 } as any)
+const SlackEmployeeEngagementRoute = SlackEmployeeEngagementRouteImport.update({
+  id: '/employee-engagement',
+  path: '/employee-engagement',
+  getParentRoute: () => SlackRoute,
+} as any)
 const SlackTeamBuildingRoute = SlackTeamBuildingRouteImport.update({
   id: '/team-building',
   path: '/team-building',
@@ -125,6 +131,7 @@ export interface FileRoutesByFullPath {
   '/api/tts': typeof ApiTtsRoute
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
   '/s/$token': typeof STokenRoute
+  '/slack/employee-engagement': typeof SlackEmployeeEngagementRoute
   '/slack/team-building': typeof SlackTeamBuildingRoute
   '/slack/': typeof SlackIndexRoute
   '/api/public/waitlist': typeof ApiPublicWaitlistRoute
@@ -142,6 +149,7 @@ export interface FileRoutesByTo {
   '/api/tts': typeof ApiTtsRoute
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
   '/s/$token': typeof STokenRoute
+  '/slack/employee-engagement': typeof SlackEmployeeEngagementRoute
   '/slack/team-building': typeof SlackTeamBuildingRoute
   '/slack': typeof SlackIndexRoute
   '/api/public/waitlist': typeof ApiPublicWaitlistRoute
@@ -162,6 +170,7 @@ export interface FileRoutesById {
   '/api/tts': typeof ApiTtsRoute
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
   '/s/$token': typeof STokenRoute
+  '/slack/employee-engagement': typeof SlackEmployeeEngagementRoute
   '/slack/team-building': typeof SlackTeamBuildingRoute
   '/slack/': typeof SlackIndexRoute
   '/api/public/waitlist': typeof ApiPublicWaitlistRoute
@@ -182,6 +191,7 @@ export interface FileRouteTypes {
     | '/api/tts'
     | '/blog/best-slack-apps-team-building'
     | '/s/$token'
+    | '/slack/employee-engagement'
     | '/slack/team-building'
     | '/slack/'
     | '/api/public/waitlist'
@@ -199,6 +209,7 @@ export interface FileRouteTypes {
     | '/api/tts'
     | '/blog/best-slack-apps-team-building'
     | '/s/$token'
+    | '/slack/employee-engagement'
     | '/slack/team-building'
     | '/slack'
     | '/api/public/waitlist'
@@ -218,6 +229,7 @@ export interface FileRouteTypes {
     | '/api/tts'
     | '/blog/best-slack-apps-team-building'
     | '/s/$token'
+    | '/slack/employee-engagement'
     | '/slack/team-building'
     | '/slack/'
     | '/api/public/waitlist'
@@ -334,6 +346,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SlackIndexRouteImport
       parentRoute: typeof SlackRoute
     }
+    '/slack/employee-engagement': {
+      id: '/slack/employee-engagement'
+      path: '/employee-engagement'
+      fullPath: '/slack/employee-engagement'
+      preLoaderRoute: typeof SlackEmployeeEngagementRouteImport
+      parentRoute: typeof SlackRoute
+    }
     '/slack/team-building': {
       id: '/slack/team-building'
       path: '/team-building'
@@ -387,11 +406,13 @@ const BlogRouteChildren: BlogRouteChildren = {
 const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 
 interface SlackRouteChildren {
+  SlackEmployeeEngagementRoute: typeof SlackEmployeeEngagementRoute
   SlackTeamBuildingRoute: typeof SlackTeamBuildingRoute
   SlackIndexRoute: typeof SlackIndexRoute
 }
 
 const SlackRouteChildren: SlackRouteChildren = {
+  SlackEmployeeEngagementRoute: SlackEmployeeEngagementRoute,
   SlackTeamBuildingRoute: SlackTeamBuildingRoute,
   SlackIndexRoute: SlackIndexRoute,
 }
