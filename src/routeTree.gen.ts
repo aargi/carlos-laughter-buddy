@@ -23,6 +23,7 @@ import { Route as BlogBestSlackAppsTeamBuildingRouteImport } from './routes/blog
 import { Route as STokenRouteImport } from './routes/s.$token'
 import { Route as SlackIndexRouteImport } from './routes/slack.index'
 import { Route as SlackEmployeeEngagementRouteImport } from './routes/slack.employee-engagement'
+import { Route as SlackIcebreakersRouteImport } from './routes/slack.icebreakers'
 import { Route as SlackTeamBuildingRouteImport } from './routes/slack.team-building'
 import { Route as ApiPublicWaitlistRouteImport } from './routes/api/public/waitlist'
 import { Route as OauthSlackReturnRouteImport } from './routes/oauth.slack.return'
@@ -98,6 +99,11 @@ const SlackEmployeeEngagementRoute = SlackEmployeeEngagementRouteImport.update({
   path: '/employee-engagement',
   getParentRoute: () => SlackRoute,
 } as any)
+const SlackIcebreakersRoute = SlackIcebreakersRouteImport.update({
+  id: '/icebreakers',
+  path: '/icebreakers',
+  getParentRoute: () => SlackRoute,
+} as any)
 const SlackTeamBuildingRoute = SlackTeamBuildingRouteImport.update({
   id: '/team-building',
   path: '/team-building',
@@ -132,6 +138,7 @@ export interface FileRoutesByFullPath {
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
   '/s/$token': typeof STokenRoute
   '/slack/employee-engagement': typeof SlackEmployeeEngagementRoute
+  '/slack/icebreakers': typeof SlackIcebreakersRoute
   '/slack/team-building': typeof SlackTeamBuildingRoute
   '/slack/': typeof SlackIndexRoute
   '/api/public/waitlist': typeof ApiPublicWaitlistRoute
@@ -150,6 +157,7 @@ export interface FileRoutesByTo {
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
   '/s/$token': typeof STokenRoute
   '/slack/employee-engagement': typeof SlackEmployeeEngagementRoute
+  '/slack/icebreakers': typeof SlackIcebreakersRoute
   '/slack/team-building': typeof SlackTeamBuildingRoute
   '/slack': typeof SlackIndexRoute
   '/api/public/waitlist': typeof ApiPublicWaitlistRoute
@@ -171,6 +179,7 @@ export interface FileRoutesById {
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
   '/s/$token': typeof STokenRoute
   '/slack/employee-engagement': typeof SlackEmployeeEngagementRoute
+  '/slack/icebreakers': typeof SlackIcebreakersRoute
   '/slack/team-building': typeof SlackTeamBuildingRoute
   '/slack/': typeof SlackIndexRoute
   '/api/public/waitlist': typeof ApiPublicWaitlistRoute
@@ -192,6 +201,7 @@ export interface FileRouteTypes {
     | '/blog/best-slack-apps-team-building'
     | '/s/$token'
     | '/slack/employee-engagement'
+    | '/slack/icebreakers'
     | '/slack/team-building'
     | '/slack/'
     | '/api/public/waitlist'
@@ -210,6 +220,7 @@ export interface FileRouteTypes {
     | '/blog/best-slack-apps-team-building'
     | '/s/$token'
     | '/slack/employee-engagement'
+    | '/slack/icebreakers'
     | '/slack/team-building'
     | '/slack'
     | '/api/public/waitlist'
@@ -230,6 +241,7 @@ export interface FileRouteTypes {
     | '/blog/best-slack-apps-team-building'
     | '/s/$token'
     | '/slack/employee-engagement'
+    | '/slack/icebreakers'
     | '/slack/team-building'
     | '/slack/'
     | '/api/public/waitlist'
@@ -353,6 +365,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SlackEmployeeEngagementRouteImport
       parentRoute: typeof SlackRoute
     }
+    '/slack/icebreakers': {
+      id: '/slack/icebreakers'
+      path: '/icebreakers'
+      fullPath: '/slack/icebreakers'
+      preLoaderRoute: typeof SlackIcebreakersRouteImport
+      parentRoute: typeof SlackRoute
+    }
     '/slack/team-building': {
       id: '/slack/team-building'
       path: '/team-building'
@@ -407,12 +426,14 @@ const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 
 interface SlackRouteChildren {
   SlackEmployeeEngagementRoute: typeof SlackEmployeeEngagementRoute
+  SlackIcebreakersRoute: typeof SlackIcebreakersRoute
   SlackTeamBuildingRoute: typeof SlackTeamBuildingRoute
   SlackIndexRoute: typeof SlackIndexRoute
 }
 
 const SlackRouteChildren: SlackRouteChildren = {
   SlackEmployeeEngagementRoute: SlackEmployeeEngagementRoute,
+  SlackIcebreakersRoute: SlackIcebreakersRoute,
   SlackTeamBuildingRoute: SlackTeamBuildingRoute,
   SlackIndexRoute: SlackIndexRoute,
 }
