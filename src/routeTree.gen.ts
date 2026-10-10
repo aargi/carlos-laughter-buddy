@@ -26,6 +26,7 @@ import { Route as SlackEmployeeEngagementRouteImport } from './routes/slack.empl
 import { Route as SlackIcebreakersRouteImport } from './routes/slack.icebreakers'
 import { Route as SlackRemoteTeamsRouteImport } from './routes/slack.remote-teams'
 import { Route as SlackTeamBuildingRouteImport } from './routes/slack.team-building'
+import { Route as SlackWellnessRouteImport } from './routes/slack.wellness'
 import { Route as ApiPublicWaitlistRouteImport } from './routes/api/public/waitlist'
 import { Route as OauthSlackReturnRouteImport } from './routes/oauth.slack.return'
 import { Route as ApiPublicSlackSchedulerRouteImport } from './routes/api/public/slack/scheduler'
@@ -115,6 +116,11 @@ const SlackTeamBuildingRoute = SlackTeamBuildingRouteImport.update({
   path: '/team-building',
   getParentRoute: () => SlackRoute,
 } as any)
+const SlackWellnessRoute = SlackWellnessRouteImport.update({
+  id: '/wellness',
+  path: '/wellness',
+  getParentRoute: () => SlackRoute,
+} as any)
 const ApiPublicWaitlistRoute = ApiPublicWaitlistRouteImport.update({
   id: '/api/public/waitlist',
   path: '/api/public/waitlist',
@@ -147,6 +153,7 @@ export interface FileRoutesByFullPath {
   '/slack/icebreakers': typeof SlackIcebreakersRoute
   '/slack/remote-teams': typeof SlackRemoteTeamsRoute
   '/slack/team-building': typeof SlackTeamBuildingRoute
+  '/slack/wellness': typeof SlackWellnessRoute
   '/slack/': typeof SlackIndexRoute
   '/api/public/waitlist': typeof ApiPublicWaitlistRoute
   '/oauth/slack/return': typeof OauthSlackReturnRoute
@@ -167,6 +174,7 @@ export interface FileRoutesByTo {
   '/slack/icebreakers': typeof SlackIcebreakersRoute
   '/slack/remote-teams': typeof SlackRemoteTeamsRoute
   '/slack/team-building': typeof SlackTeamBuildingRoute
+  '/slack/wellness': typeof SlackWellnessRoute
   '/slack': typeof SlackIndexRoute
   '/api/public/waitlist': typeof ApiPublicWaitlistRoute
   '/oauth/slack/return': typeof OauthSlackReturnRoute
@@ -190,6 +198,7 @@ export interface FileRoutesById {
   '/slack/icebreakers': typeof SlackIcebreakersRoute
   '/slack/remote-teams': typeof SlackRemoteTeamsRoute
   '/slack/team-building': typeof SlackTeamBuildingRoute
+  '/slack/wellness': typeof SlackWellnessRoute
   '/slack/': typeof SlackIndexRoute
   '/api/public/waitlist': typeof ApiPublicWaitlistRoute
   '/oauth/slack/return': typeof OauthSlackReturnRoute
@@ -213,6 +222,7 @@ export interface FileRouteTypes {
     | '/slack/icebreakers'
     | '/slack/remote-teams'
     | '/slack/team-building'
+    | '/slack/wellness'
     | '/slack/'
     | '/api/public/waitlist'
     | '/oauth/slack/return'
@@ -233,6 +243,7 @@ export interface FileRouteTypes {
     | '/slack/icebreakers'
     | '/slack/remote-teams'
     | '/slack/team-building'
+    | '/slack/wellness'
     | '/slack'
     | '/api/public/waitlist'
     | '/oauth/slack/return'
@@ -255,6 +266,7 @@ export interface FileRouteTypes {
     | '/slack/icebreakers'
     | '/slack/remote-teams'
     | '/slack/team-building'
+    | '/slack/wellness'
     | '/slack/'
     | '/api/public/waitlist'
     | '/oauth/slack/return'
@@ -398,6 +410,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SlackTeamBuildingRouteImport
       parentRoute: typeof SlackRoute
     }
+    '/slack/wellness': {
+      id: '/slack/wellness'
+      path: '/wellness'
+      fullPath: '/slack/wellness'
+      preLoaderRoute: typeof SlackWellnessRouteImport
+      parentRoute: typeof SlackRoute
+    }
     '/api/public/waitlist': {
       id: '/api/public/waitlist'
       path: '/api/public/waitlist'
@@ -448,6 +467,7 @@ interface SlackRouteChildren {
   SlackIcebreakersRoute: typeof SlackIcebreakersRoute
   SlackRemoteTeamsRoute: typeof SlackRemoteTeamsRoute
   SlackTeamBuildingRoute: typeof SlackTeamBuildingRoute
+  SlackWellnessRoute: typeof SlackWellnessRoute
   SlackIndexRoute: typeof SlackIndexRoute
 }
 
@@ -456,6 +476,7 @@ const SlackRouteChildren: SlackRouteChildren = {
   SlackIcebreakersRoute: SlackIcebreakersRoute,
   SlackRemoteTeamsRoute: SlackRemoteTeamsRoute,
   SlackTeamBuildingRoute: SlackTeamBuildingRoute,
+  SlackWellnessRoute: SlackWellnessRoute,
   SlackIndexRoute: SlackIndexRoute,
 }
 
