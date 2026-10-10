@@ -24,6 +24,7 @@ import { Route as STokenRouteImport } from './routes/s.$token'
 import { Route as SlackIndexRouteImport } from './routes/slack.index'
 import { Route as SlackEmployeeEngagementRouteImport } from './routes/slack.employee-engagement'
 import { Route as SlackIcebreakersRouteImport } from './routes/slack.icebreakers'
+import { Route as SlackRemoteTeamsRouteImport } from './routes/slack.remote-teams'
 import { Route as SlackTeamBuildingRouteImport } from './routes/slack.team-building'
 import { Route as ApiPublicWaitlistRouteImport } from './routes/api/public/waitlist'
 import { Route as OauthSlackReturnRouteImport } from './routes/oauth.slack.return'
@@ -104,6 +105,11 @@ const SlackIcebreakersRoute = SlackIcebreakersRouteImport.update({
   path: '/icebreakers',
   getParentRoute: () => SlackRoute,
 } as any)
+const SlackRemoteTeamsRoute = SlackRemoteTeamsRouteImport.update({
+  id: '/remote-teams',
+  path: '/remote-teams',
+  getParentRoute: () => SlackRoute,
+} as any)
 const SlackTeamBuildingRoute = SlackTeamBuildingRouteImport.update({
   id: '/team-building',
   path: '/team-building',
@@ -139,6 +145,7 @@ export interface FileRoutesByFullPath {
   '/s/$token': typeof STokenRoute
   '/slack/employee-engagement': typeof SlackEmployeeEngagementRoute
   '/slack/icebreakers': typeof SlackIcebreakersRoute
+  '/slack/remote-teams': typeof SlackRemoteTeamsRoute
   '/slack/team-building': typeof SlackTeamBuildingRoute
   '/slack/': typeof SlackIndexRoute
   '/api/public/waitlist': typeof ApiPublicWaitlistRoute
@@ -158,6 +165,7 @@ export interface FileRoutesByTo {
   '/s/$token': typeof STokenRoute
   '/slack/employee-engagement': typeof SlackEmployeeEngagementRoute
   '/slack/icebreakers': typeof SlackIcebreakersRoute
+  '/slack/remote-teams': typeof SlackRemoteTeamsRoute
   '/slack/team-building': typeof SlackTeamBuildingRoute
   '/slack': typeof SlackIndexRoute
   '/api/public/waitlist': typeof ApiPublicWaitlistRoute
@@ -180,6 +188,7 @@ export interface FileRoutesById {
   '/s/$token': typeof STokenRoute
   '/slack/employee-engagement': typeof SlackEmployeeEngagementRoute
   '/slack/icebreakers': typeof SlackIcebreakersRoute
+  '/slack/remote-teams': typeof SlackRemoteTeamsRoute
   '/slack/team-building': typeof SlackTeamBuildingRoute
   '/slack/': typeof SlackIndexRoute
   '/api/public/waitlist': typeof ApiPublicWaitlistRoute
@@ -202,6 +211,7 @@ export interface FileRouteTypes {
     | '/s/$token'
     | '/slack/employee-engagement'
     | '/slack/icebreakers'
+    | '/slack/remote-teams'
     | '/slack/team-building'
     | '/slack/'
     | '/api/public/waitlist'
@@ -221,6 +231,7 @@ export interface FileRouteTypes {
     | '/s/$token'
     | '/slack/employee-engagement'
     | '/slack/icebreakers'
+    | '/slack/remote-teams'
     | '/slack/team-building'
     | '/slack'
     | '/api/public/waitlist'
@@ -242,6 +253,7 @@ export interface FileRouteTypes {
     | '/s/$token'
     | '/slack/employee-engagement'
     | '/slack/icebreakers'
+    | '/slack/remote-teams'
     | '/slack/team-building'
     | '/slack/'
     | '/api/public/waitlist'
@@ -372,6 +384,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SlackIcebreakersRouteImport
       parentRoute: typeof SlackRoute
     }
+    '/slack/remote-teams': {
+      id: '/slack/remote-teams'
+      path: '/remote-teams'
+      fullPath: '/slack/remote-teams'
+      preLoaderRoute: typeof SlackRemoteTeamsRouteImport
+      parentRoute: typeof SlackRoute
+    }
     '/slack/team-building': {
       id: '/slack/team-building'
       path: '/team-building'
@@ -427,6 +446,7 @@ const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 interface SlackRouteChildren {
   SlackEmployeeEngagementRoute: typeof SlackEmployeeEngagementRoute
   SlackIcebreakersRoute: typeof SlackIcebreakersRoute
+  SlackRemoteTeamsRoute: typeof SlackRemoteTeamsRoute
   SlackTeamBuildingRoute: typeof SlackTeamBuildingRoute
   SlackIndexRoute: typeof SlackIndexRoute
 }
@@ -434,6 +454,7 @@ interface SlackRouteChildren {
 const SlackRouteChildren: SlackRouteChildren = {
   SlackEmployeeEngagementRoute: SlackEmployeeEngagementRoute,
   SlackIcebreakersRoute: SlackIcebreakersRoute,
+  SlackRemoteTeamsRoute: SlackRemoteTeamsRoute,
   SlackTeamBuildingRoute: SlackTeamBuildingRoute,
   SlackIndexRoute: SlackIndexRoute,
 }
