@@ -22,6 +22,7 @@ import { Route as AuthenticatedSlackAdminRouteImport } from './routes/_authentic
 import { Route as ApiTtsRouteImport } from './routes/api/tts'
 import { Route as BlogBestSlackAppsTeamBuildingRouteImport } from './routes/blog.best-slack-apps-team-building'
 import { Route as LaughterYogaIndexRouteImport } from './routes/laughter-yoga.index'
+import { Route as LaughterYogaAtWorkRouteImport } from './routes/laughter-yoga.at-work'
 import { Route as STokenRouteImport } from './routes/s.$token'
 import { Route as SlackIndexRouteImport } from './routes/slack.index'
 import { Route as SlackEmployeeEngagementRouteImport } from './routes/slack.employee-engagement'
@@ -98,6 +99,11 @@ const LaughterYogaIndexRoute = LaughterYogaIndexRouteImport.update({
   path: '/',
   getParentRoute: () => LaughterYogaRoute,
 } as any)
+const LaughterYogaAtWorkRoute = LaughterYogaAtWorkRouteImport.update({
+  id: '/at-work',
+  path: '/at-work',
+  getParentRoute: () => LaughterYogaRoute,
+} as any)
 const STokenRoute = STokenRouteImport.update({
   id: '/s/$token',
   path: '/s/$token',
@@ -161,6 +167,7 @@ export interface FileRoutesByFullPath {
   '/slack-admin': typeof AuthenticatedSlackAdminRoute
   '/api/tts': typeof ApiTtsRoute
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
+  '/laughter-yoga/at-work': typeof LaughterYogaAtWorkRoute
   '/s/$token': typeof STokenRoute
   '/slack/employee-engagement': typeof SlackEmployeeEngagementRoute
   '/slack/icebreakers': typeof SlackIcebreakersRoute
@@ -183,6 +190,7 @@ export interface FileRoutesByTo {
   '/slack-admin': typeof AuthenticatedSlackAdminRoute
   '/api/tts': typeof ApiTtsRoute
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
+  '/laughter-yoga/at-work': typeof LaughterYogaAtWorkRoute
   '/s/$token': typeof STokenRoute
   '/slack/employee-engagement': typeof SlackEmployeeEngagementRoute
   '/slack/icebreakers': typeof SlackIcebreakersRoute
@@ -209,6 +217,7 @@ export interface FileRoutesById {
   '/_authenticated/slack-admin': typeof AuthenticatedSlackAdminRoute
   '/api/tts': typeof ApiTtsRoute
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
+  '/laughter-yoga/at-work': typeof LaughterYogaAtWorkRoute
   '/s/$token': typeof STokenRoute
   '/slack/employee-engagement': typeof SlackEmployeeEngagementRoute
   '/slack/icebreakers': typeof SlackIcebreakersRoute
@@ -235,6 +244,7 @@ export interface FileRouteTypes {
     | '/slack-admin'
     | '/api/tts'
     | '/blog/best-slack-apps-team-building'
+    | '/laughter-yoga/at-work'
     | '/s/$token'
     | '/slack/employee-engagement'
     | '/slack/icebreakers'
@@ -257,6 +267,7 @@ export interface FileRouteTypes {
     | '/slack-admin'
     | '/api/tts'
     | '/blog/best-slack-apps-team-building'
+    | '/laughter-yoga/at-work'
     | '/s/$token'
     | '/slack/employee-engagement'
     | '/slack/icebreakers'
@@ -282,6 +293,7 @@ export interface FileRouteTypes {
     | '/_authenticated/slack-admin'
     | '/api/tts'
     | '/blog/best-slack-apps-team-building'
+    | '/laughter-yoga/at-work'
     | '/s/$token'
     | '/slack/employee-engagement'
     | '/slack/icebreakers'
@@ -405,6 +417,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LaughterYogaIndexRouteImport
       parentRoute: typeof LaughterYogaRoute
     }
+    '/laughter-yoga/at-work': {
+      id: '/laughter-yoga/at-work'
+      path: '/at-work'
+      fullPath: '/laughter-yoga/at-work'
+      preLoaderRoute: typeof LaughterYogaAtWorkRouteImport
+      parentRoute: typeof LaughterYogaRoute
+    }
     '/s/$token': {
       id: '/s/$token'
       path: '/s/$token'
@@ -500,10 +519,12 @@ const BlogRouteChildren: BlogRouteChildren = {
 const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 
 interface LaughterYogaRouteChildren {
+  LaughterYogaAtWorkRoute: typeof LaughterYogaAtWorkRoute
   LaughterYogaIndexRoute: typeof LaughterYogaIndexRoute
 }
 
 const LaughterYogaRouteChildren: LaughterYogaRouteChildren = {
+  LaughterYogaAtWorkRoute: LaughterYogaAtWorkRoute,
   LaughterYogaIndexRoute: LaughterYogaIndexRoute,
 }
 
