@@ -30,3 +30,4 @@
 - [x] New SEO hub page /laughter-yoga (What Is Laughter Yoga?) as layout + index leaf, prepared for future subpages; included in sitemap and published.
 - [x] New SEO page /laughter-yoga/at-work (Laughter Yoga at Work): formats for the workday and three ways to run a session, no medical claims; included in sitemap and published.
 - [x] New SEO page /laughter-yoga/exercises (Laughter Yoga Exercises: Simple Guided Activities to Try): six exercise types plus step-by-step examples for alone, pairs, groups, work and online; natural links to the hub, at-work, Slack team building and Our Story; included in sitemap, then publish.
+- [x] New SEO page /laughter-yoga/virtual (Virtual Laughter Yoga: How Online Laughter Sessions Work): five online formats, three ways to take part and practical on-screen tips, no medical claims; links to the hub, at-work, exercises, Slack remote teams and Slack team building; included in sitemap, then publish.
