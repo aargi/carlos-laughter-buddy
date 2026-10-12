@@ -23,6 +23,7 @@ import { Route as ApiTtsRouteImport } from './routes/api/tts'
 import { Route as BlogBestSlackAppsTeamBuildingRouteImport } from './routes/blog.best-slack-apps-team-building'
 import { Route as LaughterYogaIndexRouteImport } from './routes/laughter-yoga.index'
 import { Route as LaughterYogaAtWorkRouteImport } from './routes/laughter-yoga.at-work'
+import { Route as LaughterYogaExercisesRouteImport } from './routes/laughter-yoga.exercises'
 import { Route as STokenRouteImport } from './routes/s.$token'
 import { Route as SlackIndexRouteImport } from './routes/slack.index'
 import { Route as SlackEmployeeEngagementRouteImport } from './routes/slack.employee-engagement'
@@ -104,6 +105,11 @@ const LaughterYogaAtWorkRoute = LaughterYogaAtWorkRouteImport.update({
   path: '/at-work',
   getParentRoute: () => LaughterYogaRoute,
 } as any)
+const LaughterYogaExercisesRoute = LaughterYogaExercisesRouteImport.update({
+  id: '/exercises',
+  path: '/exercises',
+  getParentRoute: () => LaughterYogaRoute,
+} as any)
 const STokenRoute = STokenRouteImport.update({
   id: '/s/$token',
   path: '/s/$token',
@@ -168,6 +174,7 @@ export interface FileRoutesByFullPath {
   '/api/tts': typeof ApiTtsRoute
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
   '/laughter-yoga/at-work': typeof LaughterYogaAtWorkRoute
+  '/laughter-yoga/exercises': typeof LaughterYogaExercisesRoute
   '/s/$token': typeof STokenRoute
   '/slack/employee-engagement': typeof SlackEmployeeEngagementRoute
   '/slack/icebreakers': typeof SlackIcebreakersRoute
@@ -191,6 +198,7 @@ export interface FileRoutesByTo {
   '/api/tts': typeof ApiTtsRoute
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
   '/laughter-yoga/at-work': typeof LaughterYogaAtWorkRoute
+  '/laughter-yoga/exercises': typeof LaughterYogaExercisesRoute
   '/s/$token': typeof STokenRoute
   '/slack/employee-engagement': typeof SlackEmployeeEngagementRoute
   '/slack/icebreakers': typeof SlackIcebreakersRoute
@@ -218,6 +226,7 @@ export interface FileRoutesById {
   '/api/tts': typeof ApiTtsRoute
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
   '/laughter-yoga/at-work': typeof LaughterYogaAtWorkRoute
+  '/laughter-yoga/exercises': typeof LaughterYogaExercisesRoute
   '/s/$token': typeof STokenRoute
   '/slack/employee-engagement': typeof SlackEmployeeEngagementRoute
   '/slack/icebreakers': typeof SlackIcebreakersRoute
@@ -245,6 +254,7 @@ export interface FileRouteTypes {
     | '/api/tts'
     | '/blog/best-slack-apps-team-building'
     | '/laughter-yoga/at-work'
+    | '/laughter-yoga/exercises'
     | '/s/$token'
     | '/slack/employee-engagement'
     | '/slack/icebreakers'
@@ -268,6 +278,7 @@ export interface FileRouteTypes {
     | '/api/tts'
     | '/blog/best-slack-apps-team-building'
     | '/laughter-yoga/at-work'
+    | '/laughter-yoga/exercises'
     | '/s/$token'
     | '/slack/employee-engagement'
     | '/slack/icebreakers'
@@ -294,6 +305,7 @@ export interface FileRouteTypes {
     | '/api/tts'
     | '/blog/best-slack-apps-team-building'
     | '/laughter-yoga/at-work'
+    | '/laughter-yoga/exercises'
     | '/s/$token'
     | '/slack/employee-engagement'
     | '/slack/icebreakers'
@@ -424,6 +436,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LaughterYogaAtWorkRouteImport
       parentRoute: typeof LaughterYogaRoute
     }
+    '/laughter-yoga/exercises': {
+      id: '/laughter-yoga/exercises'
+      path: '/exercises'
+      fullPath: '/laughter-yoga/exercises'
+      preLoaderRoute: typeof LaughterYogaExercisesRouteImport
+      parentRoute: typeof LaughterYogaRoute
+    }
     '/s/$token': {
       id: '/s/$token'
       path: '/s/$token'
@@ -520,11 +539,13 @@ const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 
 interface LaughterYogaRouteChildren {
   LaughterYogaAtWorkRoute: typeof LaughterYogaAtWorkRoute
+  LaughterYogaExercisesRoute: typeof LaughterYogaExercisesRoute
   LaughterYogaIndexRoute: typeof LaughterYogaIndexRoute
 }
 
 const LaughterYogaRouteChildren: LaughterYogaRouteChildren = {
   LaughterYogaAtWorkRoute: LaughterYogaAtWorkRoute,
+  LaughterYogaExercisesRoute: LaughterYogaExercisesRoute,
   LaughterYogaIndexRoute: LaughterYogaIndexRoute,
 }
 

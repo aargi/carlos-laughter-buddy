@@ -228,7 +228,7 @@ function LaughterYogaAtWorkPage() {
           <h2 className="font-display text-3xl font-black md:text-5xl">Keep exploring</h2>
           <div className="mt-5 max-w-3xl leading-relaxed text-muted-foreground">
             <p>
-              Read <Link to="/laughter-yoga" className="font-semibold text-primary underline">what laughter yoga is and how it works</Link>, see how it fits into <Link to="/slack" className="font-semibold text-primary underline">Slack</Link> as part of <Link to="/slack/team-building" className="font-semibold text-primary underline">team-building activities</Link> and <Link to="/slack/wellness" className="font-semibold text-primary underline">workplace wellbeing</Link> — or go straight to <Link to="/" className="font-semibold text-primary underline">a guided session</Link>.
+              Read <Link to="/laughter-yoga" className="font-semibold text-primary underline">what laughter yoga is and how it works</Link>, try some <Link to="/laughter-yoga/exercises" className="font-semibold text-primary underline">laughter yoga exercises</Link>, see how it fits into <Link to="/slack" className="font-semibold text-primary underline">Slack</Link> as part of <Link to="/slack/team-building" className="font-semibold text-primary underline">team-building activities</Link> and <Link to="/slack/wellness" className="font-semibold text-primary underline">workplace wellbeing</Link> — or go straight to <Link to="/" className="font-semibold text-primary underline">a guided session</Link>.
             </p>
           </div>
         </section>
