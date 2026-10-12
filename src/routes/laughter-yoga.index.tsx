@@ -216,7 +216,7 @@ function LaughterYogaPage() {
             </div>
           </div>
           <p className="mt-7 max-w-3xl leading-relaxed text-muted-foreground">
-            This page is the start of a series. Coming soon: laughter yoga at work, classic laughter yoga exercises, virtual laughter sessions and laughter yoga for teams.
+            This page is the start of a series. <Link to="/laughter-yoga/at-work" className="font-semibold text-primary underline">Laughter yoga at work</Link> and <Link to="/laughter-yoga/exercises" className="font-semibold text-primary underline">laughter yoga exercises</Link> are already here; virtual laughter sessions and laughter yoga for teams are coming soon.
           </p>
         </section>
 
