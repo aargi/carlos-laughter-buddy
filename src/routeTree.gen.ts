@@ -24,6 +24,7 @@ import { Route as BlogBestSlackAppsTeamBuildingRouteImport } from './routes/blog
 import { Route as LaughterYogaIndexRouteImport } from './routes/laughter-yoga.index'
 import { Route as LaughterYogaAtWorkRouteImport } from './routes/laughter-yoga.at-work'
 import { Route as LaughterYogaExercisesRouteImport } from './routes/laughter-yoga.exercises'
+import { Route as LaughterYogaForTeamsRouteImport } from './routes/laughter-yoga.for-teams'
 import { Route as LaughterYogaVirtualRouteImport } from './routes/laughter-yoga.virtual'
 import { Route as STokenRouteImport } from './routes/s.$token'
 import { Route as SlackIndexRouteImport } from './routes/slack.index'
@@ -111,6 +112,11 @@ const LaughterYogaExercisesRoute = LaughterYogaExercisesRouteImport.update({
   path: '/exercises',
   getParentRoute: () => LaughterYogaRoute,
 } as any)
+const LaughterYogaForTeamsRoute = LaughterYogaForTeamsRouteImport.update({
+  id: '/for-teams',
+  path: '/for-teams',
+  getParentRoute: () => LaughterYogaRoute,
+} as any)
 const LaughterYogaVirtualRoute = LaughterYogaVirtualRouteImport.update({
   id: '/virtual',
   path: '/virtual',
@@ -181,6 +187,7 @@ export interface FileRoutesByFullPath {
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
   '/laughter-yoga/at-work': typeof LaughterYogaAtWorkRoute
   '/laughter-yoga/exercises': typeof LaughterYogaExercisesRoute
+  '/laughter-yoga/for-teams': typeof LaughterYogaForTeamsRoute
   '/laughter-yoga/virtual': typeof LaughterYogaVirtualRoute
   '/s/$token': typeof STokenRoute
   '/slack/employee-engagement': typeof SlackEmployeeEngagementRoute
@@ -206,6 +213,7 @@ export interface FileRoutesByTo {
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
   '/laughter-yoga/at-work': typeof LaughterYogaAtWorkRoute
   '/laughter-yoga/exercises': typeof LaughterYogaExercisesRoute
+  '/laughter-yoga/for-teams': typeof LaughterYogaForTeamsRoute
   '/laughter-yoga/virtual': typeof LaughterYogaVirtualRoute
   '/s/$token': typeof STokenRoute
   '/slack/employee-engagement': typeof SlackEmployeeEngagementRoute
@@ -235,6 +243,7 @@ export interface FileRoutesById {
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
   '/laughter-yoga/at-work': typeof LaughterYogaAtWorkRoute
   '/laughter-yoga/exercises': typeof LaughterYogaExercisesRoute
+  '/laughter-yoga/for-teams': typeof LaughterYogaForTeamsRoute
   '/laughter-yoga/virtual': typeof LaughterYogaVirtualRoute
   '/s/$token': typeof STokenRoute
   '/slack/employee-engagement': typeof SlackEmployeeEngagementRoute
@@ -264,6 +273,7 @@ export interface FileRouteTypes {
     | '/blog/best-slack-apps-team-building'
     | '/laughter-yoga/at-work'
     | '/laughter-yoga/exercises'
+    | '/laughter-yoga/for-teams'
     | '/laughter-yoga/virtual'
     | '/s/$token'
     | '/slack/employee-engagement'
@@ -289,6 +299,7 @@ export interface FileRouteTypes {
     | '/blog/best-slack-apps-team-building'
     | '/laughter-yoga/at-work'
     | '/laughter-yoga/exercises'
+    | '/laughter-yoga/for-teams'
     | '/laughter-yoga/virtual'
     | '/s/$token'
     | '/slack/employee-engagement'
@@ -317,6 +328,7 @@ export interface FileRouteTypes {
     | '/blog/best-slack-apps-team-building'
     | '/laughter-yoga/at-work'
     | '/laughter-yoga/exercises'
+    | '/laughter-yoga/for-teams'
     | '/laughter-yoga/virtual'
     | '/s/$token'
     | '/slack/employee-engagement'
@@ -455,6 +467,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LaughterYogaExercisesRouteImport
       parentRoute: typeof LaughterYogaRoute
     }
+    '/laughter-yoga/for-teams': {
+      id: '/laughter-yoga/for-teams'
+      path: '/for-teams'
+      fullPath: '/laughter-yoga/for-teams'
+      preLoaderRoute: typeof LaughterYogaForTeamsRouteImport
+      parentRoute: typeof LaughterYogaRoute
+    }
     '/laughter-yoga/virtual': {
       id: '/laughter-yoga/virtual'
       path: '/virtual'
@@ -559,6 +578,7 @@ const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 interface LaughterYogaRouteChildren {
   LaughterYogaAtWorkRoute: typeof LaughterYogaAtWorkRoute
   LaughterYogaExercisesRoute: typeof LaughterYogaExercisesRoute
+  LaughterYogaForTeamsRoute: typeof LaughterYogaForTeamsRoute
   LaughterYogaVirtualRoute: typeof LaughterYogaVirtualRoute
   LaughterYogaIndexRoute: typeof LaughterYogaIndexRoute
 }
@@ -566,6 +586,7 @@ interface LaughterYogaRouteChildren {
 const LaughterYogaRouteChildren: LaughterYogaRouteChildren = {
   LaughterYogaAtWorkRoute: LaughterYogaAtWorkRoute,
   LaughterYogaExercisesRoute: LaughterYogaExercisesRoute,
+  LaughterYogaForTeamsRoute: LaughterYogaForTeamsRoute,
   LaughterYogaVirtualRoute: LaughterYogaVirtualRoute,
   LaughterYogaIndexRoute: LaughterYogaIndexRoute,
 }
