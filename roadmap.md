@@ -1,5 +1,7 @@
 # Roadmap
 
+- [ ] Create /laughter-yoga/benefits with cited evidence, reported experiences and research limitations; link from the hub, include in sitemap, verify and request publication.
+
 - [x] Correct English default SEO metadata and verify self-referencing canonical URLs on leaf pages.
 
 - [x] Add official app logos and links beneath Best for in the seven-app comparison; Laughter Circle links to For Slack. Verified all seven logos and the internal destination in the browser.
