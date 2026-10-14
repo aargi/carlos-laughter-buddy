@@ -101,7 +101,7 @@ function LaughterYogaBenefitsPage() {
           <p className="mt-7 max-w-3xl leading-relaxed text-muted-foreground">A self-reported feeling is meaningful to the person reporting it, but it cannot by itself establish cause. Expectations, the facilitator, the group and simply taking time away from a task can influence the experience.</p>
         </section>
 
-        <section id="evidence" className="mt-24 scroll-mt-8">
+        <section id="evidence" className="mt-24 scroll-mt-24">
           <h2 className="font-display text-3xl font-black md:text-5xl">Scientific evidence: promising, not definitive</h2>
           <div className="mt-8 max-w-3xl space-y-10 text-lg leading-relaxed text-muted-foreground">
             <div>
