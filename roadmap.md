@@ -1,6 +1,7 @@
 # Roadmap
 
 - [ ] Create /laughter-yoga/benefits with cited evidence, reported experiences and research limitations; link from the hub, include in sitemap, verify and request publication.
+- [ ] Resolve paid voice-generation exposure before publishing: disable runtime synthesis, preserve static playback and verify requests cannot trigger ElevenLabs charges.
 
 - [x] Correct English default SEO metadata and verify self-referencing canonical URLs on leaf pages.
 

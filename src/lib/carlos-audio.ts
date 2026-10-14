@@ -1,4 +1,4 @@
-// Character voices: pre-generated MP3s first, then ElevenLabs (via /api/tts), then browser speech.
+// Character voices: pre-generated MP3s only, with local browser speech fallback.
 import { getCharacter } from "./characters";
 import { laughAlongText, phraseFile } from "./audio-phrases";
 import manifest from "./audio-manifest.json";
@@ -10,20 +10,13 @@ const cache = new Map<string, Promise<string>>();
 
 function fetchAudio(text: string, character: string, expressive: boolean): Promise<string> {
   const file = phraseFile(character, expressive, text);
+  if (!pregenerated.has(file)) return Promise.reject(new Error("Pre-generated audio unavailable"));
   const k = `${character}|${expressive ? 1 : 0}|${text}`;
   let p = cache.get(k);
   if (!p) {
     // Pre-generated MP3s are also downloaded into a blob URL so playback starts
     // instantly (no network wait when the laugh is triggered).
-    const url = pregenerated.has(file) ? `/audio/${file}` : "/api/tts";
-    const init = pregenerated.has(file)
-      ? undefined
-      : {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text, character, expressive }),
-        };
-    p = fetch(url, init).then(async (res) => {
+    p = fetch(`/audio/${file}`).then(async (res) => {
       if (!res.ok) throw new Error(`TTS ${res.status}`);
       return URL.createObjectURL(await res.blob());
     });
@@ -131,7 +124,7 @@ export async function speak(text: string, opts: { character?: string; expressive
     if (my !== token) return;
     await playUrl(url, (a) => (current = a), opts.character ?? "carlos");
   } catch (e) {
-    console.warn("ElevenLabs unavailable, using browser voice", e);
+    console.warn("Pre-generated audio unavailable, using browser voice", e);
     if (my === token && !opts.expressive) await browserSpeak(text);
   }
 }
