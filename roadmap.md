@@ -1,5 +1,7 @@
 # Roadmap
 
+- [ ] Create the /laughter-therapy pillar with careful terminology, practice formats and links; prepare a child-route layout, add sitemap inclusion, verify and publish.
+
 - [x] Create /laughter-yoga/benefits with cited evidence, reported experiences and research limitations; linked from hub, included in sitemap and browser-verified; request publication after retiring paid runtime synthesis.
 - [x] Resolve paid voice-generation exposure before publishing: /api/tts always returns 410 without provider calls; playback uses static MP3s or local browser voice. Verified 140/140 fixed assets and session start/next exercise with zero synthesis requests.
 
