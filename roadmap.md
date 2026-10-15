@@ -1,7 +1,7 @@
 # Roadmap
 
-- [ ] Create /laughter-yoga/benefits with cited evidence, reported experiences and research limitations; link from the hub, include in sitemap, verify and request publication.
-- [ ] Resolve paid voice-generation exposure before publishing: disable runtime synthesis, preserve static playback and verify requests cannot trigger ElevenLabs charges.
+- [x] Create /laughter-yoga/benefits with cited evidence, reported experiences and research limitations; linked from hub, included in sitemap and browser-verified; request publication after retiring paid runtime synthesis.
+- [x] Resolve paid voice-generation exposure before publishing: /api/tts always returns 410 without provider calls; playback uses static MP3s or local browser voice. Verified 140/140 fixed assets and session start/next exercise with zero synthesis requests.
 
 - [x] Correct English default SEO metadata and verify self-referencing canonical URLs on leaf pages.
 
