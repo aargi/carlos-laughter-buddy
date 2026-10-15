@@ -13,3 +13,4 @@
 - Main-session playback uses static MP3s with local browser speech fallback; /api/tts is retired with HTTP 410 and no provider calls. Generate fixed audio offline only, so anonymous sessions cannot incur synthesis charges.
 - App comparison logos use project-owned asset pointers downloaded from official product sites; internal destinations use TanStack links, keeping images stable and navigation local.
 - Laughter-yoga editorial pages are sibling leaf routes under the existing layout, with per-page metadata and staticData.sitemap inclusion; research pages cite sources and distinguish study populations from the unstudied app to avoid conflating evidence.
+- Laughter-therapy editorial pages use an Outlet-only parent and sibling leaf routes with individual metadata and sitemap decisions, so the pillar can gain child pages without duplicate URLs.
