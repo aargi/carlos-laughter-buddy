@@ -1,5 +1,7 @@
 # Roadmap
 
+- [ ] Create /professionals hub with two clear paths, honest coming-soon directory information, related editorial links and sitemap inclusion; verify and request publication.
+
 - [x] Create /laughter-therapy/at-work with workplace formats, clear nonclinical boundaries and required links; linked from pillar, sitemap included; metadata, links, desktop/mobile and session CTA verified. Request publication of both therapy pages.
 
 - [x] Create the /laughter-therapy pillar with careful terminology, practice formats and links; child-route layout prepared, sitemap included, footer discovery and desktop/mobile navigation verified; request publication.
