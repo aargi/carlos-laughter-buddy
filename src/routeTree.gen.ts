@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as LaughterTherapyRouteImport } from './routes/laughter-therapy'
 import { Route as LaughterYogaRouteImport } from './routes/laughter-yoga'
+import { Route as ProfessionalsRouteImport } from './routes/professionals'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SlackRouteImport } from './routes/slack'
@@ -30,6 +31,7 @@ import { Route as LaughterYogaBenefitsRouteImport } from './routes/laughter-yoga
 import { Route as LaughterYogaExercisesRouteImport } from './routes/laughter-yoga.exercises'
 import { Route as LaughterYogaForTeamsRouteImport } from './routes/laughter-yoga.for-teams'
 import { Route as LaughterYogaVirtualRouteImport } from './routes/laughter-yoga.virtual'
+import { Route as ProfessionalsIndexRouteImport } from './routes/professionals.index'
 import { Route as STokenRouteImport } from './routes/s.$token'
 import { Route as SlackIndexRouteImport } from './routes/slack.index'
 import { Route as SlackEmployeeEngagementRouteImport } from './routes/slack.employee-engagement'
@@ -68,6 +70,11 @@ const LaughterTherapyRoute = LaughterTherapyRouteImport.update({
 const LaughterYogaRoute = LaughterYogaRouteImport.update({
   id: '/laughter-yoga',
   path: '/laughter-yoga',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfessionalsRoute = ProfessionalsRouteImport.update({
+  id: '/professionals',
+  path: '/professionals',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -146,6 +153,11 @@ const LaughterYogaVirtualRoute = LaughterYogaVirtualRouteImport.update({
   path: '/virtual',
   getParentRoute: () => LaughterYogaRoute,
 } as any)
+const ProfessionalsIndexRoute = ProfessionalsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ProfessionalsRoute,
+} as any)
 const STokenRoute = STokenRouteImport.update({
   id: '/s/$token',
   path: '/s/$token',
@@ -203,6 +215,7 @@ export interface FileRoutesByFullPath {
   '/blog': typeof BlogRouteWithChildren
   '/laughter-therapy': typeof LaughterTherapyRouteWithChildren
   '/laughter-yoga': typeof LaughterYogaRouteWithChildren
+  '/professionals': typeof ProfessionalsRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/slack': typeof SlackRouteWithChildren
@@ -224,6 +237,7 @@ export interface FileRoutesByFullPath {
   '/slack/wellness': typeof SlackWellnessRoute
   '/laughter-therapy/': typeof LaughterTherapyIndexRoute
   '/laughter-yoga/': typeof LaughterYogaIndexRoute
+  '/professionals/': typeof ProfessionalsIndexRoute
   '/slack/': typeof SlackIndexRoute
   '/api/public/waitlist': typeof ApiPublicWaitlistRoute
   '/oauth/slack/return': typeof OauthSlackReturnRoute
@@ -253,6 +267,7 @@ export interface FileRoutesByTo {
   '/slack/wellness': typeof SlackWellnessRoute
   '/laughter-therapy': typeof LaughterTherapyIndexRoute
   '/laughter-yoga': typeof LaughterYogaIndexRoute
+  '/professionals': typeof ProfessionalsIndexRoute
   '/slack': typeof SlackIndexRoute
   '/api/public/waitlist': typeof ApiPublicWaitlistRoute
   '/oauth/slack/return': typeof OauthSlackReturnRoute
@@ -266,6 +281,7 @@ export interface FileRoutesById {
   '/blog': typeof BlogRouteWithChildren
   '/laughter-therapy': typeof LaughterTherapyRouteWithChildren
   '/laughter-yoga': typeof LaughterYogaRouteWithChildren
+  '/professionals': typeof ProfessionalsRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/slack': typeof SlackRouteWithChildren
@@ -287,6 +303,7 @@ export interface FileRoutesById {
   '/slack/wellness': typeof SlackWellnessRoute
   '/laughter-therapy/': typeof LaughterTherapyIndexRoute
   '/laughter-yoga/': typeof LaughterYogaIndexRoute
+  '/professionals/': typeof ProfessionalsIndexRoute
   '/slack/': typeof SlackIndexRoute
   '/api/public/waitlist': typeof ApiPublicWaitlistRoute
   '/oauth/slack/return': typeof OauthSlackReturnRoute
@@ -300,6 +317,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/laughter-therapy'
     | '/laughter-yoga'
+    | '/professionals'
     | '/reset-password'
     | '/sitemap.xml'
     | '/slack'
@@ -321,6 +339,7 @@ export interface FileRouteTypes {
     | '/slack/wellness'
     | '/laughter-therapy/'
     | '/laughter-yoga/'
+    | '/professionals/'
     | '/slack/'
     | '/api/public/waitlist'
     | '/oauth/slack/return'
@@ -350,6 +369,7 @@ export interface FileRouteTypes {
     | '/slack/wellness'
     | '/laughter-therapy'
     | '/laughter-yoga'
+    | '/professionals'
     | '/slack'
     | '/api/public/waitlist'
     | '/oauth/slack/return'
@@ -362,6 +382,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/laughter-therapy'
     | '/laughter-yoga'
+    | '/professionals'
     | '/reset-password'
     | '/sitemap.xml'
     | '/slack'
@@ -383,6 +404,7 @@ export interface FileRouteTypes {
     | '/slack/wellness'
     | '/laughter-therapy/'
     | '/laughter-yoga/'
+    | '/professionals/'
     | '/slack/'
     | '/api/public/waitlist'
     | '/oauth/slack/return'
@@ -396,6 +418,7 @@ export interface RootRouteChildren {
   BlogRoute: typeof BlogRouteWithChildren
   LaughterTherapyRoute: typeof LaughterTherapyRouteWithChildren
   LaughterYogaRoute: typeof LaughterYogaRouteWithChildren
+  ProfessionalsRoute: typeof ProfessionalsRouteWithChildren
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SlackRoute: typeof SlackRouteWithChildren
@@ -449,6 +472,13 @@ declare module '@tanstack/react-router' {
       path: '/laughter-yoga'
       fullPath: '/laughter-yoga'
       preLoaderRoute: typeof LaughterYogaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/professionals': {
+      id: '/professionals'
+      path: '/professionals'
+      fullPath: '/professionals'
+      preLoaderRoute: typeof ProfessionalsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -555,6 +585,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/laughter-yoga/virtual'
       preLoaderRoute: typeof LaughterYogaVirtualRouteImport
       parentRoute: typeof LaughterYogaRoute
+    }
+    '/professionals/': {
+      id: '/professionals/'
+      path: '/'
+      fullPath: '/professionals/'
+      preLoaderRoute: typeof ProfessionalsIndexRouteImport
+      parentRoute: typeof ProfessionalsRoute
     }
     '/s/$token': {
       id: '/s/$token'
@@ -686,6 +723,18 @@ const LaughterYogaRouteWithChildren = LaughterYogaRoute._addFileChildren(
   LaughterYogaRouteChildren,
 )
 
+interface ProfessionalsRouteChildren {
+  ProfessionalsIndexRoute: typeof ProfessionalsIndexRoute
+}
+
+const ProfessionalsRouteChildren: ProfessionalsRouteChildren = {
+  ProfessionalsIndexRoute: ProfessionalsIndexRoute,
+}
+
+const ProfessionalsRouteWithChildren = ProfessionalsRoute._addFileChildren(
+  ProfessionalsRouteChildren,
+)
+
 interface SlackRouteChildren {
   SlackEmployeeEngagementRoute: typeof SlackEmployeeEngagementRoute
   SlackIcebreakersRoute: typeof SlackIcebreakersRoute
@@ -713,6 +762,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlogRoute: BlogRouteWithChildren,
   LaughterTherapyRoute: LaughterTherapyRouteWithChildren,
   LaughterYogaRoute: LaughterYogaRouteWithChildren,
+  ProfessionalsRoute: ProfessionalsRouteWithChildren,
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SlackRoute: SlackRouteWithChildren,
