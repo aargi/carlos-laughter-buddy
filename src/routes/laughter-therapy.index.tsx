@@ -112,7 +112,7 @@ function LaughterTherapyPage() {
           <div className="mt-10 grid gap-4 md:grid-cols-2">
             {FORMATS.map(({ icon: Icon, title, text }) => <div key={title} className="rounded-3xl border bg-card p-6"><span className="flex size-12 items-center justify-center rounded-2xl bg-primary/15 text-primary"><Icon className="size-5" /></span><h3 className="mt-4 font-display text-xl font-black">{title}</h3><p className="mt-2 leading-relaxed text-muted-foreground">{text}</p></div>)}
           </div>
-          <p className="mt-7 max-w-3xl leading-relaxed text-muted-foreground">For workplace groups, participation should be voluntary and alternatives should be welcome. <Link to="/slack" className="font-semibold text-primary underline">Laughter Circle for Slack</Link> presents shared laughter as a team activity, not a workplace health intervention.</p>
+          <p className="mt-7 max-w-3xl leading-relaxed text-muted-foreground">For workplace groups, participation should be voluntary and alternatives should be welcome. Explore <Link to="/laughter-therapy/at-work" className="font-semibold text-primary underline">laughter therapy at work</Link> for breaks, workshops and team formats. <Link to="/slack" className="font-semibold text-primary underline">Laughter Circle for Slack</Link> presents shared laughter as a team activity, not a workplace health intervention.</p>
         </section>
 
         <section className="mt-24">

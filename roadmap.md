@@ -1,5 +1,7 @@
 # Roadmap
 
+- [x] Create /laughter-therapy/at-work with workplace formats, clear nonclinical boundaries and required links; linked from pillar, sitemap included; metadata, links, desktop/mobile and session CTA verified. Request publication of both therapy pages.
+
 - [x] Create the /laughter-therapy pillar with careful terminology, practice formats and links; child-route layout prepared, sitemap included, footer discovery and desktop/mobile navigation verified; request publication.
 
 - [x] Create /laughter-yoga/benefits with cited evidence, reported experiences and research limitations; linked from hub, included in sitemap and browser-verified; request publication after retiring paid runtime synthesis.
