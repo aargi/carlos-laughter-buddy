@@ -23,6 +23,7 @@ import { Route as AuthenticatedSlackAdminRouteImport } from './routes/_authentic
 import { Route as ApiTtsRouteImport } from './routes/api/tts'
 import { Route as BlogBestSlackAppsTeamBuildingRouteImport } from './routes/blog.best-slack-apps-team-building'
 import { Route as LaughterTherapyIndexRouteImport } from './routes/laughter-therapy.index'
+import { Route as LaughterTherapyAtWorkRouteImport } from './routes/laughter-therapy.at-work'
 import { Route as LaughterYogaIndexRouteImport } from './routes/laughter-yoga.index'
 import { Route as LaughterYogaAtWorkRouteImport } from './routes/laughter-yoga.at-work'
 import { Route as LaughterYogaBenefitsRouteImport } from './routes/laughter-yoga.benefits'
@@ -108,6 +109,11 @@ const BlogBestSlackAppsTeamBuildingRoute =
 const LaughterTherapyIndexRoute = LaughterTherapyIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => LaughterTherapyRoute,
+} as any)
+const LaughterTherapyAtWorkRoute = LaughterTherapyAtWorkRouteImport.update({
+  id: '/at-work',
+  path: '/at-work',
   getParentRoute: () => LaughterTherapyRoute,
 } as any)
 const LaughterYogaIndexRoute = LaughterYogaIndexRouteImport.update({
@@ -204,6 +210,7 @@ export interface FileRoutesByFullPath {
   '/slack-admin': typeof AuthenticatedSlackAdminRoute
   '/api/tts': typeof ApiTtsRoute
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
+  '/laughter-therapy/at-work': typeof LaughterTherapyAtWorkRoute
   '/laughter-yoga/at-work': typeof LaughterYogaAtWorkRoute
   '/laughter-yoga/benefits': typeof LaughterYogaBenefitsRoute
   '/laughter-yoga/exercises': typeof LaughterYogaExercisesRoute
@@ -232,6 +239,7 @@ export interface FileRoutesByTo {
   '/slack-admin': typeof AuthenticatedSlackAdminRoute
   '/api/tts': typeof ApiTtsRoute
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
+  '/laughter-therapy/at-work': typeof LaughterTherapyAtWorkRoute
   '/laughter-yoga/at-work': typeof LaughterYogaAtWorkRoute
   '/laughter-yoga/benefits': typeof LaughterYogaBenefitsRoute
   '/laughter-yoga/exercises': typeof LaughterYogaExercisesRoute
@@ -265,6 +273,7 @@ export interface FileRoutesById {
   '/_authenticated/slack-admin': typeof AuthenticatedSlackAdminRoute
   '/api/tts': typeof ApiTtsRoute
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
+  '/laughter-therapy/at-work': typeof LaughterTherapyAtWorkRoute
   '/laughter-yoga/at-work': typeof LaughterYogaAtWorkRoute
   '/laughter-yoga/benefits': typeof LaughterYogaBenefitsRoute
   '/laughter-yoga/exercises': typeof LaughterYogaExercisesRoute
@@ -298,6 +307,7 @@ export interface FileRouteTypes {
     | '/slack-admin'
     | '/api/tts'
     | '/blog/best-slack-apps-team-building'
+    | '/laughter-therapy/at-work'
     | '/laughter-yoga/at-work'
     | '/laughter-yoga/benefits'
     | '/laughter-yoga/exercises'
@@ -326,6 +336,7 @@ export interface FileRouteTypes {
     | '/slack-admin'
     | '/api/tts'
     | '/blog/best-slack-apps-team-building'
+    | '/laughter-therapy/at-work'
     | '/laughter-yoga/at-work'
     | '/laughter-yoga/benefits'
     | '/laughter-yoga/exercises'
@@ -358,6 +369,7 @@ export interface FileRouteTypes {
     | '/_authenticated/slack-admin'
     | '/api/tts'
     | '/blog/best-slack-apps-team-building'
+    | '/laughter-therapy/at-work'
     | '/laughter-yoga/at-work'
     | '/laughter-yoga/benefits'
     | '/laughter-yoga/exercises'
@@ -493,6 +505,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/laughter-therapy/'
       preLoaderRoute: typeof LaughterTherapyIndexRouteImport
+      parentRoute: typeof LaughterTherapyRoute
+    }
+    '/laughter-therapy/at-work': {
+      id: '/laughter-therapy/at-work'
+      path: '/at-work'
+      fullPath: '/laughter-therapy/at-work'
+      preLoaderRoute: typeof LaughterTherapyAtWorkRouteImport
       parentRoute: typeof LaughterTherapyRoute
     }
     '/laughter-yoga/': {
@@ -632,10 +651,12 @@ const BlogRouteChildren: BlogRouteChildren = {
 const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 
 interface LaughterTherapyRouteChildren {
+  LaughterTherapyAtWorkRoute: typeof LaughterTherapyAtWorkRoute
   LaughterTherapyIndexRoute: typeof LaughterTherapyIndexRoute
 }
 
 const LaughterTherapyRouteChildren: LaughterTherapyRouteChildren = {
+  LaughterTherapyAtWorkRoute: LaughterTherapyAtWorkRoute,
   LaughterTherapyIndexRoute: LaughterTherapyIndexRoute,
 }
 
