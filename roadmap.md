@@ -1,6 +1,6 @@
 # Roadmap
 
-- [ ] Create /professionals hub with two clear paths, honest coming-soon directory information, related editorial links and sitemap inclusion; verify and request publication.
+- [x] Create /professionals hub with two clear paths, honest coming-soon directory information, related editorial links and sitemap inclusion; metadata, both enquiry paths and desktop/mobile presentation verified; request publication.
 
 - [x] Create /laughter-therapy/at-work with workplace formats, clear nonclinical boundaries and required links; linked from pillar, sitemap included; metadata, links, desktop/mobile and session CTA verified. Request publication of both therapy pages.
 
@@ -25,7 +25,7 @@
 - [x] Group laugh ON by default: two "buddy" avatars laugh the exercise's own pattern (ha/he/hi…) alongside the user on "Your turn", with ON/OFF toggle in the circle.
 - [x] New brand kit "Fiesta Tropical" (dark plum + fuchsia + coral + yellow) applied app-wide, aura glows re-lit for dark background.
 - [x] Vídeo subido por el usuario en la parte superior de /story (CDN asset, vertical, poster, autoplay+controles)
-- Logo Laughter Circle: rejected generic flat icons; must match the site's illustrated/gouache avatar style with aura circles. IN PROGRESS
+- [x] Logo Laughter Circle uses Carlos's avatar with the fuchsia ring; rejected generated alternatives remain excluded.
 - [x] Laughter Circle for Slack MVP built; tests + security scan done. Remaining: user publishes, adds redirect URL in Slack app, real end-to-end connect test.
 - [x] Scheduler every 15 min (user choice).
 - [x] Slack plan changes: completeConnectorConnection, sessionStorage temp id + event purge on token expiry, client-side open (estimated), no auto-retry on ambiguous errors + `unknown` state, Block Kit fallback text, slack_workspace_members schema + owner-deletion behaviour. Then implement MVP, tests, Deep Security Scan.
