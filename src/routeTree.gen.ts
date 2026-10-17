@@ -32,6 +32,7 @@ import { Route as LaughterYogaExercisesRouteImport } from './routes/laughter-yog
 import { Route as LaughterYogaForTeamsRouteImport } from './routes/laughter-yoga.for-teams'
 import { Route as LaughterYogaVirtualRouteImport } from './routes/laughter-yoga.virtual'
 import { Route as ProfessionalsIndexRouteImport } from './routes/professionals.index'
+import { Route as ProfessionalsFindRouteImport } from './routes/professionals.find'
 import { Route as STokenRouteImport } from './routes/s.$token'
 import { Route as SlackIndexRouteImport } from './routes/slack.index'
 import { Route as SlackEmployeeEngagementRouteImport } from './routes/slack.employee-engagement'
@@ -158,6 +159,11 @@ const ProfessionalsIndexRoute = ProfessionalsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ProfessionalsRoute,
 } as any)
+const ProfessionalsFindRoute = ProfessionalsFindRouteImport.update({
+  id: '/find',
+  path: '/find',
+  getParentRoute: () => ProfessionalsRoute,
+} as any)
 const STokenRoute = STokenRouteImport.update({
   id: '/s/$token',
   path: '/s/$token',
@@ -229,6 +235,7 @@ export interface FileRoutesByFullPath {
   '/laughter-yoga/exercises': typeof LaughterYogaExercisesRoute
   '/laughter-yoga/for-teams': typeof LaughterYogaForTeamsRoute
   '/laughter-yoga/virtual': typeof LaughterYogaVirtualRoute
+  '/professionals/find': typeof ProfessionalsFindRoute
   '/s/$token': typeof STokenRoute
   '/slack/employee-engagement': typeof SlackEmployeeEngagementRoute
   '/slack/icebreakers': typeof SlackIcebreakersRoute
@@ -259,6 +266,7 @@ export interface FileRoutesByTo {
   '/laughter-yoga/exercises': typeof LaughterYogaExercisesRoute
   '/laughter-yoga/for-teams': typeof LaughterYogaForTeamsRoute
   '/laughter-yoga/virtual': typeof LaughterYogaVirtualRoute
+  '/professionals/find': typeof ProfessionalsFindRoute
   '/s/$token': typeof STokenRoute
   '/slack/employee-engagement': typeof SlackEmployeeEngagementRoute
   '/slack/icebreakers': typeof SlackIcebreakersRoute
@@ -295,6 +303,7 @@ export interface FileRoutesById {
   '/laughter-yoga/exercises': typeof LaughterYogaExercisesRoute
   '/laughter-yoga/for-teams': typeof LaughterYogaForTeamsRoute
   '/laughter-yoga/virtual': typeof LaughterYogaVirtualRoute
+  '/professionals/find': typeof ProfessionalsFindRoute
   '/s/$token': typeof STokenRoute
   '/slack/employee-engagement': typeof SlackEmployeeEngagementRoute
   '/slack/icebreakers': typeof SlackIcebreakersRoute
@@ -331,6 +340,7 @@ export interface FileRouteTypes {
     | '/laughter-yoga/exercises'
     | '/laughter-yoga/for-teams'
     | '/laughter-yoga/virtual'
+    | '/professionals/find'
     | '/s/$token'
     | '/slack/employee-engagement'
     | '/slack/icebreakers'
@@ -361,6 +371,7 @@ export interface FileRouteTypes {
     | '/laughter-yoga/exercises'
     | '/laughter-yoga/for-teams'
     | '/laughter-yoga/virtual'
+    | '/professionals/find'
     | '/s/$token'
     | '/slack/employee-engagement'
     | '/slack/icebreakers'
@@ -396,6 +407,7 @@ export interface FileRouteTypes {
     | '/laughter-yoga/exercises'
     | '/laughter-yoga/for-teams'
     | '/laughter-yoga/virtual'
+    | '/professionals/find'
     | '/s/$token'
     | '/slack/employee-engagement'
     | '/slack/icebreakers'
@@ -593,6 +605,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfessionalsIndexRouteImport
       parentRoute: typeof ProfessionalsRoute
     }
+    '/professionals/find': {
+      id: '/professionals/find'
+      path: '/find'
+      fullPath: '/professionals/find'
+      preLoaderRoute: typeof ProfessionalsFindRouteImport
+      parentRoute: typeof ProfessionalsRoute
+    }
     '/s/$token': {
       id: '/s/$token'
       path: '/s/$token'
@@ -724,10 +743,12 @@ const LaughterYogaRouteWithChildren = LaughterYogaRoute._addFileChildren(
 )
 
 interface ProfessionalsRouteChildren {
+  ProfessionalsFindRoute: typeof ProfessionalsFindRoute
   ProfessionalsIndexRoute: typeof ProfessionalsIndexRoute
 }
 
 const ProfessionalsRouteChildren: ProfessionalsRouteChildren = {
+  ProfessionalsFindRoute: ProfessionalsFindRoute,
   ProfessionalsIndexRoute: ProfessionalsIndexRoute,
 }
 
