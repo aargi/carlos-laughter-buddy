@@ -54,7 +54,7 @@ function ProfessionalsPage() {
           <p className="mt-5 max-w-3xl text-lg leading-relaxed text-muted-foreground">For people and teams looking for a human-led laughter session — and for the teachers, leaders and facilitators who make those moments possible.</p>
           <p className="mt-4 max-w-3xl leading-relaxed text-muted-foreground">Our professional directory is coming soon. We are building a way to discover laughter yoga professionals, explore online and in-person sessions, and request a session that fits your group.</p>
           <div className="mt-7 flex flex-wrap gap-3">
-            <Button asChild size="lg" className="h-auto whitespace-normal rounded-full px-6 py-3.5 font-bold"><a href="#find">Find a laughter professional <ArrowRight /></a></Button>
+            <Button asChild size="lg" className="h-auto whitespace-normal rounded-full px-6 py-3.5 font-bold"><Link to="/professionals/find">Find a laughter professional <ArrowRight /></Link></Button>
             <Button asChild variant="outline" size="lg" className="h-auto whitespace-normal rounded-full px-6 py-3.5 font-bold"><a href="#join">Join Laughter Circle <ArrowRight /></a></Button>
           </div>
         </section>
@@ -67,7 +67,7 @@ function ProfessionalsPage() {
             <p>We plan to help you discover professionals by location, online or in-person availability, languages, experience and the kinds of groups they work with. You will be able to explore relevant information and request a session; those discovery and request features are not available yet.</p>
             <p>There are no professional listings or confirmed bookings on this page today. If you would like to share what you are looking for, you can email us while we develop the directory. An enquiry is not a booking or a promise that a suitable professional is available.</p>
           </div>
-          <Button asChild variant="outline" size="lg" className="mt-7 h-auto whitespace-normal rounded-full px-6 py-3.5"><a href="mailto:hello@laughtercircle.com?subject=Looking%20for%20a%20laughter%20professional"><Mail />Enquire about a future session</a></Button>
+          <Button asChild variant="outline" size="lg" className="mt-7 h-auto whitespace-normal rounded-full px-6 py-3.5"><Link to="/professionals/find">Explore finding a professional <ArrowRight /></Link></Button>
         </section>
 
         <section className="mt-20">
