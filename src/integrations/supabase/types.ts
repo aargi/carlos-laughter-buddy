@@ -56,6 +56,48 @@ export type Database = {
         }
         Relationships: []
       }
+      professional_applications: {
+        Row: {
+          certification_year: number | null
+          city: string
+          country: string
+          created_at: string
+          email: string
+          id: string
+          languages: string
+          name: string
+          professional_role: string
+          professional_url: string | null
+          session_formats: string[]
+        }
+        Insert: {
+          certification_year?: number | null
+          city: string
+          country: string
+          created_at?: string
+          email: string
+          id?: string
+          languages: string
+          name: string
+          professional_role: string
+          professional_url?: string | null
+          session_formats: string[]
+        }
+        Update: {
+          certification_year?: number | null
+          city?: string
+          country?: string
+          created_at?: string
+          email?: string
+          id?: string
+          languages?: string
+          name?: string
+          professional_role?: string
+          professional_url?: string | null
+          session_formats?: string[]
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
