@@ -1,6 +1,6 @@
 # Roadmap
 
-- [ ] Create /professionals/find with honest forthcoming-directory information, future session request rules, hub links, metadata and sitemap inclusion; verify and request publication.
+- [x] Create /professionals/find with honest forthcoming-directory information, future session request rules, hub links, metadata and sitemap inclusion; seven requirement tests and desktop/mobile navigation verified; request publication.
 
 - [x] Create /professionals hub with two clear paths, honest coming-soon directory information, related editorial links and sitemap inclusion; metadata, both enquiry paths and desktop/mobile presentation verified; request publication.
 
