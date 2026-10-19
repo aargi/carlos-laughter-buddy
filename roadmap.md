@@ -1,6 +1,6 @@
 # Roadmap
 
-- [ ] Create /professionals/join with a validated, truly persisted application form, honest network-building copy, hub/find links, metadata and sitemap; verify successful and failed submissions and request publication.
+- [x] Create /professionals/join with a validated, persisted private application form, honest network-building copy, hub/find links, metadata and sitemap. Seventeen tests passed; desktop/mobile, failed submission without success, successful submission and database readback verified; basic security checks and build passed. Request publication.
 
 - [x] Create /professionals/find with honest forthcoming-directory information, future session request rules, hub links, metadata and sitemap inclusion; seven requirement tests and desktop/mobile navigation verified; request publication.
 

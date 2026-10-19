@@ -132,7 +132,7 @@ function FindProfessionalPage() {
 
         <section className="mt-20">
           <h2 className="font-display text-3xl font-black md:text-5xl">Keep exploring</h2>
-          <p className="mt-5 max-w-3xl text-lg leading-relaxed text-muted-foreground">Visit our <Link to="/professionals" className="font-semibold text-primary underline">laughter yoga professionals hub</Link> for both discovery and professional participation. If you are a teacher, leader or facilitator, <Link to="/professionals" hash="join" className="font-semibold text-primary underline">express interest in joining Laughter Circle</Link> through the hub while a dedicated joining page is being prepared.</p>
+          <p className="mt-5 max-w-3xl text-lg leading-relaxed text-muted-foreground">Visit our <Link to="/professionals" className="font-semibold text-primary underline">laughter yoga professionals hub</Link> for both discovery and professional participation. If you are a teacher, leader or facilitator, <Link to="/professionals/join" className="font-semibold text-primary underline">apply to join Laughter Circle</Link> while we build the professional network.</p>
           <p className="mt-4 max-w-3xl text-lg leading-relaxed text-muted-foreground">You can also learn <Link to="/laughter-yoga" className="font-semibold text-primary underline">how laughter yoga works</Link> or explore <Link to="/laughter-yoga/at-work" className="font-semibold text-primary underline">workplace laughter sessions</Link>. A short <Link to="/" className="font-semibold text-primary underline">digital session with a Laughter Circle AI guide</Link> is another way to try guided laughter, but it is different from a live professional who can respond to your group.</p>
         </section>
         <SiteFooter />
