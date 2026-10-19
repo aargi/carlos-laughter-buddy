@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Globe, Mail, MapPin, Search, Users } from "lucide-react";
+import { ArrowRight, Globe, MapPin, Search, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoMark } from "@/components/LogoMark";
 import { ShareButton } from "@/components/ShareButton";
@@ -55,7 +55,7 @@ function ProfessionalsPage() {
           <p className="mt-4 max-w-3xl leading-relaxed text-muted-foreground">Our professional directory is coming soon. We are building a way to discover laughter yoga professionals, explore online and in-person sessions, and request a session that fits your group.</p>
           <div className="mt-7 flex flex-wrap gap-3">
             <Button asChild size="lg" className="h-auto whitespace-normal rounded-full px-6 py-3.5 font-bold"><Link to="/professionals/find">Find a laughter professional <ArrowRight /></Link></Button>
-            <Button asChild variant="outline" size="lg" className="h-auto whitespace-normal rounded-full px-6 py-3.5 font-bold"><a href="#join">Join Laughter Circle <ArrowRight /></a></Button>
+            <Button asChild variant="outline" size="lg" className="h-auto whitespace-normal rounded-full px-6 py-3.5 font-bold"><Link to="/professionals/join">Join Laughter Circle <ArrowRight /></Link></Button>
           </div>
         </section>
 
@@ -90,9 +90,9 @@ function ProfessionalsPage() {
           <div className="mt-5 max-w-3xl space-y-4 text-lg leading-relaxed text-muted-foreground">
             <p>Do you lead laughter yoga, laughter sessions or other guided laughter activities? We would like to hear from professionals interested in being discovered through Laughter Circle as the directory develops.</p>
             <p>Tell us where you work, which languages you use, whether you offer online or in-person sessions, and a little about your training, experience and session formats. A link to your professional website can help us understand your work.</p>
-            <p>For now, this is an expression of interest by email, not an automatic listing. Professional profiles, session requests and directory participation details are still being developed; sending an email does not guarantee publication, referrals or paid work.</p>
+            <p>You can now submit a free application to join our developing professional network. This is not an automatic listing: professional profiles and session requests are still being developed. Applying does not guarantee publication, referrals or paid work.</p>
           </div>
-          <Button asChild size="lg" className="mt-7 h-auto whitespace-normal rounded-full px-6 py-3.5 font-bold"><a href="mailto:hello@laughtercircle.com?subject=Professional%20directory%20interest"><Mail />Express interest in joining</a></Button>
+          <Button asChild size="lg" className="mt-7 h-auto whitespace-normal rounded-full px-6 py-3.5 font-bold"><Link to="/professionals/join">Apply to join <ArrowRight /></Link></Button>
         </section>
 
         <section className="mt-20">
