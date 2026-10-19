@@ -59,27 +59,27 @@ export function ProfessionalApplicationForm() {
         <div>
           <label htmlFor="professional-role" className="mb-2 block text-sm font-semibold">Professional role <span className="text-primary">*</span></label>
           <Select value={role} onValueChange={setRole} disabled={status === "sending"}>
-            <SelectTrigger id="professional-role" className="h-11" aria-invalid={Boolean(errors.professionalRole)} aria-describedby={errors.professionalRole ? "role-error" : undefined}><SelectValue placeholder="Choose your role" /></SelectTrigger>
+            <SelectTrigger id="professional-role" className="h-11" aria-invalid={Boolean(errors["professionalRole"])} aria-describedby={errors["professionalRole"] ? "role-error" : undefined}><SelectValue placeholder="Choose your role" /></SelectTrigger>
             <SelectContent><SelectItem value="teacher">Laughter yoga teacher</SelectItem><SelectItem value="leader">Laughter yoga leader</SelectItem><SelectItem value="other">Other guided laughter professional</SelectItem></SelectContent>
           </Select>
-          {errors.professionalRole && <p id="role-error" className="mt-2 text-sm text-destructive">{errors.professionalRole}</p>}
+          {errors["professionalRole"] && <p id="role-error" className="mt-2 text-sm text-destructive">{errors["professionalRole"]}</p>}
         </div>
         <div>
           <label htmlFor="professional-year" className="mb-2 block text-sm font-semibold">Certification year <span className="font-normal text-muted-foreground">(if applicable)</span></label>
-          <Input id="professional-year" name="certificationYear" type="number" min={1900} max={9999} step={1} placeholder="e.g. 2020" className="h-11" aria-invalid={Boolean(errors.certificationYear)} />
-          {errors.certificationYear && <p className="mt-2 text-sm text-destructive">Enter a valid four-digit year, or leave it blank.</p>}
+          <Input id="professional-year" name="certificationYear" type="number" min={1900} max={9999} step={1} placeholder="e.g. 2020" className="h-11" aria-invalid={Boolean(errors["certificationYear"])} />
+          {errors["certificationYear"] && <p className="mt-2 text-sm text-destructive">Enter a valid four-digit year, or leave it blank.</p>}
         </div>
         <fieldset className="sm:col-span-2">
           <legend className="mb-3 text-sm font-semibold">Session formats <span className="text-primary">*</span></legend>
           <div className="flex flex-wrap gap-6">{[{ value: "online", label: "Online" }, { value: "in_person", label: "In person" }].map((format) => <label key={format.value} className="flex cursor-pointer items-center gap-3 text-sm">
             <Checkbox checked={formats.includes(format.value)} onCheckedChange={(checked) => setFormats((current) => checked === true ? [...current, format.value] : current.filter((item) => item !== format.value))} aria-label={format.label} disabled={status === "sending"} />{format.label}
           </label>)}</div>
-          {errors.sessionFormats && <p className="mt-2 text-sm text-destructive">{errors.sessionFormats}</p>}
+          {errors["sessionFormats"] && <p className="mt-2 text-sm text-destructive">{errors["sessionFormats"]}</p>}
         </fieldset>
         <div className="sm:col-span-2">
           <label htmlFor="professional-url" className="mb-2 block text-sm font-semibold">Website or professional profile <span className="font-normal text-muted-foreground">(optional)</span></label>
-          <Input id="professional-url" name="professionalUrl" type="url" maxLength={500} placeholder="https://…" className="h-11" aria-invalid={Boolean(errors.professionalUrl)} />
-          {errors.professionalUrl && <p className="mt-2 text-sm text-destructive">{errors.professionalUrl}</p>}
+          <Input id="professional-url" name="professionalUrl" type="url" maxLength={500} placeholder="https://…" className="h-11" aria-invalid={Boolean(errors["professionalUrl"])} />
+          {errors["professionalUrl"] && <p className="mt-2 text-sm text-destructive">{errors["professionalUrl"]}</p>}
         </div>
       </fieldset>
       <p className="text-sm leading-relaxed text-muted-foreground">We will store these details to consider your directory application and contact you about it. They will not be automatically published. For questions or to request deletion, email <a href="mailto:hello@laughtercircle.com" className="text-primary underline">hello@laughtercircle.com</a>.</p>
