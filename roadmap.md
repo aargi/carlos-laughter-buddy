@@ -1,5 +1,7 @@
 # Roadmap
 
+- [ ] Audit current forms, professional applications, Slack, voice/providers, storage and deletion; create Spanish /privacy, /terms, /legal, /cookies and /contact with shared footer links, metadata, sitemap and responsive public verification. Explain factual limitations before requesting publication alongside /professionals/join.
+
 - [x] Create /professionals/join with a validated, persisted private application form, honest network-building copy, hub/find links, metadata and sitemap. Seventeen tests passed; desktop/mobile, failed submission without success, successful submission and database readback verified; basic security checks and build passed. Request publication.
 
 - [x] Create /professionals/find with honest forthcoming-directory information, future session request rules, hub links, metadata and sitemap inclusion; seven requirement tests and desktop/mobile navigation verified; request publication.

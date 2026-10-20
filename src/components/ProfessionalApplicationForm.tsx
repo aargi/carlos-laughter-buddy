@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { professionalApplicationSchema } from "@/lib/professional-applications";
 import { submitProfessionalApplication } from "@/lib/professional-applications.functions";
+import { Link } from "@tanstack/react-router";
 
 export function ProfessionalApplicationForm() {
   const submit = useServerFn(submitProfessionalApplication);
@@ -82,7 +83,7 @@ export function ProfessionalApplicationForm() {
           {errors["professionalUrl"] && <p className="mt-2 text-sm text-destructive">{errors["professionalUrl"]}</p>}
         </div>
       </fieldset>
-      <p className="text-sm leading-relaxed text-muted-foreground">We will store these details to consider your directory application and contact you about it. They will not be automatically published. For questions or to request deletion, email <a href="mailto:hello@laughtercircle.com" className="text-primary underline">hello@laughtercircle.com</a>.</p>
+      <p className="text-sm leading-relaxed text-muted-foreground">We will store these details to consider your directory application and contact you about it. They will not be automatically published. Read our <Link to="/privacy" className="text-primary underline">Privacy Policy</Link>. For questions or to request deletion, email <a href="mailto:hello@laughtercircle.com" className="text-primary underline">hello@laughtercircle.com</a>.</p>
       {status === "error" && <p role="alert" className="text-sm text-destructive">We could not confirm that your application was saved. Please try again. Your details are still here.</p>}
       <Button type="submit" disabled={status === "sending"} size="lg" className="h-auto whitespace-normal rounded-full px-6 py-3.5 font-bold">{status === "sending" ? <><Loader2 className="size-4 animate-spin motion-reduce:animate-none" />Submitting…</> : <>Submit application <ArrowRight /></>}</Button>
       <p className="text-sm text-muted-foreground">Free to apply. No payment details required.</p>

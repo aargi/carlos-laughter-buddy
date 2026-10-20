@@ -1,0 +1,11 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Mail } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { LegalPage, legalHead } from "@/components/LegalPage";
+export const Route = createFileRoute("/contact")({ staticData: { sitemap: true }, head: () => legalHead("contact", "Contacta con Laughter Circle", "Contacta con Laughter Circle sobre sesiones, Slack, profesionales, privacidad, eliminación de datos y problemas técnicos o de seguridad."), component: ContactPage });
+function ContactPage() { return <LegalPage title="Contacta con Laughter Circle">
+  <section><p>Para consultas, solicitudes o incidencias, escríbenos a:</p><Button asChild variant="link" className="mt-4 h-auto whitespace-normal px-0 text-lg font-semibold"><a href="mailto:hello@laughtercircle.com"><Mail className="size-5 shrink-0" />hello@laughtercircle.com</a></Button></section>
+  <section><h2>En qué podemos ayudarte</h2><ul><li>Laughter Circle y sesiones de risa guiada.</li><li>Integración con Slack.</li><li>Profesionales y directorio en construcción.</li><li>Privacidad, ejercicio de derechos y eliminación de datos.</li><li>Problemas técnicos o de seguridad.</li><li>Preguntas generales.</li></ul></section>
+  <section><h2>Para facilitar la respuesta</h2><p>Indica el motivo de tu consulta y, si se trata de un problema técnico, la página y una descripción de lo ocurrido. No envíes contraseñas, tokens de acceso ni información médica sensible. Para solicitudes de eliminación, indica el correo asociado o la información mínima necesaria para localizar la solicitud; podremos verificar tu identidad cuando proceda.</p><p>No se garantiza un plazo de respuesta para consultas generales. Las solicitudes de derechos se atienden dentro de los plazos legales aplicables. Este contacto no es un servicio sanitario ni de emergencias.</p></section>
+  <section><h2>Información del sitio</h2><p>Consulta la <Link to="/privacy">Política de Privacidad</Link>, los <Link to="/terms">Términos de Servicio</Link>, el <Link to="/legal">Aviso Legal</Link> y la <Link to="/cookies">Política de Cookies</Link>.</p></section>
+</LegalPage>; }

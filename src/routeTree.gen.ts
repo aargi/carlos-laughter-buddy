@@ -13,13 +13,18 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BlogRouteImport } from './routes/blog'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as LaughterTherapyRouteImport } from './routes/laughter-therapy'
 import { Route as LaughterYogaRouteImport } from './routes/laughter-yoga'
+import { Route as LegalRouteImport } from './routes/legal'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProfessionalsRouteImport } from './routes/professionals'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SlackRouteImport } from './routes/slack'
 import { Route as StoryRouteImport } from './routes/story'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AuthenticatedSlackAdminRouteImport } from './routes/_authenticated/slack-admin'
 import { Route as ApiTtsRouteImport } from './routes/api/tts'
 import { Route as BlogBestSlackAppsTeamBuildingRouteImport } from './routes/blog.best-slack-apps-team-building'
@@ -64,6 +69,16 @@ const BlogRoute = BlogRouteImport.update({
   path: '/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LaughterTherapyRoute = LaughterTherapyRouteImport.update({
   id: '/laughter-therapy',
   path: '/laughter-therapy',
@@ -72,6 +87,16 @@ const LaughterTherapyRoute = LaughterTherapyRouteImport.update({
 const LaughterYogaRoute = LaughterYogaRouteImport.update({
   id: '/laughter-yoga',
   path: '/laughter-yoga',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalRoute = LegalRouteImport.update({
+  id: '/legal',
+  path: '/legal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfessionalsRoute = ProfessionalsRouteImport.update({
@@ -97,6 +122,11 @@ const SlackRoute = SlackRouteImport.update({
 const StoryRoute = StoryRouteImport.update({
   id: '/story',
   path: '/story',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedSlackAdminRoute = AuthenticatedSlackAdminRouteImport.update({
@@ -225,13 +255,18 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRouteWithChildren
+  '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
   '/laughter-therapy': typeof LaughterTherapyRouteWithChildren
   '/laughter-yoga': typeof LaughterYogaRouteWithChildren
+  '/legal': typeof LegalRoute
+  '/privacy': typeof PrivacyRoute
   '/professionals': typeof ProfessionalsRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/slack': typeof SlackRouteWithChildren
   '/story': typeof StoryRoute
+  '/terms': typeof TermsRoute
   '/slack-admin': typeof AuthenticatedSlackAdminRoute
   '/api/tts': typeof ApiTtsRoute
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
@@ -261,9 +296,14 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRouteWithChildren
+  '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
+  '/legal': typeof LegalRoute
+  '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/story': typeof StoryRoute
+  '/terms': typeof TermsRoute
   '/slack-admin': typeof AuthenticatedSlackAdminRoute
   '/api/tts': typeof ApiTtsRoute
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
@@ -295,13 +335,18 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRouteWithChildren
+  '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
   '/laughter-therapy': typeof LaughterTherapyRouteWithChildren
   '/laughter-yoga': typeof LaughterYogaRouteWithChildren
+  '/legal': typeof LegalRoute
+  '/privacy': typeof PrivacyRoute
   '/professionals': typeof ProfessionalsRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/slack': typeof SlackRouteWithChildren
   '/story': typeof StoryRoute
+  '/terms': typeof TermsRoute
   '/_authenticated/slack-admin': typeof AuthenticatedSlackAdminRoute
   '/api/tts': typeof ApiTtsRoute
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
@@ -333,13 +378,18 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/blog'
+    | '/contact'
+    | '/cookies'
     | '/laughter-therapy'
     | '/laughter-yoga'
+    | '/legal'
+    | '/privacy'
     | '/professionals'
     | '/reset-password'
     | '/sitemap.xml'
     | '/slack'
     | '/story'
+    | '/terms'
     | '/slack-admin'
     | '/api/tts'
     | '/blog/best-slack-apps-team-building'
@@ -369,9 +419,14 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/blog'
+    | '/contact'
+    | '/cookies'
+    | '/legal'
+    | '/privacy'
     | '/reset-password'
     | '/sitemap.xml'
     | '/story'
+    | '/terms'
     | '/slack-admin'
     | '/api/tts'
     | '/blog/best-slack-apps-team-building'
@@ -402,13 +457,18 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/blog'
+    | '/contact'
+    | '/cookies'
     | '/laughter-therapy'
     | '/laughter-yoga'
+    | '/legal'
+    | '/privacy'
     | '/professionals'
     | '/reset-password'
     | '/sitemap.xml'
     | '/slack'
     | '/story'
+    | '/terms'
     | '/_authenticated/slack-admin'
     | '/api/tts'
     | '/blog/best-slack-apps-team-building'
@@ -440,13 +500,18 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   BlogRoute: typeof BlogRouteWithChildren
+  ContactRoute: typeof ContactRoute
+  CookiesRoute: typeof CookiesRoute
   LaughterTherapyRoute: typeof LaughterTherapyRouteWithChildren
   LaughterYogaRoute: typeof LaughterYogaRouteWithChildren
+  LegalRoute: typeof LegalRoute
+  PrivacyRoute: typeof PrivacyRoute
   ProfessionalsRoute: typeof ProfessionalsRouteWithChildren
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SlackRoute: typeof SlackRouteWithChildren
   StoryRoute: typeof StoryRoute
+  TermsRoute: typeof TermsRoute
   ApiTtsRoute: typeof ApiTtsRoute
   STokenRoute: typeof STokenRoute
   ApiPublicWaitlistRoute: typeof ApiPublicWaitlistRoute
@@ -484,6 +549,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/laughter-therapy': {
       id: '/laughter-therapy'
       path: '/laughter-therapy'
@@ -496,6 +575,20 @@ declare module '@tanstack/react-router' {
       path: '/laughter-yoga'
       fullPath: '/laughter-yoga'
       preLoaderRoute: typeof LaughterYogaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal': {
+      id: '/legal'
+      path: '/legal'
+      fullPath: '/legal'
+      preLoaderRoute: typeof LegalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/professionals': {
@@ -531,6 +624,13 @@ declare module '@tanstack/react-router' {
       path: '/story'
       fullPath: '/story'
       preLoaderRoute: typeof StoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/slack-admin': {
@@ -802,13 +902,18 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   BlogRoute: BlogRouteWithChildren,
+  ContactRoute: ContactRoute,
+  CookiesRoute: CookiesRoute,
   LaughterTherapyRoute: LaughterTherapyRouteWithChildren,
   LaughterYogaRoute: LaughterYogaRouteWithChildren,
+  LegalRoute: LegalRoute,
+  PrivacyRoute: PrivacyRoute,
   ProfessionalsRoute: ProfessionalsRouteWithChildren,
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SlackRoute: SlackRouteWithChildren,
   StoryRoute: StoryRoute,
+  TermsRoute: TermsRoute,
   ApiTtsRoute: ApiTtsRoute,
   STokenRoute: STokenRoute,
   ApiPublicWaitlistRoute: ApiPublicWaitlistRoute,
