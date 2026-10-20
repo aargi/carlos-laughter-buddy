@@ -22,6 +22,13 @@ export function SiteFooter() {
           <Link to="/laughter-therapy" className="text-muted-foreground transition hover:text-primary">What is laughter therapy?</Link>
           <Link to="/blog/best-slack-apps-team-building" className="text-muted-foreground transition hover:text-primary">Best Slack apps 2026</Link>
         </div>
+        <nav aria-label="Legal information" className="flex flex-wrap items-center justify-center gap-x-2 gap-y-2 text-xs text-muted-foreground">
+          <Link to="/privacy" className="transition hover:text-primary">Privacy</Link><span aria-hidden="true">·</span>
+          <Link to="/terms" className="transition hover:text-primary">Terms</Link><span aria-hidden="true">·</span>
+          <Link to="/legal" className="transition hover:text-primary">Legal</Link><span aria-hidden="true">·</span>
+          <Link to="/cookies" className="transition hover:text-primary">Cookies</Link><span aria-hidden="true">·</span>
+          <Link to="/contact" className="transition hover:text-primary">Contact</Link>
+        </nav>
         <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} Laughter Circle</p>
       </div>
     </footer>
