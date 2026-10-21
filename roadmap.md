@@ -1,6 +1,7 @@
 # Roadmap
 
-- [ ] Audit current forms, professional applications, Slack, voice/providers, storage and deletion; create Spanish /privacy, /terms, /legal, /cookies and /contact with shared footer links, metadata, sitemap and responsive public verification. Explain factual limitations before requesting publication alongside /professionals/join.
+- [x] Audit current forms, professional applications, Slack, voice/providers, storage and deletion; create Spanish /privacy, /terms, /legal, /cookies and /contact with shared footer links, metadata and sitemap. Public navigation, Spanish article language, titles/canonicals and desktop/mobile verified; build and 17 application/request tests passed.
+- [ ] Publish the legal package alongside /professionals/join after the user decides how to handle hosting-injected nonessential analytics: /~flock.js sets a 30-minute session-id cookie and /__l5e/events records events before consent. A supported hosting disable/consent hook is not documented; no ineffective consent banner was added. Operator identity and provider retention/transfer details also require completion outside this implementation.
 
 - [x] Create /professionals/join with a validated, persisted private application form, honest network-building copy, hub/find links, metadata and sitemap. Seventeen tests passed; desktop/mobile, failed submission without success, successful submission and database readback verified; basic security checks and build passed. Request publication.
 
