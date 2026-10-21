@@ -1,5 +1,6 @@
 # Roadmap
 
+- [ ] Audit published cookies, storage and measurement in a fresh browser; implement real prior consent and Cookie settings only if hosting measurement can be controlled. Update legal policies to verified behavior; no new tracking and no cosmetic banner. Explain any hosting blocker before publishing.
 - [x] Audit current forms, professional applications, Slack, voice/providers, storage and deletion; create Spanish /privacy, /terms, /legal, /cookies and /contact with shared footer links, metadata and sitemap. Public navigation, Spanish article language, titles/canonicals and desktop/mobile verified; build and 17 application/request tests passed.
 - [x] Request publication of the legal package alongside /professionals/join: user explicitly chose to publish the texts after disclosure. Fresh basic security checks reported no issues; deep code analysis was not rerun.
 - [ ] Resolve hosting-injected analytics consent and complete legal operator/provider details. Blockers: hosting adds /~flock.js (30-minute session-id cookie) and /__l5e/events before consent, with no verified supported disable/consent hook; operator identity and provider retention/transfer details require external information. Publishing the disclosed basic texts does not resolve these limitations.
