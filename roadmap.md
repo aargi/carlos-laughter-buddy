@@ -1,5 +1,7 @@
 # Roadmap
 
+- [ ] Create sourced /blog/donut-slack case study, link it from the existing comparison, verify metadata/sitemap and desktop/mobile reading, then request publication.
+
 - [x] Audit published cookies/storage/measurement in a fresh ordinary-visitor browser: confirmed Flock page_hit POST and 30-minute session-id cookie, Lovable session/page/performance POSTs with in-memory IDs, Cloudflare __cf_bm and unclassified 24-hour __dpl. Correct /cookies to separate Slack analytics ID from functional launch token; no new tracking or cosmetic banner, no publication requested.
 - [ ] Implement prior consent, equal Accept/Reject, persisted/revocable preferences and Cookie settings; gate app-owned Slack events, then verify fresh/rejected/accepted/withdrawn states. Blocker: user must disable Visitor analytics in Project settings → General → Publishing, then update the published app so both injected scripts can be rechecked. If either remains, hosting must provide a supported disable or prior-consent hook. App code cannot reliably stop initial parser-injected requests.
 - [x] Audit current forms, professional applications, Slack, voice/providers, storage and deletion; create Spanish /privacy, /terms, /legal, /cookies and /contact with shared footer links, metadata and sitemap. Public navigation, Spanish article language, titles/canonicals and desktop/mobile verified; build and 17 application/request tests passed.
