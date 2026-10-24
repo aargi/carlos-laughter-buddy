@@ -188,6 +188,9 @@ function BestSlackAppsPage() {
                     </a>
                   )}
                 </Button>
+                {a.name === "Donut" && (
+                  <p className="mt-3 text-sm"><Link to="/blog/donut-slack" className="font-semibold text-primary underline underline-offset-4">Why Donut works: how introductions become a team ritual →</Link></p>
+                )}
               </article>
             ))}
           </div>
