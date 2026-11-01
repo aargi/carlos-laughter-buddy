@@ -1,5 +1,7 @@
 # Roadmap
 
+- [ ] Create sourced /blog/heytaco-slack case study, link from the comparison, verify desktop/mobile and metadata/sitemap, and request publication together with Donut (previous publish call was cancelled).
+
 - [x] Create sourced /blog/donut-slack case study with five primary sources and qualified adoption figures; link from existing comparison. Verified metadata, required links, sitemap, desktop/mobile reading and navigation with no page errors; build OK and fresh basic security checks passed. Request publication; deep code analysis remains stale.
 
 - [x] Audit published cookies/storage/measurement in a fresh ordinary-visitor browser: confirmed Flock page_hit POST and 30-minute session-id cookie, Lovable session/page/performance POSTs with in-memory IDs, Cloudflare __cf_bm and unclassified 24-hour __dpl. Correct /cookies to separate Slack analytics ID from functional launch token; no new tracking or cosmetic banner, no publication requested.
