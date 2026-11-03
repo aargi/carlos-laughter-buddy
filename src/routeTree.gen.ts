@@ -27,6 +27,7 @@ import { Route as StoryRouteImport } from './routes/story'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AuthenticatedSlackAdminRouteImport } from './routes/_authenticated/slack-admin'
 import { Route as ApiTtsRouteImport } from './routes/api/tts'
+import { Route as BlogAiGuidedLaughterRouteImport } from './routes/blog.ai-guided-laughter'
 import { Route as BlogBestSlackAppsTeamBuildingRouteImport } from './routes/blog.best-slack-apps-team-building'
 import { Route as BlogDonutSlackRouteImport } from './routes/blog.donut-slack'
 import { Route as BlogHeytacoSlackRouteImport } from './routes/blog.heytaco-slack'
@@ -140,6 +141,11 @@ const ApiTtsRoute = ApiTtsRouteImport.update({
   id: '/api/tts',
   path: '/api/tts',
   getParentRoute: () => rootRouteImport,
+} as any)
+const BlogAiGuidedLaughterRoute = BlogAiGuidedLaughterRouteImport.update({
+  id: '/ai-guided-laughter',
+  path: '/ai-guided-laughter',
+  getParentRoute: () => BlogRoute,
 } as any)
 const BlogBestSlackAppsTeamBuildingRoute =
   BlogBestSlackAppsTeamBuildingRouteImport.update({
@@ -281,6 +287,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/slack-admin': typeof AuthenticatedSlackAdminRoute
   '/api/tts': typeof ApiTtsRoute
+  '/blog/ai-guided-laughter': typeof BlogAiGuidedLaughterRoute
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
   '/blog/donut-slack': typeof BlogDonutSlackRoute
   '/blog/heytaco-slack': typeof BlogHeytacoSlackRoute
@@ -320,6 +327,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/slack-admin': typeof AuthenticatedSlackAdminRoute
   '/api/tts': typeof ApiTtsRoute
+  '/blog/ai-guided-laughter': typeof BlogAiGuidedLaughterRoute
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
   '/blog/donut-slack': typeof BlogDonutSlackRoute
   '/blog/heytaco-slack': typeof BlogHeytacoSlackRoute
@@ -365,6 +373,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/_authenticated/slack-admin': typeof AuthenticatedSlackAdminRoute
   '/api/tts': typeof ApiTtsRoute
+  '/blog/ai-guided-laughter': typeof BlogAiGuidedLaughterRoute
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
   '/blog/donut-slack': typeof BlogDonutSlackRoute
   '/blog/heytaco-slack': typeof BlogHeytacoSlackRoute
@@ -410,6 +419,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/slack-admin'
     | '/api/tts'
+    | '/blog/ai-guided-laughter'
     | '/blog/best-slack-apps-team-building'
     | '/blog/donut-slack'
     | '/blog/heytaco-slack'
@@ -449,6 +459,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/slack-admin'
     | '/api/tts'
+    | '/blog/ai-guided-laughter'
     | '/blog/best-slack-apps-team-building'
     | '/blog/donut-slack'
     | '/blog/heytaco-slack'
@@ -493,6 +504,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/_authenticated/slack-admin'
     | '/api/tts'
+    | '/blog/ai-guided-laughter'
     | '/blog/best-slack-apps-team-building'
     | '/blog/donut-slack'
     | '/blog/heytaco-slack'
@@ -670,6 +682,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/tts'
       preLoaderRoute: typeof ApiTtsRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/blog/ai-guided-laughter': {
+      id: '/blog/ai-guided-laughter'
+      path: '/ai-guided-laughter'
+      fullPath: '/blog/ai-guided-laughter'
+      preLoaderRoute: typeof BlogAiGuidedLaughterRouteImport
+      parentRoute: typeof BlogRoute
     }
     '/blog/best-slack-apps-team-building': {
       id: '/blog/best-slack-apps-team-building'
@@ -854,12 +873,14 @@ const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface BlogRouteChildren {
+  BlogAiGuidedLaughterRoute: typeof BlogAiGuidedLaughterRoute
   BlogBestSlackAppsTeamBuildingRoute: typeof BlogBestSlackAppsTeamBuildingRoute
   BlogDonutSlackRoute: typeof BlogDonutSlackRoute
   BlogHeytacoSlackRoute: typeof BlogHeytacoSlackRoute
 }
 
 const BlogRouteChildren: BlogRouteChildren = {
+  BlogAiGuidedLaughterRoute: BlogAiGuidedLaughterRoute,
   BlogBestSlackAppsTeamBuildingRoute: BlogBestSlackAppsTeamBuildingRoute,
   BlogDonutSlackRoute: BlogDonutSlackRoute,
   BlogHeytacoSlackRoute: BlogHeytacoSlackRoute,
