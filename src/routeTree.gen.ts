@@ -31,6 +31,7 @@ import { Route as BlogAiGuidedLaughterRouteImport } from './routes/blog.ai-guide
 import { Route as BlogBestSlackAppsTeamBuildingRouteImport } from './routes/blog.best-slack-apps-team-building'
 import { Route as BlogDonutSlackRouteImport } from './routes/blog.donut-slack'
 import { Route as BlogHeytacoSlackRouteImport } from './routes/blog.heytaco-slack'
+import { Route as BlogVoiceNotScreensRouteImport } from './routes/blog.voice-not-screens'
 import { Route as LaughterTherapyIndexRouteImport } from './routes/laughter-therapy.index'
 import { Route as LaughterTherapyAtWorkRouteImport } from './routes/laughter-therapy.at-work'
 import { Route as LaughterYogaIndexRouteImport } from './routes/laughter-yoga.index'
@@ -163,6 +164,11 @@ const BlogHeytacoSlackRoute = BlogHeytacoSlackRouteImport.update({
   path: '/heytaco-slack',
   getParentRoute: () => BlogRoute,
 } as any)
+const BlogVoiceNotScreensRoute = BlogVoiceNotScreensRouteImport.update({
+  id: '/voice-not-screens',
+  path: '/voice-not-screens',
+  getParentRoute: () => BlogRoute,
+} as any)
 const LaughterTherapyIndexRoute = LaughterTherapyIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -291,6 +297,7 @@ export interface FileRoutesByFullPath {
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
   '/blog/donut-slack': typeof BlogDonutSlackRoute
   '/blog/heytaco-slack': typeof BlogHeytacoSlackRoute
+  '/blog/voice-not-screens': typeof BlogVoiceNotScreensRoute
   '/laughter-therapy/at-work': typeof LaughterTherapyAtWorkRoute
   '/laughter-yoga/at-work': typeof LaughterYogaAtWorkRoute
   '/laughter-yoga/benefits': typeof LaughterYogaBenefitsRoute
@@ -331,6 +338,7 @@ export interface FileRoutesByTo {
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
   '/blog/donut-slack': typeof BlogDonutSlackRoute
   '/blog/heytaco-slack': typeof BlogHeytacoSlackRoute
+  '/blog/voice-not-screens': typeof BlogVoiceNotScreensRoute
   '/laughter-therapy/at-work': typeof LaughterTherapyAtWorkRoute
   '/laughter-yoga/at-work': typeof LaughterYogaAtWorkRoute
   '/laughter-yoga/benefits': typeof LaughterYogaBenefitsRoute
@@ -377,6 +385,7 @@ export interface FileRoutesById {
   '/blog/best-slack-apps-team-building': typeof BlogBestSlackAppsTeamBuildingRoute
   '/blog/donut-slack': typeof BlogDonutSlackRoute
   '/blog/heytaco-slack': typeof BlogHeytacoSlackRoute
+  '/blog/voice-not-screens': typeof BlogVoiceNotScreensRoute
   '/laughter-therapy/at-work': typeof LaughterTherapyAtWorkRoute
   '/laughter-yoga/at-work': typeof LaughterYogaAtWorkRoute
   '/laughter-yoga/benefits': typeof LaughterYogaBenefitsRoute
@@ -423,6 +432,7 @@ export interface FileRouteTypes {
     | '/blog/best-slack-apps-team-building'
     | '/blog/donut-slack'
     | '/blog/heytaco-slack'
+    | '/blog/voice-not-screens'
     | '/laughter-therapy/at-work'
     | '/laughter-yoga/at-work'
     | '/laughter-yoga/benefits'
@@ -463,6 +473,7 @@ export interface FileRouteTypes {
     | '/blog/best-slack-apps-team-building'
     | '/blog/donut-slack'
     | '/blog/heytaco-slack'
+    | '/blog/voice-not-screens'
     | '/laughter-therapy/at-work'
     | '/laughter-yoga/at-work'
     | '/laughter-yoga/benefits'
@@ -508,6 +519,7 @@ export interface FileRouteTypes {
     | '/blog/best-slack-apps-team-building'
     | '/blog/donut-slack'
     | '/blog/heytaco-slack'
+    | '/blog/voice-not-screens'
     | '/laughter-therapy/at-work'
     | '/laughter-yoga/at-work'
     | '/laughter-yoga/benefits'
@@ -711,6 +723,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogHeytacoSlackRouteImport
       parentRoute: typeof BlogRoute
     }
+    '/blog/voice-not-screens': {
+      id: '/blog/voice-not-screens'
+      path: '/voice-not-screens'
+      fullPath: '/blog/voice-not-screens'
+      preLoaderRoute: typeof BlogVoiceNotScreensRouteImport
+      parentRoute: typeof BlogRoute
+    }
     '/laughter-therapy/': {
       id: '/laughter-therapy/'
       path: '/'
@@ -877,6 +896,7 @@ interface BlogRouteChildren {
   BlogBestSlackAppsTeamBuildingRoute: typeof BlogBestSlackAppsTeamBuildingRoute
   BlogDonutSlackRoute: typeof BlogDonutSlackRoute
   BlogHeytacoSlackRoute: typeof BlogHeytacoSlackRoute
+  BlogVoiceNotScreensRoute: typeof BlogVoiceNotScreensRoute
 }
 
 const BlogRouteChildren: BlogRouteChildren = {
@@ -884,6 +904,7 @@ const BlogRouteChildren: BlogRouteChildren = {
   BlogBestSlackAppsTeamBuildingRoute: BlogBestSlackAppsTeamBuildingRoute,
   BlogDonutSlackRoute: BlogDonutSlackRoute,
   BlogHeytacoSlackRoute: BlogHeytacoSlackRoute,
+  BlogVoiceNotScreensRoute: BlogVoiceNotScreensRoute,
 }
 
 const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
