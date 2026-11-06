@@ -32,6 +32,7 @@ import { Route as BlogBestSlackAppsTeamBuildingRouteImport } from './routes/blog
 import { Route as BlogDonutSlackRouteImport } from './routes/blog.donut-slack'
 import { Route as BlogFiveMinuteLaughterBreakRouteImport } from './routes/blog.five-minute-laughter-break'
 import { Route as BlogHeytacoSlackRouteImport } from './routes/blog.heytaco-slack'
+import { Route as BlogPollySlackRouteImport } from './routes/blog.polly-slack'
 import { Route as BlogVoiceNotScreensRouteImport } from './routes/blog.voice-not-screens'
 import { Route as LaughterTherapyIndexRouteImport } from './routes/laughter-therapy.index'
 import { Route as LaughterTherapyAtWorkRouteImport } from './routes/laughter-therapy.at-work'
@@ -171,6 +172,11 @@ const BlogHeytacoSlackRoute = BlogHeytacoSlackRouteImport.update({
   path: '/heytaco-slack',
   getParentRoute: () => BlogRoute,
 } as any)
+const BlogPollySlackRoute = BlogPollySlackRouteImport.update({
+  id: '/polly-slack',
+  path: '/polly-slack',
+  getParentRoute: () => BlogRoute,
+} as any)
 const BlogVoiceNotScreensRoute = BlogVoiceNotScreensRouteImport.update({
   id: '/voice-not-screens',
   path: '/voice-not-screens',
@@ -305,6 +311,7 @@ export interface FileRoutesByFullPath {
   '/blog/donut-slack': typeof BlogDonutSlackRoute
   '/blog/five-minute-laughter-break': typeof BlogFiveMinuteLaughterBreakRoute
   '/blog/heytaco-slack': typeof BlogHeytacoSlackRoute
+  '/blog/polly-slack': typeof BlogPollySlackRoute
   '/blog/voice-not-screens': typeof BlogVoiceNotScreensRoute
   '/laughter-therapy/at-work': typeof LaughterTherapyAtWorkRoute
   '/laughter-yoga/at-work': typeof LaughterYogaAtWorkRoute
@@ -347,6 +354,7 @@ export interface FileRoutesByTo {
   '/blog/donut-slack': typeof BlogDonutSlackRoute
   '/blog/five-minute-laughter-break': typeof BlogFiveMinuteLaughterBreakRoute
   '/blog/heytaco-slack': typeof BlogHeytacoSlackRoute
+  '/blog/polly-slack': typeof BlogPollySlackRoute
   '/blog/voice-not-screens': typeof BlogVoiceNotScreensRoute
   '/laughter-therapy/at-work': typeof LaughterTherapyAtWorkRoute
   '/laughter-yoga/at-work': typeof LaughterYogaAtWorkRoute
@@ -395,6 +403,7 @@ export interface FileRoutesById {
   '/blog/donut-slack': typeof BlogDonutSlackRoute
   '/blog/five-minute-laughter-break': typeof BlogFiveMinuteLaughterBreakRoute
   '/blog/heytaco-slack': typeof BlogHeytacoSlackRoute
+  '/blog/polly-slack': typeof BlogPollySlackRoute
   '/blog/voice-not-screens': typeof BlogVoiceNotScreensRoute
   '/laughter-therapy/at-work': typeof LaughterTherapyAtWorkRoute
   '/laughter-yoga/at-work': typeof LaughterYogaAtWorkRoute
@@ -443,6 +452,7 @@ export interface FileRouteTypes {
     | '/blog/donut-slack'
     | '/blog/five-minute-laughter-break'
     | '/blog/heytaco-slack'
+    | '/blog/polly-slack'
     | '/blog/voice-not-screens'
     | '/laughter-therapy/at-work'
     | '/laughter-yoga/at-work'
@@ -485,6 +495,7 @@ export interface FileRouteTypes {
     | '/blog/donut-slack'
     | '/blog/five-minute-laughter-break'
     | '/blog/heytaco-slack'
+    | '/blog/polly-slack'
     | '/blog/voice-not-screens'
     | '/laughter-therapy/at-work'
     | '/laughter-yoga/at-work'
@@ -532,6 +543,7 @@ export interface FileRouteTypes {
     | '/blog/donut-slack'
     | '/blog/five-minute-laughter-break'
     | '/blog/heytaco-slack'
+    | '/blog/polly-slack'
     | '/blog/voice-not-screens'
     | '/laughter-therapy/at-work'
     | '/laughter-yoga/at-work'
@@ -743,6 +755,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogHeytacoSlackRouteImport
       parentRoute: typeof BlogRoute
     }
+    '/blog/polly-slack': {
+      id: '/blog/polly-slack'
+      path: '/polly-slack'
+      fullPath: '/blog/polly-slack'
+      preLoaderRoute: typeof BlogPollySlackRouteImport
+      parentRoute: typeof BlogRoute
+    }
     '/blog/voice-not-screens': {
       id: '/blog/voice-not-screens'
       path: '/voice-not-screens'
@@ -917,6 +936,7 @@ interface BlogRouteChildren {
   BlogDonutSlackRoute: typeof BlogDonutSlackRoute
   BlogFiveMinuteLaughterBreakRoute: typeof BlogFiveMinuteLaughterBreakRoute
   BlogHeytacoSlackRoute: typeof BlogHeytacoSlackRoute
+  BlogPollySlackRoute: typeof BlogPollySlackRoute
   BlogVoiceNotScreensRoute: typeof BlogVoiceNotScreensRoute
 }
 
@@ -926,6 +946,7 @@ const BlogRouteChildren: BlogRouteChildren = {
   BlogDonutSlackRoute: BlogDonutSlackRoute,
   BlogFiveMinuteLaughterBreakRoute: BlogFiveMinuteLaughterBreakRoute,
   BlogHeytacoSlackRoute: BlogHeytacoSlackRoute,
+  BlogPollySlackRoute: BlogPollySlackRoute,
   BlogVoiceNotScreensRoute: BlogVoiceNotScreensRoute,
 }
 

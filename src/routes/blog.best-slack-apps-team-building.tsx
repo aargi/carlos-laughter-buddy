@@ -194,6 +194,9 @@ function BestSlackAppsPage() {
                 {a.name === "HeyTaco" && (
                   <p className="mt-3 text-sm"><Link to="/blog/heytaco-slack" className="font-semibold text-primary underline underline-offset-4">How HeyTaco turns recognition into a daily Slack habit →</Link></p>
                 )}
+                {a.name === "Polly" && (
+                  <p className="mt-3 text-sm"><Link to="/blog/polly-slack" className="font-semibold text-primary underline underline-offset-4">Why Polly works: quick questions and team participation →</Link></p>
+                )}
               </article>
             ))}
           </div>
