@@ -1,5 +1,7 @@
 # Roadmap
 
+- [ ] Create and verify /blog/ricotta-slack using primary sources, scoped adoption figures and dedicated-page pricing; add the existing Ricotta comparison link, FAQ, metadata and sitemap inclusion. Check desktop/mobile and internal navigation; do not publish without approval.
+
 - [x] Create /blog/heytaco-slack with five primary sources, Deputy example and explicitly scoped vendor metrics. Linked from comparison; desktop/mobile, metadata, sitemap, logo and Slack navigation verified with no page errors; build and fresh basic security checks passed. Request publication together with Donut; deep analysis not rerun.
 
 - [x] Create sourced /blog/donut-slack case study with five primary sources and qualified adoption figures; link from existing comparison. Verified metadata, required links, sitemap, desktop/mobile reading and navigation with no page errors; build OK and fresh basic security checks passed. Original publish call cancelled by new request; included in joint publication with HeyTaco.
