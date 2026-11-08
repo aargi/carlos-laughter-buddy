@@ -200,6 +200,9 @@ function BestSlackAppsPage() {
                 {a.name === "Polly" && (
                   <p className="mt-3 text-sm"><Link to="/blog/polly-slack" className="font-semibold text-primary underline underline-offset-4">Why Polly works: quick questions and team participation →</Link></p>
                 )}
+                {a.name === "Ricotta" && (
+                  <p className="mt-3 text-sm"><Link to="/blog/ricotta-slack" className="font-semibold text-primary underline underline-offset-4">Why Ricotta works: turning Slack into a social space for teams →</Link></p>
+                )}
               </article>
             ))}
           </div>
