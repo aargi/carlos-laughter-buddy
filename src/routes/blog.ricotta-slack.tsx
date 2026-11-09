@@ -64,7 +64,7 @@ function RicottaSlackArticle() {
   return (
     <main className="min-h-screen overflow-x-clip">
       <div className="mx-auto max-w-5xl px-5 py-8 md:px-6 md:py-12">
-        <nav aria-label="Main navigation" className="sticky top-0 z-50 -mx-5 mb-10 flex items-center justify-between gap-2 px-5 py-3 md:-mx-6 md:mb-12 md:px-6">
+        <nav aria-label="Main navigation" className="-mx-5 mb-10 flex items-center justify-between gap-2 px-5 py-3 md:-mx-6 md:mb-12 md:px-6">
           <Button asChild variant="link" className="h-auto shrink-0 gap-2 p-0 font-display text-base font-black text-foreground no-underline hover:no-underline md:text-xl">
             <Link to="/"><LogoMark size={28} className="hidden sm:block" /><span>Laughter<span className="text-primary">Circle</span></span></Link>
           </Button>
